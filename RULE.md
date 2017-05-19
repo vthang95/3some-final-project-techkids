@@ -6,6 +6,9 @@ Mọi người folk lại project, làm phần của mình xong thì gửi pull 
 - Code convention
 
 + tabLength: 2
++ Dùng single quote '' thay vì double quote ""
++ object { property: 'value' } luôn để khoảng trống 2 bên
++ Nên đặt tên dài dễ đọc, tên hàm là cụm động từ, tên object, biến nên là danh từ
 + name convention:
    camelCase,
    Tên controller: user.controller.js
