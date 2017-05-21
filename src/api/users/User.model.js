@@ -21,7 +21,10 @@ const userSchema = new mongoose.Schema({
     age: Number,
     website: String,
     picture: String
-  }
+  },
+  lists : [{
+    type : ObjectId, ref : 'List'
+  }]
 }, { timestamps: true });
 
 /**
