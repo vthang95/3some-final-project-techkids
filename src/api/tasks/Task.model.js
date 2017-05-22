@@ -6,6 +6,7 @@ const TaskSchema =  new mongoose.Schema({
   note : String,
   isDone : Boolean,
   isStarred : Boolean,
+  important: Number,
   comments: [{
     type : String,
     { type : ObjectId, ref : 'User' }

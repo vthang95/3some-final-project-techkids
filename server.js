@@ -43,6 +43,8 @@ mongoose.connection.on('error', (err) => {
   */
 app.set('port', config.PORT || 3000);
 app.use(express.static(path.join(__dirname, 'public')));
+app.set('views', __dirname + '/src/views');
+app.set('view engine', 'pug');
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -59,7 +61,7 @@ app.use(session({
  * Routers is used here
  */
  app.get('/', (req, res) => {
-   res.send('Hello App');
+   res.render('index');
  });
 
 /**
