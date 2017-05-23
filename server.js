@@ -45,13 +45,18 @@ mongoose.connection.on('error', (err) => {
   */
 app.set('port', config.PORT || 3000);
 app.use(express.static(path.join(__dirname, 'public')));
+// set the views folder for template engine
 app.set('views', __dirname + '/src/views');
+// set template engine as pug. https://pugjs.org/api/getting-started.html
 app.set('view engine', 'pug');
+// use compression middleware to compress response bodies for all request that traverse through the middleware
 app.use(compression());
+// use sass middleware to handle scss file in public
 app.use(sass({
   src: path.join(__dirname, 'public'),
   dest: path.join(__dirname, 'public')
 }));
+// use logger to see what requests is comming, just for devoloper see
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -68,13 +73,15 @@ app.use(session({
  * Routers is used here
  */
  app.get('/', (req, res) => {
-   res.render('home', {
-     title: 'Home'
-   });
+   res.render('home');
+ });
+
+ app.get('*', (req, res) => {
+  res.render('home');
  });
 
 /**
- * Errors handler
+ * Errors handler, (prettify error)
  */
  app.use(errorHandler());
 
