@@ -15,6 +15,10 @@ const errorHandler = require('errorhandler');
 const sass = require('node-sass-middleware')
 
 /**
+ * Import Routers
+ */
+const usersRouter = require(path.join(__dirname, 'src', 'api', 'users'));
+/**
  * Load configurations
  */
 const config = require('./config.json');
@@ -34,9 +38,9 @@ mongoose.connection.on('error', (err) => {
   console.log('%s MongoDB connection error! Please make sure MongoDB is running', chalk.red('✗'));
   process.exit();
 });
- /**
-  * Express configurations
-  */
+/**
+ * Express configurations
+ */
 app.set('port', config.PORT || 3000);
 app.use(express.static(path.join(__dirname, 'public')));
 // set the views folder for template engine
@@ -53,14 +57,10 @@ app.use(sass({
 // use logger to see what requests is comming, just for devoloper see
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 app.use(expressValidator());
-/**
-* Import Routers
-*/
-const usersRouter = require(path.join(__dirname, 'src', 'api', 'users'));
-// TODO: import all routers here
-app.use('/users', usersRouter);
 // express session configs
 app.use(session({
   resave: false,
@@ -72,22 +72,24 @@ app.use(session({
 /**
  * Routers is used here
  */
- app.get('/', (req, res) => {
-   res.render('home');
- });
+app.use('/users', usersRouter);
 
- app.get('*', (req, res) => {
+app.get('/', (req, res) => {
   res.render('home');
- });
+});
+
+app.get('*', (req, res) => {
+  res.render('home');
+});
 
 /**
  * Errors handler, (prettify error)
  */
- app.use(errorHandler());
+app.use(errorHandler());
 
 /**
  * Start express server
  */
- app.listen(app.get('port'), (req, res) => {
-   console.log('%s App is running on http://localhost:%d\n\tPress Ctrl-C to stop sever', chalk.green('✓'), app.get('port'));
- });
+app.listen(app.get('port'), (req, res) => {
+  console.log('%s App is running on http://localhost:%d\n\tPress Ctrl-C to stop sever', chalk.green('✓'), app.get('port'));
+});
