@@ -2,6 +2,7 @@
  * Modules dependencies
  */
 const express = require('express');
+const compression = require('compression');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const chalk = require('chalk');
@@ -11,6 +12,7 @@ const expressValidator = require('express-validator');
 const session = require('express-session');
 const passport = require('passport');
 const errorHandler = require('errorhandler');
+const sass = require('node-sass-middleware')
 
 /**
  * Load configurations
@@ -45,6 +47,11 @@ app.set('port', config.PORT || 3000);
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('views', __dirname + '/src/views');
 app.set('view engine', 'pug');
+app.use(compression());
+app.use(sass({
+  src: path.join(__dirname, 'public'),
+  dest: path.join(__dirname, 'public')
+}));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -61,7 +68,9 @@ app.use(session({
  * Routers is used here
  */
  app.get('/', (req, res) => {
-   res.render('index');
+   res.render('home', {
+     title: 'Home'
+   });
  });
 
 /**
