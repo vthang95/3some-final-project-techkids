@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
+
 const User = require('./User.model');
-signUp = (req, res, inputData) => {
-  console.log(inputData);
+
+exports.postSignUp = (req, res, next) => {
   User.findOne({})
     .select('uid')
     .sort({
@@ -10,30 +11,21 @@ signUp = (req, res, inputData) => {
     .exec((err, matchUser) => {
       if (err) {
         console.log(err);
-        return res.send("Error");
-      } else {
-        let newUser = new User({
-          username: inputData.username,
-          email: inputData.email,
-          password: inputData.password
-        });
-        newUser.uid = (matchUser && matchUser.uid) ? matchUser.uid + 1 : 1;
-        newUser.save((err) => {
-          if (err) {
-            return next(err);
-          }
-        });
-        return res.json({ success_msg: 'Success!' });
+        res.json({ error_msg: 'An error occurred!' });
       }
+      let newUser = new User({
+        username: req.body.username,
+        email: req.body.email,
+        password: req.body.password
+      });
+      newUser.uid = (matchUser && matchUser.uid) ? matchUser.uid + 1 : 1;
+      newUser.save((err) => {
+        if (err) {
+          return next(err);
+        }
+      });
+      return res.json({
+        success_msg: 'Success!'
+      });
     });
-}
-
-
-
-
-
-
-
-module.exports = {
-  signUp
 }
