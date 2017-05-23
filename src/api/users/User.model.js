@@ -1,4 +1,4 @@
-const bcrypt = require('bcrypt-nodejs');
+const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
 const mongoose = require('mongoose');
 
@@ -23,7 +23,7 @@ const userSchema = new mongoose.Schema({
     picture: String
   },
   lists : [{
-    type : ObjectId, ref : 'List'
+    // type : ObjectId, ref : 'List'
   }]
 }, { timestamps: true });
 

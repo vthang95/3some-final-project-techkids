@@ -34,12 +34,6 @@ mongoose.connection.on('error', (err) => {
   console.log('%s MongoDB connection error! Please make sure MongoDB is running', chalk.red('✗'));
   process.exit();
 });
-
-/**
- * Import Routers
- */
-// TODO: import all routers here
-
  /**
   * Express configurations
   */
@@ -61,6 +55,12 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(expressValidator());
+/**
+* Import Routers
+*/
+const usersRouter = require(path.join(__dirname, 'src', 'api', 'users'));
+// TODO: import all routers here
+app.use('/users', usersRouter);
 // express session configs
 app.use(session({
   resave: false,
