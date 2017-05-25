@@ -17,7 +17,7 @@ const sass = require('node-sass-middleware')
 /**
  * Import Routers
  */
-const usersRouter = require(path.join(__dirname, 'src', 'api', 'users'));
+const usersRouter = require('./src/api/users/index.js');
 /**
  * Load configurations
  */

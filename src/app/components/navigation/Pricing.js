@@ -3,7 +3,9 @@ import React from 'react';
 const Pricing = () => {
   return (
     <div>
-      Pricing me!
+      <h1>
+        Pricing me!
+      </h1>
     </div>
   );
 };

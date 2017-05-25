@@ -10,8 +10,13 @@ html
     link(rel='stylesheet', href='/css/main.css')
 
   body
-    include partials/flash
-    block content
+    //- include partials/header
+    
+    .containers
+      include partials/flash
+      block content
+      
+    include partials/footer
 
     script(src='/js/lib/jquery-3.1.1.min.js')
     script(src='/js/lib/bootstrap.min.js')
