@@ -3,6 +3,9 @@ const mongoose = require('mongoose');
 const User = require('./User.model');
 
 exports.postSignup = (req, res, next) => {
+  // Phần này là của express-validation https://github.com/ctavan/express-validator
+  // Từ form phía client gửi tới. Nếu name field nào có giá trị không hợp lệ sẽ được gắn lỗi vào req.validationErrors()
+
   req.assert('email', '! Email is required.').notEmpty();
   req.assert('email', 'Email is not valid').isEmail();
   req.assert('password', '! Password is required.').notEmpty();
@@ -10,6 +13,7 @@ exports.postSignup = (req, res, next) => {
   req.assert('password', '! Password must be at least 4 characters long.').len(4);
   req.assert('confirmPassword', '! Passwords do not match.').equals(req.body.password);
 
+  // nếu có lỗi sẽ gán vào errors. và send error messages tới client
   const errors = req.validationErrors();
   if (errors) return res.json({ error: errors });
 
@@ -20,13 +24,14 @@ exports.postSignup = (req, res, next) => {
     confirmPassword: req.body.confirmPassword
   });
 
-  User.findOne({ email: req.body.email.toLowerCase() }, (err, existingUser) => {
+  // Tìm xem nếu trong db đã có username hay email này chưa? Nếu có rồi thì trả msg đã tồn tại. k thì Success!
+  User.findOne({ $or: [{'email': newUser.email}, {'username': newUser.username}] }, (err, existingUser) => {
     if (err) {
       console.log(err);
       return next(err);
     }
     if (existingUser)
-      return res.json({ error_msg: 'Account with that email is already exists!'});
+      return res.json({ error_msg: 'Account with that email or username is already exists!'});
 
     newUser.save((err) => {
       if (err) {
@@ -69,7 +74,6 @@ exports.getUserByUsername = (req, res) => {
       { username: _username },
       { _id: 0, email: 1, username: 1, createdAt: 1, updatedAt: 1, 'profile.picture': 1 }
     )
-    .lean()
     .exec((err, doc) => {
       if (err) {
         console.log(err);
