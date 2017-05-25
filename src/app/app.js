@@ -12,6 +12,8 @@ import About from './components/navigation/About';
 import Contact from './components/navigation/Contact';
 import Pricing from './components/navigation/Pricing';
 import PageNotFound from './components/navigation/PageNotFound';
+import Login from './components/navigation/Login';
+import Signup from './components/navigation/Signup';
 import Header from './containers/Header';
 
 const createStoreWithMiddleware = applyMiddleware(ReduxPromise)(createStore);
@@ -23,9 +25,11 @@ ReactDOM.render(
         <Header />
         <Switch>
           <Route exact path='/' component={App} />
-          <Route path='/about' component={About} />
-          <Route path='/contact' component={Contact} />
-          <Route path='/pricing' component={Pricing} />
+          <Route exact path='/about' component={About} />
+          <Route exact path='/contact' component={Contact} />
+          <Route exact path='/pricing' component={Pricing} />
+          <Route exact path='/login' component={Login} />
+          <Route exact path='/signup' component={Signup} />
           <Route path='*' component={PageNotFound} />
         </Switch>
       </div>
