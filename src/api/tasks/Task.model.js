@@ -1,19 +1,20 @@
 const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
 const TaskSchema =  new mongoose.Schema({
-  name : String,
+  name : { type: String, require: true },
   duaDate : Date,
   note : String,
-  isDone : Boolean,
+  isDone : { type: Boolean, default: false },
   isStarred : Boolean,
   important: Number,
   comments: [{
     type : String,
-    { type : ObjectId, ref : 'User' }
+    { type : Schema.Types.ObjectId, ref : 'User' }
   }],
-  listIn : { type : ObjectId, ref : 'List' },
+  listIn : { type : Schema.Types.ObjectId, ref : 'List', required: true },
   taskChilds : [{
-    type : ObjectId, ref : 'Subtask'
+    type : Schema.Types.ObjectId, ref : 'Subtask'
   }]
 }, { timestamps: true });
 
