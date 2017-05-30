@@ -15,6 +15,7 @@ import PageNotFound from './components/navigation/PageNotFound';
 import Login from './components/navigation/Login';
 import Signup from './components/navigation/Signup';
 import Header from './containers/Header';
+import Workspace from './containers/Workspace';
 
 const createStoreWithMiddleware = applyMiddleware(ReduxPromise)(createStore);
 
@@ -30,6 +31,7 @@ ReactDOM.render(
           <Route exact path='/pricing' component={Pricing} />
           <Route exact path='/login' component={Login} />
           <Route exact path='/signup' component={Signup} />
+          <Route exact path='/workspace' component={Workspace} />
           <Route path='*' component={PageNotFound} />
         </Switch>
       </div>

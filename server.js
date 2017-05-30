@@ -7,21 +7,24 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const chalk = require('chalk');
 const path = require('path');
+const flash = require('express-flash');
 const logger = require('morgan');
 const expressValidator = require('express-validator');
 const session = require('express-session');
 const passport = require('passport');
 const errorHandler = require('errorhandler');
-const sass = require('node-sass-middleware')
+const sass = require('node-sass-middleware');
+const LocalStrategy = require('passport-local').Strategy;
 
 /**
  * Import Routers
  */
-const usersRouter = require('./src/api/users/index.js');
+const usersRouter = require('./src/api/users/index');
 /**
  * Load configurations
  */
 const config = require('./config.json');
+const passportConfig = require('./config/passport.config');
 
 /**
  * Create app
@@ -42,7 +45,6 @@ mongoose.connection.on('error', (err) => {
  * Express configurations
  */
 app.set('port', config.PORT || 3000);
-app.use(express.static(path.join(__dirname, 'public')));
 // set the views folder for template engine
 app.set('views', __dirname + '/src/views');
 // set template engine as pug. https://pugjs.org/api/getting-started.html
@@ -67,20 +69,78 @@ app.use(session({
   secret: config.SESSION_SECRET,
   saveUninitialized: true
 }));
+// Passport init
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use((req, res, next) => {
+  res.locals.user = req.user;
+  next();
+});
+app.use((req, res, next) => {
+  // After successful login, redirect back to the intended page
+  if (!req.user &&
+      req.path !== '/users/login' &&
+      req.path !== '/users/signup' &&
+      !req.path.match(/^\/auth/) &&
+      !req.path.match(/\./)) {
+    req.session.returnTo = req.path;
+  } else if (req.user &&
+      req.path == '/account') {
+    req.session.returnTo = req.path;
+  }
+  next();
+});
+
+app.use(express.static(path.join(__dirname, 'public')));
 // TODO: configs middleware and set environment variables here
+app.use(flash());
+
+
+// Express Validator middleware option. Read Express Validator documents for more details
+app.use(expressValidator({
+  errorFormatter: function(param, msg, value) {
+      var namespace = param.split('.')
+      , root    = namespace.shift()
+      , formParam = root;
+
+    while(namespace.length) {
+      formParam += '[' + namespace.shift() + ']';
+    }
+    return {
+      param : formParam,
+      msg   : msg,
+      value : value
+    };
+  }
+}));
 
 /**
  * Routers is used here
  */
-app.use('/users', usersRouter);
+
+app.get('/api/workspace', (req, res) => {
+  res.json({ name: 'vthang95' });
+});
 
 app.get('/', (req, res) => {
-  res.render('home');
+  res.render('home', {
+    title: 'Oh!List'
+  });
+});
+
+app.get('/login', (req, res) => {
+  if (req.user) return res.redirect('/');
+  return res.render('home');
 });
 
 app.get('*', (req, res) => {
-  res.render('home');
+  res.render('home', {
+    title: 'Page Not Found!'
+  });
 });
+
+app.use('/users', usersRouter);
 
 /**
  * Errors handler, (prettify error)
@@ -91,5 +151,8 @@ app.use(errorHandler());
  * Start express server
  */
 app.listen(app.get('port'), (req, res) => {
-  console.log('%s App is running on http://localhost:%d\n\tPress Ctrl-C to stop sever', chalk.green('✓'), app.get('port'));
+  console.log(
+    '%s App is running on http://localhost:%d\n\tPress Ctrl-C to stop sever',
+    chalk.green('✓'),
+    app.get('port'));
 });
