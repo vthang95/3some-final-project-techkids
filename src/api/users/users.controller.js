@@ -1,10 +1,32 @@
 const mongoose = require('mongoose');
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
 
 const User = require('./User.model');
 
+exports.postLogin = (req, res, next) => {
+  req.assert('email', '! Email cannot be blank').notEmpty();
+  req.assert('email', '! Email is not valid').isEmail();
+  req.assert('password', '! Password cannot be blank').notEmpty();
+  req.sanitize('email').normalizeEmail({ remove_dots: false });
+
+  let errors = req.validationErrors();
+
+  if (errors) return res.json(errors);
+
+  passport.authenticate('local', (err, user, info) => {
+    if (err) return next(err);
+    if (!user) return res.json({ info });
+    req.logIn(user, (err) => {
+      if (err) return next(err);
+      res.json({ msg: 'Success! You are logged in.' });
+    });
+  })(req, res, next);
+};
+
 exports.postSignup = (req, res, next) => {
   // Phần này là của express-validation https://github.com/ctavan/express-validator
-  // Từ form phía client gửi tới. Nếu name field nào có giá trị không hợp lệ sẽ được gắn lỗi vào req.validationErrors()
+  // Từ form phía client gửi tới. Nếu name field nào có giá trị không hợp lệ sẽ được gắn lỗi vào req.validationErrors
 
   req.assert('email', '! Email is required.').notEmpty();
   req.assert('email', 'Email is not valid').isEmail();

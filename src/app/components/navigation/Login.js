@@ -11,7 +11,7 @@ const Login = () => {
         <div className="form-group">
           <label className="col-sm-3 control-label" for="email">Email</label>
           <div className="col-sm-7">
-            <input className="form-control" type="email" name="email" id="email" placeholder="Email" autofocus="autofocus" required="required"/>
+            <input className="form-control" type="email" name="email" id="email" placeholder="Email" autofocus="autofocus" />
           </div>
         </div>
         <div className="form-group">

@@ -44,8 +44,8 @@ userSchema.pre('save', function save(next) {
 /**
  * Helper method for validating user's password.
  */
-userSchema.methods.comparePassword = function comparePassword(candidatePassword, cb) {
-  bcrypt.compare(candidatePassword, this.password, (err, isMatch) => {
+userSchema.methods.comparePassword = (candidatePassword, hash, cb) => {
+  bcrypt.compare(candidatePassword, hash, (err, isMatch) => {
     cb(err, isMatch);
   });
 };
@@ -53,7 +53,7 @@ userSchema.methods.comparePassword = function comparePassword(candidatePassword,
 /**
  * Helper method for getting user's gravatar.
  */
-userSchema.methods.gravatar = function gravatar(size) {
+userSchema.methods.gravatar = (size) => {
   if (!size) {
     size = 200;
   }

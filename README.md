@@ -48,3 +48,10 @@ npm start
 + redux, redux-promise, redux-form: Thư viện redux
 
 + babel: Javascript compiler
+
+
+# Wiki
+
++ Tất cả file js trong path /src/app sẽ được wrap lại trong 1 file bundle.js (/public/js). mọi người có thể đọc
+
+file webpack.config.js.
