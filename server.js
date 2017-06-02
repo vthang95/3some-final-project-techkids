@@ -20,6 +20,7 @@ const LocalStrategy = require('passport-local').Strategy;
  * Import Routers
  */
 const usersRouter = require('./src/api/users/index');
+const listsRouter = require('./src/api/lists/index');
 /**
  * Load configurations
  */
@@ -141,6 +142,7 @@ app.get('*', (req, res) => {
 });
 
 app.use('/users', usersRouter);
+app.use('/lists', listsRouter);
 
 /**
  * Errors handler, (prettify error)
