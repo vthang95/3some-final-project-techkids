@@ -17,9 +17,10 @@ exports.postQuote = (req,res,next) => {
 }
 
 exports.getRndQuote = (req,res,next) => {
+  console.log("zxcasfasdf");
  Quote.aggregate({ $sample: { size: 1 } })
  .exec((err, doc) => {
-   if (err) { 
+   if (err) {
      console.log(err);
      return res.json({ error_msg: 'An error occurred!' });
    }
