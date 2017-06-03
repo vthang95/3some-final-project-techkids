@@ -38,3 +38,59 @@ exports.getAllListByOwnerId = (req, res) => {
     return res.json(doc);
   });
 };
+
+// id: ObjectId
+// name: String
+// members: array
+// tasks: undefine
+exports.updateList = (req, res) => {
+  req.assert('id', '! id is required').notEmpty();
+
+  const errors = req.validationErrors();
+  if(errors) return res.json({ error: errors });
+
+  let newInfo = {
+    id: req.body.id,
+    name: req.body.name,
+    members: req.body.members,
+    tasks: req.body.tasks
+  }
+
+  if(newInfo.name) {
+    changeNameList(newInfo.id, newInfo.name, (err) => {
+      if(err) res.json({ msg_err: err });
+    })
+  }
+
+  if(newInfo.members) {
+    addMemberToList(newInfo.id, newInfo.members, (err) => {
+      if(err) res.json({ msg_err: err });
+    });
+  }
+
+  res.json({ msg: 'update list success' });
+};
+
+var changeNameList = (id, newName, callback) => {
+  List.update({ _id: id }, { $set: { name: newName } }).exec((err) => {
+    callback(err);
+  });
+};
+
+//TODO: Kiểm tra trùng người dùng && Kiểm tra người dùng có tồn tại không
+var addMemberToList = (idList, members, callback) => {
+  List.update({ _id: idList }, { $push: { members: { $each: members } } }).exec((err) => {
+    callback(err);
+  });
+}
+
+var addTaskToList = (callback) => {
+  callback();
+}
+
+exports.deleteListByObjId = (req, res) => {
+  List.remove({ _id: req.body.id }).exec((err) => {
+    if(err) res.json({ msg_err: err });
+    res.json({ msg: "Delete list success" });
+  })
+};
