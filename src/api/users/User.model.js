@@ -22,7 +22,7 @@ const userSchema = new Schema({
     website: String,
     picture: String
   },
-  lists : [{ type : mongoose.Schema.Types.ObjectId, ref : 'List' }]
+  lists : [{ list: { type: Schema.Types.ObjectId, ref: 'List' } }]
 }, { timestamps: true });
 
 /**

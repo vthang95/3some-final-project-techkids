@@ -79,7 +79,9 @@ var changeNameList = (id, newName, callback) => {
 
 //TODO: Kiểm tra trùng người dùng && Kiểm tra người dùng có tồn tại không
 var addMemberToList = (idList, members, callback) => {
-  List.update({ _id: idList }, { $push: { members: { $each: members } } }).exec((err) => {
+  console.log(members);
+  List.update({ _id: idList },
+    { $push: { members: { $each: members} } }).exec((err) => {
     callback(err);
   });
 }
@@ -89,7 +91,7 @@ var addTaskToList = (callback) => {
 }
 
 exports.deleteListByObjId = (req, res) => {
-  List.remove({ _id: req.body.id }).exec((err) => {
+  List.remove({ id: req.body.id }).exec((err) => {
     if(err) res.json({ msg_err: err });
     res.json({ msg: "Delete list success" });
   })
