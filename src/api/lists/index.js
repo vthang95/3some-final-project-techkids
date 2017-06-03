@@ -5,5 +5,7 @@ const listController = require('./lists.controller');
 
 Router.post('/add', listController.addList);
 Router.get('/getall', listController.getAllListByOwnerId);
-// Router.get('/hehe', listController.gethehe);
+Router.put('/update', listController.updateList);
+Router.delete('/delete', listController.deleteListByObjId);
+
 module.exports = Router;
