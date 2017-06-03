@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const TaskSchema =  new mongoose.Schema({
+const taskSchema =  new mongoose.Schema({
   name : { type: String, require: true },
   duaDate : Date,
   note : String,
@@ -9,13 +9,11 @@ const TaskSchema =  new mongoose.Schema({
   isStarred : Boolean,
   important: Number,
   comments: [{
-    type : String,
-    { type : Schema.Types.ObjectId, ref : 'User' }
+    comment: { type: String },
+    commentBy: { type : Schema.Types.ObjectId, ref : 'users' }
   }],
-  listIn : { type : Schema.Types.ObjectId, ref : 'List', required: true },
-  taskChilds : [{
-    type : Schema.Types.ObjectId, ref : 'Subtask'
-  }]
+  listIn : { type : Schema.Types.ObjectId, ref : 'lists', required: true },
+  taskChilds : [{ taskChild: { type : Schema.Types.ObjectId, ref : 'subtasks'} }]
 }, { timestamps: true });
 
 const Task = mongoose.model('Task', taskSchema);
