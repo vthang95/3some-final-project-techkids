@@ -19,7 +19,7 @@ exports.addList = (req, res) => {
   newList.save((err) => {
     if(err) {
       console.log(err);
-      return;
+      return res.json({ error_msg: "An error occurred!" });
     }
     return res.json({ success_msg: 'Add list success!' });
   });
@@ -29,11 +29,12 @@ exports.getAllListByOwnerId = (req, res) => {
   console.log("Sao no ko vao day nhi??");
   let _idOwner = req.query.userid;//Sẽ sửa thành lấy _id của User từ session
   List.find({ owner: _idOwner }).exec((err, doc) => {
+    console.log(doc);
     if(err){
       console.log(err);
-      return;
+      return res.json({ error_msg: "An error occurred!" });
     }
-    if(!doc) return res.json({ msg: 'User dont have any list' });
+    if(!doc || doc.length === 0) return res.json({ msg: 'This user does not have any list' });
     console.log("hehehe");
     return res.json(doc);
   });

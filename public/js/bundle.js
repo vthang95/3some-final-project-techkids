@@ -13365,6 +13365,16 @@ var Header = function (_Component) {
   }
 
   _createClass(Header, [{
+    key: 'conponentDidMount',
+    value: function conponentDidMount() {
+      $(function () {
+        var navMain = $("#nav-main");
+        navMain.on("click", "a", null, function () {
+          navMain.collapse('hide');
+        });
+      });
+    }
+  }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
@@ -13397,7 +13407,7 @@ var Header = function (_Component) {
           ),
           _react2.default.createElement(
             'div',
-            { className: 'collapse navbar-collapse' },
+            { id: 'navMain', className: 'collapse navbar-collapse' },
             _react2.default.createElement(
               'ul',
               { className: 'nav navbar-nav' },

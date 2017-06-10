@@ -14,6 +14,7 @@ const session = require('express-session');
 const passport = require('passport');
 const errorHandler = require('errorhandler');
 const sass = require('node-sass-middleware');
+const jwt = require('jsonwebtoken');
 const LocalStrategy = require('passport-local').Strategy;
 
 /**
@@ -126,6 +127,7 @@ app.get('/api/workspace', (req, res) => {
 });
 
 app.get('/', (req, res) => {
+  console.log(req.session.token)
   res.render('home', {
     title: 'Oh!List'
   });
@@ -136,15 +138,15 @@ app.get('/login', (req, res) => {
   return res.render('home');
 });
 
+app.use('/users', usersRouter);
+app.use('/lists', listsRouter);
+app.use('/tasks', tasksRouter);
+
 app.get('*', (req, res) => {
   res.render('home', {
     title: 'Page Not Found!'
   });
 });
-
-app.use('/users', usersRouter);
-app.use('/lists', listsRouter);
-app.use('/tasks', tasksRouter);
 
 /**
  * Errors handler, (prettify error)

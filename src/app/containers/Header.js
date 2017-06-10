@@ -2,6 +2,14 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
 class Header extends Component {
+  conponentDidMount() {
+    $(function(){
+      var navMain = $("#nav-main");
+      navMain.on("click", "a", null, function () {
+         navMain.collapse('hide');
+      });
+    });
+  }
   render() {
     return (
       <div className="navbar navbar-default navbar-fixed-top">
@@ -18,7 +26,7 @@ class Header extends Component {
               Oh!List
             </Link>
           </div>
-          <div className="collapse navbar-collapse">
+          <div id="navMain" className="collapse navbar-collapse">
             <ul className="nav navbar-nav">
               <li><Link to="/">Home</Link></li>
               <li><Link to="/about">About</Link></li>

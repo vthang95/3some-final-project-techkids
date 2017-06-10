@@ -3,6 +3,7 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 
 const User = require('./User.model');
+const passportConfig = require("../../../config/passport.config");
 
 exports.postLogin = (req, res, next) => {
   req.assert('email', '! Email cannot be blank').notEmpty();
@@ -19,7 +20,10 @@ exports.postLogin = (req, res, next) => {
     if (!user) return res.json({ info });
     req.logIn(user, (err) => {
       if (err) return next(err);
-      res.json({ msg: 'Success! You are logged in.' });
+      req.session.token = passportConfig.signToken(user);
+      console.log('in controller', req.session)
+      // res.json({ msg: 'Success! You are logged in.' });
+      res.redirect('/');
     });
   })(req, res, next);
 };
