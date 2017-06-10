@@ -23,6 +23,7 @@ const LocalStrategy = require('passport-local').Strategy;
 const usersRouter = require('./src/api/users/index');
 const listsRouter = require('./src/api/lists/index');
 const tasksRouter = require('./src/api/tasks/index');
+const notesRouter = require('./src/api/notes/index');
 /**
  * Load configurations
  */
@@ -141,6 +142,7 @@ app.get('/login', (req, res) => {
 app.use('/users', usersRouter);
 app.use('/lists', listsRouter);
 app.use('/tasks', tasksRouter);
+app.use('/notes', notesRouter);
 
 app.get('*', (req, res) => {
   res.render('home', {
