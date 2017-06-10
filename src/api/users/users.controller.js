@@ -21,7 +21,7 @@ exports.postLogin = (req, res, next) => {
     req.logIn(user, (err) => {
       if (err) return next(err);
       req.session.token = passportConfig.signToken(user);
-      console.log('in controller', req.session)
+      console.log('in controller', req.session.id)
       // res.json({ msg: 'Success! You are logged in.' });
       res.redirect('/');
     });
@@ -89,7 +89,7 @@ exports.getSearchUserByEmail = (req, res) => {
 
 /**
  * Mọi người để ý query nhé. object thứ 2 chính là những thứ mình cần lấy. value 1 tức là lấy, 0 là không lấy.
- * Mình không cần phải cookie data như anh Long nữa
+ * Mình không cần phải cook data như anh Long nữa
  */
 
 exports.getUserByUsername = (req, res) => {
@@ -109,3 +109,8 @@ exports.getUserByUsername = (req, res) => {
       return res.json(doc);
     });
 }
+
+exports.getLogout = (req, res) => {
+  req.logout();
+  res.redirect('/');
+};

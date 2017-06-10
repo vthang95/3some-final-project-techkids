@@ -24,6 +24,7 @@ const usersRouter = require('./src/api/users/index');
 const listsRouter = require('./src/api/lists/index');
 const tasksRouter = require('./src/api/tasks/index');
 const notesRouter = require('./src/api/notes/index');
+const navigationRouter = require('./src/controllers/index');
 /**
  * Load configurations
  */
@@ -127,22 +128,23 @@ app.get('/api/workspace', (req, res) => {
   res.json({ name: 'vthang95' });
 });
 
-app.get('/', (req, res) => {
-  console.log(req.session.token)
-  res.render('home', {
-    title: 'Oh!List'
-  });
-});
-
-app.get('/login', (req, res) => {
-  if (req.user) return res.redirect('/');
-  return res.render('home');
-});
-
 app.use('/users', usersRouter);
 app.use('/lists', listsRouter);
 app.use('/tasks', tasksRouter);
 app.use('/notes', notesRouter);
+
+app.get('/contact', passportConfig.isAuthenticated, (req, res) => {
+  res.json('ok')
+});
+
+app.use('/', navigationRouter);
+
+app.get('/', (req, res) => {
+  console.log('token', req.session.token)
+  res.render('home', {
+    title: 'Oh!List'
+  });
+});
 
 app.get('*', (req, res) => {
   res.render('home', {

@@ -41,6 +41,7 @@ exports.decodeToken = token => {
   return jwt.verify(token, config.SESSION_SECRET);
 };
 
-exports.authenticate = (req, res, next) => {
-  let userToken = req.session.token;
+exports.isAuthenticated = (req, res, next) => {
+  if (req.isAuthenticated()) return next()
+  return res.redirect('/login');
 };
