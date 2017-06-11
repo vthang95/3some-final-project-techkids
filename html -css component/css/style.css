@@ -1,0 +1,87 @@
+*{
+	padding: 0;
+	margin: 0;
+}
+ul,li{
+	list-style: none;
+	color: #ffffff;
+}
+a,a:hover,a:active,a:visited,a:focus{
+	display:block;
+  text-decoration:none;
+	color: #ffffff;
+	vertical-align: center;
+}
+/*Global class css*/
+.dropdown-iconsize{
+	font-size: 12px;
+	margin-left: 5px;
+}
+/*Sidebar*/
+.sidebar{
+	width: 260px;
+	background-image: url("http://wallpapercave.com/wp/UoQbFHi.jpg");
+}
+.sidebar > div{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+.logo a{
+	margin: 15px 0;
+}
+.avatar img{
+	width: 100px;
+	border-radius: 50px;
+	margin-top: 15px;
+}
+.user .border-bottom,.user .border-top{
+	width: 200px;
+	height: 1px;
+	background: #ffffff;
+}
+.info{
+	margin: 15px 0;
+}
+.info div{
+	text-align: center
+}
+.menu{
+	margin-top: 15px;
+}
+.menu {
+	width: 100%;
+}
+.menu-clickdrop > a{
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	margin: 10px 15px 0;
+	padding: 10px 15px;
+	font-size: 22px;
+	position: relative;
+	border-radius: 5px;
+}
+.menu-clickdrop i{
+	font-size: 23px;
+	margin-right: 10px;
+}
+.menu-clickdrop b{
+	position: absolute;
+	left: 200px;
+	top: 35%;
+}
+.menu-dropdown{
+	margin-top: 10px;
+}
+
+.menu-dropdown a{
+	margin: 10px 15px;
+	margin-top: 10px;
+	padding: 10px 15px 10px 48px;
+	font-size: 18px;
+	border-radius: 5px;
+}
+.menu-clickdrop a:hover, .menu-dropdown a:hover{
+	background-color: rgba(262,262,262,0.5);
+}
