@@ -13035,128 +13035,7 @@ var Contact = function Contact() {
 exports.default = Contact;
 
 /***/ }),
-/* 119 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(4);
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var Login = function Login() {
-  return _react2.default.createElement(
-    "div",
-    { className: "container" },
-    _react2.default.createElement(
-      "div",
-      { className: "page-header" },
-      _react2.default.createElement(
-        "h3",
-        null,
-        "Login"
-      )
-    ),
-    _react2.default.createElement(
-      "form",
-      { className: "form-horizontal", action: "/users/login", method: "POST" },
-      _react2.default.createElement("input", { type: "hidden", name: "_csrf" }),
-      _react2.default.createElement(
-        "div",
-        { className: "form-group" },
-        _react2.default.createElement(
-          "label",
-          { className: "col-sm-3 control-label", "for": "email" },
-          "Email"
-        ),
-        _react2.default.createElement(
-          "div",
-          { className: "col-sm-7" },
-          _react2.default.createElement("input", { className: "form-control", type: "email", name: "email", id: "email", placeholder: "Email", autofocus: "autofocus" })
-        )
-      ),
-      _react2.default.createElement(
-        "div",
-        { className: "form-group" },
-        _react2.default.createElement(
-          "label",
-          { className: "col-sm-3 control-label", "for": "password" },
-          "Password"
-        ),
-        _react2.default.createElement(
-          "div",
-          { className: "col-sm-7" },
-          _react2.default.createElement("input", { className: "form-control", type: "password", name: "password", id: "password", placeholder: "Password", required: "required" })
-        )
-      ),
-      _react2.default.createElement(
-        "div",
-        { className: "form-group" },
-        _react2.default.createElement(
-          "div",
-          { className: "col-sm-offset-3 col-sm-7" },
-          _react2.default.createElement(
-            "button",
-            { className: "col-sm-3 btn btn-primary", type: "submit" },
-            _react2.default.createElement("i", { className: "fa fa-user" }),
-            "Login"
-          ),
-          _react2.default.createElement(
-            "a",
-            { className: "btn btn-link", href: "/forgot" },
-            "Forgot your password?"
-          )
-        )
-      ),
-      _react2.default.createElement(
-        "div",
-        { className: "form-group" },
-        _react2.default.createElement(
-          "div",
-          { className: "col-sm-offset-3 col-sm-7" },
-          _react2.default.createElement("hr", null)
-        )
-      ),
-      _react2.default.createElement(
-        "div",
-        { className: "form-group" },
-        _react2.default.createElement(
-          "div",
-          { className: "col-sm-offset-3 col-sm-7" },
-          _react2.default.createElement(
-            "a",
-            { className: "btn btn-block btn-facebook btn-social", href: "/auth/facebook" },
-            _react2.default.createElement("i", { className: "fa fa-facebook" }),
-            "Sign in with Facebook"
-          ),
-          _react2.default.createElement(
-            "a",
-            { className: "btn btn-block btn-google btn-social", href: "/auth/google" },
-            _react2.default.createElement("i", { className: "fa fa-google-plus" }),
-            "Sign in with Google"
-          ),
-          _react2.default.createElement(
-            "a",
-            { className: "btn btn-block btn-github btn-social", href: "/auth/github" },
-            _react2.default.createElement("i", { className: "fa fa-github" }),
-            "Sign in with GitHub"
-          )
-        )
-      )
-    )
-  );
-};
-
-exports.default = Login;
-
-/***/ }),
+/* 119 */,
 /* 120 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -13365,16 +13244,6 @@ var Header = function (_Component) {
   }
 
   _createClass(Header, [{
-    key: 'conponentDidMount',
-    value: function conponentDidMount() {
-      $(function () {
-        var navMain = $("#nav-main");
-        navMain.on("click", "a", null, function () {
-          navMain.collapse('hide');
-        });
-      });
-    }
-  }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
@@ -13502,6 +13371,8 @@ var _axios = __webpack_require__(129);
 
 var _axios2 = _interopRequireDefault(_axios);
 
+var _reactRouterDom = __webpack_require__(67);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -13535,7 +13406,7 @@ var Workspace = function (_Component) {
     value: function render() {
       return _react2.default.createElement(
         'div',
-        null,
+        { style: style },
         'Hello ',
         this.state.name
       );
@@ -13544,6 +13415,10 @@ var Workspace = function (_Component) {
 
   return Workspace;
 }(_react.Component);
+
+var style = {
+  marginTop: '-60px'
+};
 
 exports.default = Workspace;
 
@@ -14532,10 +14407,6 @@ var _PageNotFound = __webpack_require__(120);
 
 var _PageNotFound2 = _interopRequireDefault(_PageNotFound);
 
-var _Login = __webpack_require__(119);
-
-var _Login2 = _interopRequireDefault(_Login);
-
 var _Signup = __webpack_require__(122);
 
 var _Signup2 = _interopRequireDefault(_Signup);
@@ -14561,22 +14432,15 @@ _reactDom2.default.render(_react2.default.createElement(
     _react2.default.createElement(
       'div',
       null,
-      _react2.default.createElement(_Header2.default, null),
       _react2.default.createElement(
         _reactRouterDom.Switch,
         null,
-        _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _App2.default }),
-        _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/about', component: _About2.default }),
-        _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/contact', component: _Contact2.default }),
-        _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/pricing', component: _Pricing2.default }),
-        _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/login', component: _Login2.default }),
-        _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/signup', component: _Signup2.default }),
         _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/workspace', component: _Workspace2.default }),
         _react2.default.createElement(_reactRouterDom.Route, { path: '*', component: _PageNotFound2.default })
       )
     )
   )
-), document.getElementById('app'));
+), document.querySelector('.container-fluid'));
 
 /***/ }),
 /* 148 */

@@ -2,14 +2,6 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
 class Header extends Component {
-  conponentDidMount() {
-    $(function(){
-      var navMain = $("#nav-main");
-      navMain.on("click", "a", null, function () {
-         navMain.collapse('hide');
-      });
-    });
-  }
   render() {
     return (
       <div className="navbar navbar-default navbar-fixed-top">
