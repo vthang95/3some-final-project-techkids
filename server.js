@@ -24,7 +24,7 @@ const usersRouter = require('./src/api/users/index');
 const listsRouter = require('./src/api/lists/index');
 const tasksRouter = require('./src/api/tasks/index');
 const notesRouter = require('./src/api/notes/index');
-const navigationRouter = require('./src/controllers/index');
+const navigationRouter = require('./src/controllers/routes/navigation.route');
 /**
  * Load configurations
  */
@@ -125,7 +125,7 @@ app.use(expressValidator({
  */
 
 app.get('/api/workspace', (req, res) => {
-  res.json({ name: 'vthang95' });
+  res.json({ name: req.user.email });
 });
 
 app.use('/users', usersRouter);
@@ -139,17 +139,9 @@ app.get('/contact', passportConfig.isAuthenticated, (req, res) => {
 
 app.use('/', navigationRouter);
 
-app.get('/', (req, res) => {
-  console.log('token', req.session.token)
-  res.render('home', {
-    title: 'Oh!List'
-  });
-});
-
 app.get('*', (req, res) => {
-  res.render('home', {
-    title: 'Page Not Found!'
-  });
+  if (!req.user) return res.render('home', { title: 'Page Not Found!' });
+  return res.render('workspace');
 });
 
 /**

@@ -23,7 +23,7 @@ exports.postLogin = (req, res, next) => {
       req.session.token = passportConfig.signToken(user);
       console.log('in controller', req.session.id)
       // res.json({ msg: 'Success! You are logged in.' });
-      res.redirect('/');
+      res.redirect('/workspace');
     });
   })(req, res, next);
 };

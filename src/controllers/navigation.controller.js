@@ -1,3 +1,8 @@
+exports.getHome = (req, res) => {
+  if (!req.user) return res.render('home', { title: 'Oh!List' });
+  return res.redirect('/workspace');
+};
+
 exports.getLoginPage = (req, res) => {
   if (req.user) return res.redirect('/');
   return res.render('account/login', {
@@ -10,4 +15,9 @@ exports.getSignupPage = (req, res) => {
   return res.render('account/signup', {
     title: 'signup'
   });
+};
+
+exports.getWorkspacePage = (req, res) => {
+  if (!req.user) res.redirect('/login');
+  return res.render('workspace', { title: 'Workspace' });
 };
