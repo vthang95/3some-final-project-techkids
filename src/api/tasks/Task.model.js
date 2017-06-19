@@ -9,13 +9,13 @@ const taskSchema =  new mongoose.Schema({
   isStarred : Boolean,
   important: Number,
   comments: [{
-    comment: { type: String },
+    comment: String,
     commentBy: { type : Schema.Types.ObjectId, ref : 'users' }
-  }],
+   }],
   listIn : { type : Schema.Types.ObjectId, ref : 'lists', required: true },
-  taskChilds : [{ taskChild: { type : Schema.Types.ObjectId, ref : 'subtasks'} }]
+  taskChilds : [{ type : Schema.Types.ObjectId, ref : 'subtasks' }]
 }, { timestamps: true });
 
-const Task = mongoose.model('Task', taskSchema);
+const Task = mongoose.model('tasks', taskSchema);
 
 module.exports = Task;

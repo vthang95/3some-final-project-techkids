@@ -136,15 +136,16 @@ app.get('/login', (req, res) => {
   return res.render('home');
 });
 
+app.use('/users', usersRouter);
+app.use('/lists', listsRouter);
+app.use('/tasks', tasksRouter);
+
 app.get('*', (req, res) => {
   res.render('home', {
     title: 'Page Not Found!'
   });
 });
 
-app.use('/users', usersRouter);
-app.use('/lists', listsRouter);
-app.use('/tasks', tasksRouter);
 
 /**
  * Errors handler, (prettify error)

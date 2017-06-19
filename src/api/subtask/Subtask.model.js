@@ -7,6 +7,6 @@ const SubtaskSchema =  new mongoose.Schema({
   childOf: { type: Schema.Types.ObjectId, ref: 'Task', required: true }
 }, { timestamps: true });
 
-const Subtask = mongoose.model('Subtask', subtaskSchema);
+const Subtask = mongoose.model('subtasks', subtaskSchema);
 
 module.exports = Subtask;
