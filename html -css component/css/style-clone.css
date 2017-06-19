@@ -1,0 +1,130 @@
+*{
+	padding: 0;
+	margin: 0;
+}
+ul,li{
+	list-style: none;
+}
+a,a:hover,a:active,a:visited,a:focus{
+	display:block;
+  text-decoration:none;
+	color: #ffffff;
+	vertical-align: center;
+}
+textarea:focus, input:focus{
+    outline: none;
+}
+body{
+	background-color: #E0E0E0;
+}
+.interface{
+  display: flex;
+}
+.flex-row{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.flex-row-start{
+	display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.flex-column{
+  display: flex;
+  flex-direction: column;
+}
+.white-backround{
+  background-color: #F5F5F5;
+}
+.text-base-black{
+	color: #000000;
+}
+.position-vertical{
+	position: absolute;
+	top: 50%;
+}
+/*Side bar*/
+.sidebar{
+  width: 450px;
+	height: 100vh;
+}
+.search-bar{
+  height: 45px;
+  background-color: #455A64;
+  position: relative;
+  font-weight: bold;
+}
+.search-bar input{
+	background-color: transparent;
+	border: 0;
+	color: #ffffff;
+	line-height: 1.5em;
+}
+.search-bar .menu-button{
+	padding: 5px;
+}
+.search-bar a i{
+  font-size: 20px;
+}
+.search-bar .search-icon{
+  position: absolute;
+  right: 10px;
+}
+.user-control{
+	height: 70px;
+	justify-content: flex-start;
+}
+.user-info{
+	position: relative;
+	width: 100%;
+	justify-content: flex-start;
+}
+.info-dropdown{
+	width: 50%;
+	position: absolute;
+	top: 70%;
+	left :70px;
+	background-color: #ffffff;
+	box-shadow: 2px 2px 5px #888888;
+}
+.info-dropdown ul{
+	margin: 5px;
+}
+.user-info img{
+  width: 50px;
+  border-radius: 50%;
+	margin-right: 5px;
+}
+.user-info a svg{
+	margin-left: 5px;
+	position: absolute;
+	top: 50%;
+	left: 135px;
+	transform: translate(0,-50%);
+}
+.user-activities{
+	width: 100px;
+	float: right;
+	margin-right: 10px;
+	justify-content: space-between;
+}
+.menu-wrap{
+	padding: 10px 0 0 5px;
+	background-color: #ffffff;
+	height: calc(100% - 115px);
+	display: flex;
+	flex-direction: column;
+}
+.menu ul{
+	margin-left: 20px;
+}
+.menu li a{
+	color: #000000;
+}
+/*Header*/
+.header{
+	height: 45px;
+  width: 100%;
+  background-color: #546E7A;
+}

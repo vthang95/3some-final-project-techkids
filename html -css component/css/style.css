@@ -12,20 +12,49 @@ a,a:hover,a:active,a:visited,a:focus{
 	color: #ffffff;
 	vertical-align: center;
 }
+body{
+	background-color: #E0E0E0;
+}
+.interface{
+	display: flex;
+	margin: 0px 5px;
+}
 /*Global class css*/
 .dropdown-iconsize{
 	font-size: 12px;
 	margin-left: 5px;
 }
 /*Sidebar*/
+.no-transition{
+  -webkit-transition: height 0.01s;
+  -moz-transition: height 0.01s;
+  -ms-transition: height 0.01s;
+  -o-transition: height 0.01s;
+  transition: height 0.01s;
+}
 .sidebar{
 	width: 260px;
-	background-image: url("http://wallpapercave.com/wp/UoQbFHi.jpg");
+	background-color: #008975;
+	height: 100vh;
+	box-shadow: 1px 0px 1px #888888;
+}
+.sidebtn{
+	background-color: transparent;
+	width: 50px;
+	border: 0;
+}
+
+.sidebtn i{
+	font-size: 20px;
 }
 .sidebar > div{
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+}
+.logo{
+	height: 50px;
+	justify-content: center;
 }
 .logo a{
 	margin: 15px 0;
@@ -51,6 +80,7 @@ a,a:hover,a:active,a:visited,a:focus{
 }
 .menu {
 	width: 100%;
+	/*background-color: #ffffff;*/
 }
 .menu-clickdrop > a{
 	display: flex;
@@ -66,11 +96,6 @@ a,a:hover,a:active,a:visited,a:focus{
 	font-size: 23px;
 	margin-right: 10px;
 }
-.menu-clickdrop b{
-	position: absolute;
-	left: 200px;
-	top: 35%;
-}
 .menu-dropdown{
 	margin-top: 10px;
 }
@@ -84,4 +109,22 @@ a,a:hover,a:active,a:visited,a:focus{
 }
 .menu-clickdrop a:hover, .menu-dropdown a:hover{
 	background-color: rgba(262,262,262,0.5);
+}
+/*header bar*/
+.header{
+	width: 100%;
+	background-color: #00AA8D;
+	height: 50px;
+	display: flex;
+	align-items: center;
+	position: relative;
+}
+.header span{
+	display: flex;
+	align-items: center;
+	font-size: 25px;
+	height: 100%;
+	vertical-align: middle;
+	margin-left: 15px;
+	color: #ffffff;
 }
