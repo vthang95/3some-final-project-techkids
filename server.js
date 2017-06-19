@@ -125,16 +125,16 @@ app.use(expressValidator({
  */
 
 app.get('/api/workspace', (req, res) => {
-  res.json({ name: req.user.username });
+  return res.json({ name: req.user.username });
 });
 
-app.use('/users', usersRouter);
-app.use('/lists', listsRouter);
-app.use('/tasks', tasksRouter);
-app.use('/notes', notesRouter);
+app.use('/api/users', usersRouter);
+app.use('/api/lists', listsRouter);
+app.use('/api/tasks', tasksRouter);
+app.use('/api/notes', notesRouter);
 
 app.get('/contact', passportConfig.isAuthenticated, (req, res) => {
-  res.json('ok')
+  return res.json('ok');
 });
 
 app.use('/', navigationRouter);

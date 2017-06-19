@@ -1,13 +1,30 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 
-const SidebarContainer = (props) => {
-  return (
-    <div className="sidebar">
-      <div className="sidebar-wrapper">
-        Hello {props.username}
+import { fetchUser } from '../../actions/index';
+
+class SidebarContainer extends Component {
+  componentWillMount() {
+    this.props.fetchUser();
+  }
+  render() {
+    return (
+      <div className="sidebar">
+        <div className="sidebar-wrapper">
+          Hello {this.props.user.name}
+        </div>
       </div>
-    </div>
-  )
-};
+    )
+  }
+}
 
-export default SidebarContainer;
+function mapStateToProps({ user }) {
+  return { user }
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({ fetchUser }, dispatch)
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SidebarContainer);

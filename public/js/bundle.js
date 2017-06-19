@@ -13387,30 +13387,19 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var Workspace = function (_Component) {
   _inherits(Workspace, _Component);
 
-  function Workspace(props) {
+  function Workspace() {
     _classCallCheck(this, Workspace);
 
-    var _this2 = _possibleConstructorReturn(this, (Workspace.__proto__ || Object.getPrototypeOf(Workspace)).call(this, props));
-
-    _this2.state = { name: '' };
-    return _this2;
+    return _possibleConstructorReturn(this, (Workspace.__proto__ || Object.getPrototypeOf(Workspace)).apply(this, arguments));
   }
 
   _createClass(Workspace, [{
-    key: 'componentWillMount',
-    value: function componentWillMount() {
-      var _this = this;
-      _axios2.default.get('http://localhost:7000/api/workspace').then(function (res) {
-        return _this.setState({ name: res.data.name });
-      });
-    }
-  }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
         'div',
         { className: 'wrapper', style: style },
-        _react2.default.createElement(_Sidebar2.default, { username: this.state.name })
+        _react2.default.createElement(_Sidebar2.default, null)
       );
     }
   }]);
@@ -13437,12 +13426,14 @@ Object.defineProperty(exports, "__esModule", {
 
 var _redux = __webpack_require__(40);
 
-var rootReducer = (0, _redux.combineReducers)({
-  state: function state() {
-    var _state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+var _user = __webpack_require__(307);
 
-    return _state;
-  }
+var _user2 = _interopRequireDefault(_user);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var rootReducer = (0, _redux.combineReducers)({
+  user: _user2.default
 });
 
 exports.default = rootReducer;
@@ -14455,26 +14446,70 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 var _react = __webpack_require__(4);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _redux = __webpack_require__(40);
+
+var _reactRedux = __webpack_require__(126);
+
+var _index = __webpack_require__(308);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var SidebarContainer = function SidebarContainer(props) {
-  return _react2.default.createElement(
-    "div",
-    { className: "sidebar" },
-    _react2.default.createElement(
-      "div",
-      { className: "sidebar-wrapper" },
-      "Hello ",
-      props.username
-    )
-  );
-};
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-exports.default = SidebarContainer;
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var SidebarContainer = function (_Component) {
+  _inherits(SidebarContainer, _Component);
+
+  function SidebarContainer() {
+    _classCallCheck(this, SidebarContainer);
+
+    return _possibleConstructorReturn(this, (SidebarContainer.__proto__ || Object.getPrototypeOf(SidebarContainer)).apply(this, arguments));
+  }
+
+  _createClass(SidebarContainer, [{
+    key: 'componentWillMount',
+    value: function componentWillMount() {
+      this.props.fetchUser();
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        { className: 'sidebar' },
+        _react2.default.createElement(
+          'div',
+          { className: 'sidebar-wrapper' },
+          'Hello ',
+          this.props.user.name
+        )
+      );
+    }
+  }]);
+
+  return SidebarContainer;
+}(_react.Component);
+
+function mapStateToProps(_ref) {
+  var user = _ref.user;
+
+  return { user: user };
+}
+
+function mapDispatchToProps(dispatch) {
+  return (0, _redux.bindActionCreators)({ fetchUser: _index.fetchUser }, dispatch);
+}
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(SidebarContainer);
 
 /***/ }),
 /* 148 */
@@ -32398,6 +32433,62 @@ module.exports = function(module) {
 	return module;
 };
 
+
+/***/ }),
+/* 305 */,
+/* 306 */,
+/* 307 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+exports.default = function () {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var action = arguments[1];
+
+  switch (action.type) {
+    case 'FETCH_USER':
+      return action.payload.data;
+      break;
+    default:
+
+  }
+  return state;
+};
+
+/***/ }),
+/* 308 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.fetchUser = fetchUser;
+
+var _axios = __webpack_require__(128);
+
+var _axios2 = _interopRequireDefault(_axios);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// TODO: use constant file
+
+function fetchUser() {
+  var url = 'http://localhost:7000/api/workspace';
+  var response = _axios2.default.get(url);
+  return {
+    type: 'FETCH_USER',
+    payload: response
+  };
+}
 
 /***/ })
 /******/ ]);
