@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const Task = require('./Task.model');
+const List = require('../lists/List.model');
 
 exports.addTask = (req, res) => {
   req.assert('name', '! Name is required').notEmpty();
@@ -11,19 +12,33 @@ exports.addTask = (req, res) => {
 
   let newTask = new Task({
     name: req.body.name,
-    listIn: req.body.listIn
+    listIn: req.body.listIn,
+    isStarred: req.body.isStarred ? req.body.isStarred : false
   });
 
   newTask.save((err) => {
     if(err) {
       console.log(err);
-      return;
+      return res.json({ error_msg: 'Something is wrong!' });
     }
     return res.json({ success_msg: 'Add Task success!' });
   });
+  //Update List who have this newTask
+  List.findOneAndUpdate({ _id: newTask.listIn }, { $push: { tasks: newTask._id } }, (err, doc) => {
+    if(err) {
+      console.log(err);
+      Task.remove({ _id: newTask.id });
+      return res.json({ error_msg: 'Something wrong!' })
+    }
+    if(!doc){
+      Task.remove({ _id: newTask.id });
+      return res.json({ error_msg: 'Can not find owner' })
+    }
+  })
+
 };
 
-exports.updateList = (req, res) => {
+exports.updateTask = (req, res) => {
   req.assert('id', '! id is required').notEmpty();
 
   const errors = req.validationErrors();
@@ -37,17 +52,52 @@ exports.updateList = (req, res) => {
     isDone: req.body.isDone,
     isStarred: req.body.isStarred,
     important: req.body.important,
-    comment: req.body.comment,
-    taskChildId: req.body.taskChildId
+    comment: req.body.comment
   }
 
   if(newInfo.name) {
     changeNameTask(newInfo.id, newInfo.name, (err) => {
-      if(err) res.json({ msg_err: err });
+      if(err) res.json({ error_msg: err });
     })
   }
 
-  res.json({ msg: 'update list success' });
+  if(newInfo.duaDate){
+    setDueDate(newInfo.id, newInfo.duaDate, (err) => {
+      if(err) res.json({ error_msg: err });
+    })
+  }
+
+  if(newInfo.note) {
+    setNote(newInfo.id, newInfo.note, (err) => {
+      if(err) res.json({ error_msg: err });
+    })
+  }
+
+  if(newInfo.isDone) {
+    setIsDone(newInfo.id, newInfo.isDone, (err) => {
+      if(err) res.json({ error_msg: err });
+    })
+  }
+
+  if(newInfo.isStarred) {
+    setIsStarred(newInfo.id, newInfo.isStarred, (err) => {
+      if(err) res.json({ error_msg: err });
+    })
+  }
+
+  if(newInfo.important) {
+    setImportant(newInfo.id, newInfo.important, (err) => {
+      if(err) res.json({ error_msg: err });
+    })
+  }
+
+  if(newInfo.comment){
+    addCommentToTask(newInfo.id, newInfo.comment, (err) => {
+      if(err) res.json({ error_msg: err });
+    })
+  }
+
+  res.json({ msg: 'update task success' });
 };
 
 var changeNameTask = (id, newName, callback) => {
@@ -81,7 +131,7 @@ var setIsStarred = (id, isStarredBoolean, callback) => {
   })
 }
 
-var setImportan = (id, importantNum, callback) => {
+var setImportant = (id, importantNum, callback) => {
   Task.update({ _id: id }, { $set: { important: importantNum } }).exec((err) => {
     callback();
   })
@@ -89,12 +139,6 @@ var setImportan = (id, importantNum, callback) => {
 
 var addCommentToTask = (id, commentObj, callback) => {
   Task.update({ _id: id }, { $push: { comments: { comment: commentObj.comment, commentBy: commentObj.commentBy } } }).exec((err) => {
-    callback();
-  })
-}
-
-var addTaskChild = (id, taskChildId, callback) => {
-  Task.update({ _id: id }, { $push: { taskChilds: { taskChild: taskChildId } } }).exec((err) => {
     callback();
   })
 }
