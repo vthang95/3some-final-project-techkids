@@ -2,20 +2,14 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
-class Workspace extends Component {
-  constructor(props) {
-    super(props);
+import SidebarContainer from './SidebarContainer/Sidebar.Container';
 
-    this.state = { name: '' }
-  }
-  componentWillMount() {
-    let _this = this;
-    axios.get('http://localhost:3000/api/workspace').then(res => _this.setState({ name: res.data.name }));
-  }
+class Workspace extends Component {
   render() {
     return (
-      <div style={style}>
-        Hello {this.state.name}
+      <div className="wrapper" style={style}>
+        <SidebarContainer />
+
       </div>
     );
   }
@@ -23,6 +17,6 @@ class Workspace extends Component {
 
 const style = {
   marginTop: '-60px'
-}
+};
 
 export default Workspace;

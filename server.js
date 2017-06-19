@@ -49,7 +49,7 @@ mongoose.connection.on('error', (err) => {
 /**
  * Express configurations
  */
-app.set('port', config.PORT || 3000);
+app.set('port', config.PORT || 7000);
 // set the views folder for template engine
 app.set('views', __dirname + '/src/views');
 // set template engine as pug. https://pugjs.org/api/getting-started.html
@@ -125,16 +125,16 @@ app.use(expressValidator({
  */
 
 app.get('/api/workspace', (req, res) => {
-  res.json({ name: req.user.email });
+  return res.json({ name: req.user.username });
 });
 
-app.use('/users', usersRouter);
-app.use('/lists', listsRouter);
-app.use('/tasks', tasksRouter);
-app.use('/notes', notesRouter);
+app.use('/api/users', usersRouter);
+app.use('/api/lists', listsRouter);
+app.use('/api/tasks', tasksRouter);
+app.use('/api/notes', notesRouter);
 
 app.get('/contact', passportConfig.isAuthenticated, (req, res) => {
-  res.json('ok')
+  return res.json('ok');
 });
 
 app.use('/', navigationRouter);
