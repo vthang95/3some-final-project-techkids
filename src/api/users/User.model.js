@@ -21,9 +21,9 @@ const userSchema = new Schema({
     age: Number,
     website: String,
     picture: String
-  },
-  lists : [{ list: { type: Schema.Types.ObjectId, ref: 'List' } }]
+  }
 }, { timestamps: true });
+// TODO: Re design schema
 
 /**
  * Password hash middleware.
