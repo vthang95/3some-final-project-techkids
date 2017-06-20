@@ -137,8 +137,10 @@ app.get('/contact', passportConfig.isAuthenticated, (req, res) => {
   return res.json('ok');
 });
 
+app.use('/users', usersRouter);
+app.use('/lists', listsRouter);
+app.use('/tasks', tasksRouter);
 app.use('/', navigationRouter);
-
 app.get('*', (req, res) => {
   if (!req.user) return res.render('home', { title: 'Page Not Found!' });
   return res.render('workspace');
