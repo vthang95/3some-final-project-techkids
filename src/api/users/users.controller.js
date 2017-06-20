@@ -3,6 +3,7 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 
 const User = require('./User.model');
+const List = require('../lists/List.model');
 const passportConfig = require("../../../config/passport.config");
 
 exports.postLogin = (req, res, next) => {
@@ -27,6 +28,27 @@ exports.postLogin = (req, res, next) => {
     });
   })(req, res, next);
 };
+
+//TODO: lấy id (hoặc user name, user mail) của user từ session
+exports.getAllList = (req, res) => {
+  //Tạm để req là username
+  let username = req.query.username;
+  User.findOne(
+    { username: username },
+    { lists: 1 }
+  ).populate('lists')
+  .populate('tasks')
+  .populate('members')
+  .exec((err, doc) => {
+    console.log('ádasdadassd');
+    if(err) {
+      console.log(err);
+      res.json({ error_msg: 'St wrong when get list!' });
+    }
+
+    res.json({ lists: doc.lists });
+  });
+}
 
 exports.postSignup = (req, res, next) => {
   // Phần này là của express-validation https://github.com/ctavan/express-validator
@@ -105,7 +127,7 @@ exports.getUserByUsername = (req, res) => {
         console.log(err);
         return res.json({ error_msg: 'An error occurred!' });
       }
-      if (!doc) return res.json({ error_msg: 'User not found!' });
+      if (!doc) return res.json({ error_msg: 'User not found!!!' });
       return res.json(doc);
     });
 }

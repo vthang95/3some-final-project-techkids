@@ -21,7 +21,8 @@ const userSchema = new Schema({
     age: Number,
     website: String,
     picture: String
-  }
+  },
+  lists: [{ type: Schema.Types.ObjectId, ref: 'lists' }]
 }, { timestamps: true });
 // TODO: Re design schema
 
@@ -64,6 +65,6 @@ userSchema.methods.gravatar = (size) => {
   return `https://gravatar.com/avatar/${md5}?s=${size}&d=retro`;
 };
 
-const User = mongoose.model('User', userSchema);
+const User = mongoose.model('users', userSchema);
 
 module.exports = User;
