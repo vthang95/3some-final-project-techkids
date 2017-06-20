@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
+import { MdSearch, MdNotificationsNone } from 'react-icons/lib/md';
+import TiMessages from 'react-icons/lib/ti/messages';
 
 import { fetchUser } from '../../actions/index';
 
@@ -18,7 +20,13 @@ class Header extends Component {
         </div>
         <div className='col-sm-10 collapse navbar-collapse' style={style.align}>
           <ul className='nav navbar-nav navbar-right'>
-            <li className='dropdown' style={style.li}>
+            <li style={style.notification}>
+              <MdNotificationsNone size={22} />
+            </li>
+            <li style={style.notification}>
+              <TiMessages size={22} />
+            </li>
+            <li className='dropdown' style={style.username}>
               <a className='dropdown-toggle' data-toggle='dropdown' style={style.a}>
                 <img style={style.img} src='http://img1.ak.crunchyroll.com/i/spire4/2f6ab456b03afbe0b3c6b97c7560d8e01486165341_large.png' />
                 {this.props.user.name}
@@ -31,13 +39,17 @@ class Header extends Component {
               </ul>
             </li>
           </ul>
-          </div>
+        </div>
       </div>
     )
   }
 }
 
 const style = {
+  notification: {
+    paddingTop: '14px',
+    marginLeft: '15px'
+  },
   img: {
     borderRadius: '50%'
   },
@@ -47,8 +59,10 @@ const style = {
   },
   align: {
     position: 'absolute',
-    right: '25px',
-
+    right: '30px',
+  },
+  username: {
+    fontSize: '15px'
   }
 }
 

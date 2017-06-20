@@ -36,6 +36,7 @@
     "redux-form": "^6.7.0",
     "redux-promise": "^0.5.3",
     "session": "^0.1.0",
+    "sweetalert-react": "^0.4.10",
     "validator": "^7.0.0",
     "webpack": "^2.5.1"
   },

@@ -9,6 +9,5 @@ Router.get('/getbyid', listController.getListById); //{ id: ObjectId }
 Router.put('/update', listController.updateList);//{ id: ObjectId,name: String,members: [ObjectId] }
 
 Router.delete('/delete', listController.deleteListByObjId);//{ id: ObjectId }
-Router.post('/', listController.addList);//{ name: String, owner: ObjectId }
 
 module.exports = Router;

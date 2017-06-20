@@ -40,7 +40,9 @@ class SidebarContainer extends Component {
 const style = {
   taskNumber: {
     position: 'absolute',
-    right: '5px'
+    right: '7px',
+    fontSize: '12px',
+    fontWeight: 'lighter'
   },
   icon: {
     marginRight: '4px'
