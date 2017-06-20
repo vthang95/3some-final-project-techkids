@@ -16,24 +16,24 @@ exports.addTask = (req, res) => {
     isStarred: req.body.isStarred ? req.body.isStarred : false
   });
 
-  newTask.save((err) => {
-    if(err) {
-      console.log(err);
-      return res.json({ error_msg: 'Something is wrong!' });
-    }
-    return res.json({ success_msg: 'Add Task success!' });
-  });
   //Update List who have this newTask
   List.findOneAndUpdate({ _id: newTask.listIn }, { $push: { tasks: newTask._id } }, (err, doc) => {
+    console.log(newTask);
     if(err) {
       console.log(err);
-      Task.remove({ _id: newTask.id });
       return res.json({ error_msg: 'Something wrong!' })
     }
     if(!doc){
-      Task.remove({ _id: newTask.id });
       return res.json({ error_msg: 'Can not find owner' })
     }
+
+    newTask.save((err) => {
+      if(err) {
+        console.log(err);
+        return res.json({ error_msg: 'Something is wrong!' });
+      }
+      return res.json({ success_msg: 'Add Task success!' });
+    });
   })
 
 };

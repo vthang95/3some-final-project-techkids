@@ -47,7 +47,7 @@ exports.getAllList = (req, res) => {
     }
 
     res.json({ lists: doc.lists });
-  });
+  })
 }
 
 exports.postSignup = (req, res, next) => {
@@ -127,7 +127,7 @@ exports.getUserByUsername = (req, res) => {
         console.log(err);
         return res.json({ error_msg: 'An error occurred!' });
       }
-      if (!doc) return res.json({ error_msg: 'User not found!' });
+      if (!doc) return res.json({ error_msg: 'User not found!!!' });
       return res.json(doc);
     });
 }

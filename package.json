@@ -28,6 +28,7 @@
     "pug": "^2.0.0-rc.1",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
+    "react-icons": "^2.2.5",
     "react-redux": "^5.0.5",
     "react-router": "^4.1.1",
     "react-router-dom": "^4.1.1",
@@ -35,6 +36,7 @@
     "redux-form": "^6.7.0",
     "redux-promise": "^0.5.3",
     "session": "^0.1.0",
+    "sweetalert-react": "^0.4.10",
     "validator": "^7.0.0",
     "webpack": "^2.5.1"
   },
