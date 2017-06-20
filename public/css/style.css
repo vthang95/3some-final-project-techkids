@@ -54,9 +54,10 @@ body{
 /*Side bar*/
 .sidebar{
   position: absolute;
-  width: 200px;
 	height: 100%;
-	background-color: #ffffff;
+	background-color: rgb(51, 54, 68);
+	padding-left: 0px;
+	padding-right: 0px;
 }
 .logo{
   height: 45px;
@@ -119,6 +120,20 @@ body{
   background-color: #ffffff;
 	box-shadow: 10px 0px 10px #888888;
 }
+.navbar-fix {
+	padding-left: 0px;
+	padding-right: 0px;
+}
+.header-logo {
+	padding-left: 0px;
+	padding-bottom: 15px;
+	padding-top: 15px;
+	text-align: center;
+	color: #FFF;
+	font-size: 15px;
+	font-weight: bolder;
+	background-color: rgb(164, 140, 211);
+}
 .search-box{
 	position: relative;
 	margin-left: 10px;
@@ -172,6 +187,8 @@ body{
 	margin-right: 10px;
 	justify-content: space-between;
 }
+
+
 /*Content-Body*/
 /*.content-body{
 	margin: 5px 10px;

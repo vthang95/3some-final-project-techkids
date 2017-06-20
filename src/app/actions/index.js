@@ -3,7 +3,6 @@ import axios from 'axios';
 // TODO: use constant file
 
 export function fetchUser() {
-  console.log('yepp');
   let url = 'http://localhost:7000/api/workspace';
   let response = axios.get(url);
   return {
@@ -19,4 +18,8 @@ export function fetchLists() {
     type: 'FETCH_LIST',
     payload: response
   }
+}
+
+export function fetchTasks(list) {
+  let url = 'http://localhost:7000/api/tasks/get'
 }
