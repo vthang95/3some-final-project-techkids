@@ -1,4 +1,8 @@
 extends layout
 
 block content
-  div(id="app")
+  include partials/header
+  include partials/flash
+  .container
+    h1 Homepage
+  include partials/footer

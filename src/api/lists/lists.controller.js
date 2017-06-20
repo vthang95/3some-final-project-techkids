@@ -34,7 +34,6 @@ exports.postList = (req, res) => {
         return res.json({ error_msg: 'Can not find owner' })
       }
     })
-
     return res.json({ success_msg: 'Add list success!' });
   });
 };

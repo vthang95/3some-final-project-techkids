@@ -14,6 +14,7 @@ const session = require('express-session');
 const passport = require('passport');
 const errorHandler = require('errorhandler');
 const sass = require('node-sass-middleware');
+const jwt = require('jsonwebtoken');
 const LocalStrategy = require('passport-local').Strategy;
 
 /**
@@ -22,6 +23,8 @@ const LocalStrategy = require('passport-local').Strategy;
 const usersRouter = require('./src/api/users/index');
 const listsRouter = require('./src/api/lists/index');
 const tasksRouter = require('./src/api/tasks/index');
+const notesRouter = require('./src/api/notes/index');
+const navigationRouter = require('./src/controllers/routes/navigation.route');
 /**
  * Load configurations
  */
@@ -46,7 +49,7 @@ mongoose.connection.on('error', (err) => {
 /**
  * Express configurations
  */
-app.set('port', config.PORT || 3000);
+app.set('port', config.PORT || 7000);
 // set the views folder for template engine
 app.set('views', __dirname + '/src/views');
 // set template engine as pug. https://pugjs.org/api/getting-started.html
@@ -122,30 +125,26 @@ app.use(expressValidator({
  */
 
 app.get('/api/workspace', (req, res) => {
-  res.json({ name: 'vthang95' });
+  return res.json({ name: req.user.username });
 });
 
-app.get('/', (req, res) => {
-  res.render('home', {
-    title: 'Oh!List'
-  });
-});
+app.use('/api/users', usersRouter);
+app.use('/api/lists', listsRouter);
+app.use('/api/tasks', tasksRouter);
+app.use('/api/notes', notesRouter);
 
-app.get('/login', (req, res) => {
-  if (req.user) return res.redirect('/');
-  return res.render('home');
+app.get('/contact', passportConfig.isAuthenticated, (req, res) => {
+  return res.json('ok');
 });
 
 app.use('/users', usersRouter);
 app.use('/lists', listsRouter);
 app.use('/tasks', tasksRouter);
-
+app.use('/', navigationRouter);
 app.get('*', (req, res) => {
-  res.render('home', {
-    title: 'Page Not Found!'
-  });
+  if (!req.user) return res.render('home', { title: 'Page Not Found!' });
+  return res.render('workspace');
 });
-
 
 /**
  * Errors handler, (prettify error)

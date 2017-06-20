@@ -24,6 +24,7 @@ const userSchema = new Schema({
   },
   lists: [{ type: Schema.Types.ObjectId, ref: 'lists' }]
 }, { timestamps: true });
+// TODO: Re design schema
 
 /**
  * Password hash middleware.

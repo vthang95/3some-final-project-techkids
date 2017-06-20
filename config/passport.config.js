@@ -1,7 +1,9 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
+const jwt = require('jsonwebtoken');
 
 const User = require('../src/api/users/User.model');
+const config = require('../config.json');
 
 passport.serializeUser((user, done) => {
   done(null, user.id);
@@ -30,3 +32,16 @@ passport.use(new LocalStrategy({ usernameField: 'email' },
     });
   }
 ));
+
+exports.signToken = user => {
+  return jwt.sign({id: user._id, username: user.username, email: user.email}, config.SESSION_SECRET);
+};
+
+exports.decodeToken = token => {
+  return jwt.verify(token, config.SESSION_SECRET);
+};
+
+exports.isAuthenticated = (req, res, next) => {
+  if (req.isAuthenticated()) return next()
+  return res.redirect('/login');
+};

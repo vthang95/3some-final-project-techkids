@@ -1,0 +1,130 @@
+*{
+	padding: 0;
+	margin: 0;
+}
+ul,li{
+	list-style: none;
+	color: #ffffff;
+}
+a,a:hover,a:active,a:visited,a:focus{
+	display:block;
+  text-decoration:none;
+	color: #ffffff;
+	vertical-align: center;
+}
+body{
+	background-color: #E0E0E0;
+}
+.interface{
+	display: flex;
+	margin: 0px 5px;
+}
+/*Global class css*/
+.dropdown-iconsize{
+	font-size: 12px;
+	margin-left: 5px;
+}
+/*Sidebar*/
+.no-transition{
+  -webkit-transition: height 0.01s;
+  -moz-transition: height 0.01s;
+  -ms-transition: height 0.01s;
+  -o-transition: height 0.01s;
+  transition: height 0.01s;
+}
+.sidebar{
+	width: 260px;
+	background-color: #008975;
+	height: 100vh;
+	box-shadow: 1px 0px 1px #888888;
+}
+.sidebtn{
+	background-color: transparent;
+	width: 50px;
+	border: 0;
+}
+
+.sidebtn i{
+	font-size: 20px;
+}
+.sidebar > div{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+.logo{
+	height: 50px;
+	justify-content: center;
+}
+.logo a{
+	margin: 15px 0;
+}
+.avatar img{
+	width: 100px;
+	border-radius: 50px;
+	margin-top: 15px;
+}
+.user .border-bottom,.user .border-top{
+	width: 200px;
+	height: 1px;
+	background: #ffffff;
+}
+.info{
+	margin: 15px 0;
+}
+.info div{
+	text-align: center
+}
+.menu{
+	margin-top: 15px;
+}
+.menu {
+	width: 100%;
+	/*background-color: #ffffff;*/
+}
+.menu-clickdrop > a{
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	margin: 10px 15px 0;
+	padding: 10px 15px;
+	font-size: 22px;
+	position: relative;
+	border-radius: 5px;
+}
+.menu-clickdrop i{
+	font-size: 23px;
+	margin-right: 10px;
+}
+.menu-dropdown{
+	margin-top: 10px;
+}
+
+.menu-dropdown a{
+	margin: 10px 15px;
+	margin-top: 10px;
+	padding: 10px 15px 10px 48px;
+	font-size: 18px;
+	border-radius: 5px;
+}
+.menu-clickdrop a:hover, .menu-dropdown a:hover{
+	background-color: rgba(262,262,262,0.5);
+}
+/*header bar*/
+.header{
+	width: 100%;
+	background-color: #00AA8D;
+	height: 50px;
+	display: flex;
+	align-items: center;
+	position: relative;
+}
+.header span{
+	display: flex;
+	align-items: center;
+	font-size: 25px;
+	height: 100%;
+	vertical-align: middle;
+	margin-left: 15px;
+	color: #ffffff;
+}
