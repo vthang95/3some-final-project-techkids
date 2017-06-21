@@ -1,28 +1,39 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-
-import Task from '../../components/Task.component';
 
 class ListOfTasks extends Component {
   renderTask() {
-    return (
-      this.props.lists.tasks.map(task => (
-        <li>{task.name}</li>
-      ));
-    );
+    return this.props.tasks.map(task => (
+      <li key={task._id} style={style.task}>{task.name}</li>
+    ));
   }
-  reder() {
+  render() {
+    console.log(this.props);
+    if (this.props.tasks.length === 0) return (<div>Loading...</div>);
+    console.log(this.props);
     return (
-      <div>
-        {this.renderTask()}
+      <div className="col-md-3" style={style.div}>
+        <ul>
+          Hello
+          {this.renderTask()}
+        </ul>
       </div>
     );
   }
 }
 
-function mapStateToProps({ lists }) {
-  return { lists };
+const style = {
+  task: {
+    color: '#000',
+    marginTop: '30px',
+    marginLeft: '300px'
+  },
+  div: {
+  }
+}
+
+function mapStateToProps({ tasks }) {
+  return { tasks };
 }
 
 export default connect(mapStateToProps)(ListOfTasks);

@@ -19,7 +19,7 @@ exports.addTask = (req, res) => {
   newTask.save((err) => {
     if(err) {
       console.log(err);
-      return res.json({ error_msg: 'Something is wrong!' });
+      return res.json({ error_msg: 'Something went wrong!' });
     }
     return res.json({ success_msg: 'Add Task success!' });
   });
@@ -32,10 +32,20 @@ exports.addTask = (req, res) => {
     }
     if(!doc){
       Task.remove({ _id: newTask.id });
-      return res.json({ error_msg: 'Can not find owner' })
+      return res.json({ error_msg: 'Can not find owner!' })
     }
   })
 
+};
+
+exports.getTaskByListId = (req, res) => {
+  console.log(req.params)
+  let list_id = req.params.list_id;
+
+  Task.find({ listIn: list_id }, (err, doc) => {
+    if (err) return res.json({ error_msg: 'An error occurred!' });
+    return res.json(doc)
+  });
 };
 
 exports.updateTask = (req, res) => {

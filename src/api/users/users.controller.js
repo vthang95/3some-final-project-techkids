@@ -105,7 +105,7 @@ exports.getSearchUserByEmail = (req, res) => {
         console.log(err);
         return res.json({ error_msg: 'An error occurred!' });
       }
-      res.json(docs);
+      return res.json(docs);
     });
 };
 

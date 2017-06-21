@@ -18,6 +18,6 @@ exports.getSignupPage = (req, res) => {
 };
 
 exports.getWorkspacePage = (req, res) => {
-  if (!req.user) res.redirect('/login');
+  if (!req.user) return res.redirect('/login');
   return res.render('workspace', { title: 'Workspace' });
 };

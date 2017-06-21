@@ -21,5 +21,10 @@ export function fetchLists() {
 }
 
 export function fetchTasks(list) {
-  let url = 'http://localhost:7000/api/tasks/get'
+  let url = `http://localhost:7000/api/tasks/${list._id}`;
+  let response = axios.get(url);
+  return {
+    type: 'FETCH_TASK',
+    payload: response
+  }
 }

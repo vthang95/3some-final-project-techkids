@@ -40,7 +40,7 @@ exports.postList = (req, res) => {
 
 exports.getListByOwnerId = (req, res) => {
   let ownerId = req.query.userid;
-  List.find({ owner: ownerId }).populate('owner').populate('members').populate('tasks').exec((err, doc) => {
+  List.find({ owner: ownerId }).exec((err, doc) => {
     if(err){
       console.log(err);
       return res.json({ error_msg: 'An error occurred!'});
@@ -53,15 +53,20 @@ exports.getListByOwnerId = (req, res) => {
 
 exports.getListById = (req, res) => {
   let id = req.query.id;
-  List.find({ _id: id }).populate('owner').populate('members').populate('tasks').exec((err, doc) => {
-    if(err){
-      console.log(err);
-      return res.json({ error_msg: 'An error occurred!'});
-    }
-    if(!doc) return res.json({ msg: 'Find not found!' });
+  List.find({ _id: id })
+    .populate('owner')
+    .populate('members')
+    .populate('tasks')
+    .exec((err, doc) => {
+      if(err){
+        console.log(err);
+        return res.json({ error_msg: 'An error occurred!'});
+      }
+      if(!doc) return res.json({ msg: 'Find not found!' });
 
-    return res.json(doc);
-  });
+      return res.json(doc);
+    }
+  );
 }
 
 // id: ObjectId

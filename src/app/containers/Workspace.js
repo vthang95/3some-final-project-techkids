@@ -4,13 +4,17 @@ import { Link } from 'react-router-dom';
 
 import SidebarContainer from './Sidebar/Sidebar.container';
 import Header from './Header/Header.container';
+import ListOfTasks from './ListOfTasks/ListOfTasks.container';
 
 class Workspace extends Component {
   render() {
     return (
-      <div style={style.wrap}>
+      <div className="container-fluid" style={style.wrap}>
         <Header />
-        <SidebarContainer style={style.sidebar} />
+        <div className="row">
+          <SidebarContainer style={style.sidebar} />
+          <ListOfTasks />
+        </div>
       </div>
     );
   }
