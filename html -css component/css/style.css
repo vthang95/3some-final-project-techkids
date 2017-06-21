@@ -1,130 +1,199 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:300i,400&subset=vietnamese');
 *{
 	padding: 0;
 	margin: 0;
 }
 ul,li{
-	list-style: none;
-	color: #ffffff;
+	list-style-type: none;
+	margin: 0;
+	font-family: 'Roboto', sans-serif;
 }
 a,a:hover,a:active,a:visited,a:focus{
-	display:block;
   text-decoration:none;
-	color: #ffffff;
-	vertical-align: center;
+	color: #616161;
+	cursor: pointer;
+	font-family: 'Roboto', sans-serif;
+}
+textarea:focus, input:focus{
+    outline: none;
 }
 body{
-	background-color: #E0E0E0;
+	background-color: #F4F4F4;
 }
-.interface{
+.flex-row{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.flex-row-start{
 	display: flex;
-	margin: 0px 5px;
+  align-items: center;
+  justify-content: flex-start;
 }
-/*Global class css*/
-.dropdown-iconsize{
-	font-size: 12px;
+.flex-column{
+  display: flex;
+  flex-direction: column;
+}
+.flex-column-center{
+	display: flex;
+  flex-direction: column;
+	align-items: center;
+}
+.position-vertical{
+	position: absolute;
+	top: 50%;
+	transform: translate(0,-50%);
+}
+/*interface*/
+.interface{
+
+}
+
+/*Side-bar*/
+.sidebar{
+	background-color: #343645;
+	height: 100vh;
+	padding: 0;
+}
+.userControl{
+	background-color: #A589D4;
+	height: 11%;
+}
+.userControl img{
+	width: 60px;
+	border-radius: 50%;
 	margin-left: 5px;
 }
-/*Sidebar*/
-.no-transition{
-  -webkit-transition: height 0.01s;
-  -moz-transition: height 0.01s;
-  -ms-transition: height 0.01s;
-  -o-transition: height 0.01s;
-  transition: height 0.01s;
+.userControl a{
+	position: relative;
+	margin-left: 10px;
+	color: #FAEDFF;
 }
-.sidebar{
-	width: 260px;
-	background-color: #008975;
+.userControl a svg{
+	left: 85px;
+}
+.sidebarComponent{
+	height: 89%;
+}
+.sidebarComponent ul{
+	height: 40vh;
+	margin-top: 10px;
+}
+.sidebarComponent > ul > li{
+	flex-grow: 1;
+}
+.sidebarComponent ul li a{
+	display: flex;
+	align-items: center;
+	width: 100%;
+	font-size: 14px;
+	text-transform: uppercase;
+	color: #91939F;
+	font-weight: bold;
+}
+.sidebarComponent ul li a i{
+	font-size: 30px;
+	margin: 0 25px;
+}
+/*Content*/
+.content{
 	height: 100vh;
-	box-shadow: 1px 0px 1px #888888;
+	padding: 0;
 }
-.sidebtn{
-	background-color: transparent;
-	width: 50px;
-	border: 0;
-}
-
-.sidebtn i{
-	font-size: 20px;
-}
-.sidebar > div{
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-}
-.logo{
-	height: 50px;
-	justify-content: center;
-}
-.logo a{
-	margin: 15px 0;
-}
-.avatar img{
-	width: 100px;
-	border-radius: 50px;
-	margin-top: 15px;
-}
-.user .border-bottom,.user .border-top{
-	width: 200px;
-	height: 1px;
-	background: #ffffff;
-}
-.info{
-	margin: 15px 0;
-}
-.info div{
-	text-align: center
-}
-.menu{
-	margin-top: 15px;
-}
-.menu {
-	width: 100%;
-	/*background-color: #ffffff;*/
-}
-.menu-clickdrop > a{
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	margin: 10px 15px 0;
-	padding: 10px 15px;
-	font-size: 22px;
-	position: relative;
-	border-radius: 5px;
-}
-.menu-clickdrop i{
-	font-size: 23px;
-	margin-right: 10px;
-}
-.menu-dropdown{
-	margin-top: 10px;
-}
-
-.menu-dropdown a{
-	margin: 10px 15px;
-	margin-top: 10px;
-	padding: 10px 15px 10px 48px;
-	font-size: 18px;
-	border-radius: 5px;
-}
-.menu-clickdrop a:hover, .menu-dropdown a:hover{
-	background-color: rgba(262,262,262,0.5);
-}
-/*header bar*/
+	/*Header*/
 .header{
-	width: 100%;
-	background-color: #00AA8D;
-	height: 50px;
-	display: flex;
-	align-items: center;
+	height: 11%;
+	background-color: #ffffff;
+	box-shadow: 0px 2px 5px #E9E9E9;
 	position: relative;
+}
+.header .sidebarToggle{
+	font-size: 30px;
+	color: #91939F;
+	margin: 0 15px;
 }
 .header span{
-	display: flex;
-	align-items: center;
-	font-size: 25px;
+	font-family: 'Roboto', sans-serif;
+	font-size: 30px;
+	font-weight: bold;
+	color: #91939F;
+}
+.headerButton{
+	right: 50px;
+	background-color: #343545;
+}
+/*Content-box*/
+.content-box{
+	height: 89%;
+	padding: 15px 15px 15px 0;
+}
+.content-box > div{
+	height: 70%;
+	padding: 0;
+}
+.friendList, .activities{
+ 	margin: 0 0 0 15px;
 	height: 100%;
-	vertical-align: middle;
-	margin-left: 15px;
-	color: #ffffff;
+	background-color: #ffffff;
+	box-shadow: 2px 2px 5px #E9E9E9;
+}
+.friendList .title, .activities .title{
+	height: 15%;
+	padding-left: 25px;
+	position: relative;
+	display: flex;
+	align-items: flex-end;
+}
+.friendList .title span, .activities .title span{
+	font-size: 20px;
+	text-transform: uppercase;
+	padding-bottom: 5px;
+	color: #91939F;
+}
+.friendList .title:before, .activities .title:before{
+	content : "";
+  position: absolute;
+  left    : 25px;
+  bottom  : 0;
+  height  : 1px;
+  width   : 80%;
+  border-bottom: 2px solid #F4F4F4;
+}
+.activities .title:before{
+	content : "";
+  position: absolute;
+  left    : 25px;
+  bottom  : 0;
+  height  : 1px;
+  width   : 95%;
+  border-bottom: 2px solid #F4F4F4;
+}
+.friendList ul{
+	height: 70%;
+	padding-left: 10%;
+	padding-top: 5px;
+}
+.friendList ul > li, .friend-info > span{
+	flex-grow: 1;
+}
+.friendList ul > li > img{
+	width: 40px;
+	border-radius: 50%;
+	margin-right: 10px;
+}
+.friendInfo{
+	height: 100%;
+}
+.friendInfo .name{
+	font-weight: bold;
+}
+.friendInfo .place{
+	color: #B3B3B3;
+}
+.friendButton{
+	height: 15%;
+}
+.friendButton a{
+	width: 150px;
+	background-color: #CFCFCF;
 }
