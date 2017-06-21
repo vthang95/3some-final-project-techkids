@@ -3,10 +3,15 @@ extends ../layout
 block content
   include ../partials/header
   .container
-    .page-header
+    .page-header.view-fix
+      include ../partials/flash
       h3 Sign up
     form.form-horizontal(id='signup-form',action='/api/users/signup', method='POST')
       input(type='hidden', name='_csrf', value=_csrf)
+      .form-group
+        label.col-sm-3.control-label(for='username') Username
+        .col-sm-7
+          input.form-control(type='username', name='username', id='username', placeholder='Username', autofocus, required)
       .form-group
         label.col-sm-3.control-label(for='email') Email
         .col-sm-7

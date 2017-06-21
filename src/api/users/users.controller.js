@@ -6,18 +6,22 @@ const User = require('./User.model');
 const passportConfig = require("../../../config/passport.config");
 
 exports.postLogin = (req, res, next) => {
-  req.assert('email', '! Email cannot be blank').notEmpty();
-  req.assert('email', '! Email is not valid').isEmail();
+  req.assert('login', '! Username/Email cannot be blank').notEmpty();
   req.assert('password', '! Password cannot be blank').notEmpty();
-  req.sanitize('email').normalizeEmail({ remove_dots: false });
 
   let errors = req.validationErrors();
 
-  if (errors) return res.json(errors);
+  if (errors) {
+    req.flash('errors', errors);
+    return res.redirect('/login');
+  };
 
   passport.authenticate('local', (err, user, info) => {
     if (err) return next(err);
-    if (!user) return res.json({ info });
+    if (!user) {
+      req.flash('errors', info);
+      return res.redirect('/login');
+    };
     req.logIn(user, (err) => {
       if (err) return next(err);
       req.session.token = passportConfig.signToken(user);
@@ -31,9 +35,10 @@ exports.postLogin = (req, res, next) => {
 exports.postSignup = (req, res, next) => {
   // Phần này là của express-validation https://github.com/ctavan/express-validator
   // Từ form phía client gửi tới. Nếu name field nào có giá trị không hợp lệ sẽ được gắn lỗi vào req.validationErrors
-
+  req.assert('username', '! Username is required.').notEmpty();
+  req.assert('username', '! Username must be at least 4 characters.').len(4);
   req.assert('email', '! Email is required.').notEmpty();
-  req.assert('email', 'Email is not valid').isEmail();
+  req.assert('email', '! Email is not valid').isEmail();
   req.assert('password', '! Password is required.').notEmpty();
   req.assert('confirmPassword', '! Confirm Password is required.').notEmpty()  ;
   req.assert('password', '! Password must be at least 4 characters long.').len(4);
@@ -41,7 +46,10 @@ exports.postSignup = (req, res, next) => {
 
   // nếu có lỗi sẽ gán vào errors. và send error messages tới client
   const errors = req.validationErrors();
-  if (errors) return res.json({ error: errors });
+  if (errors) {
+    req.flash('errors', errors)
+    return res.redirect('/signup')
+  };
 
   let newUser = new User({
     username: req.body.username,
@@ -50,12 +58,23 @@ exports.postSignup = (req, res, next) => {
     confirmPassword: req.body.confirmPassword
   });
 
-  newUser.save((err) => {
+  User.findOne({ $or: [{'email': newUser.email}, {'username': newUser.username}] }, (err, existingUser) => {
     if (err) {
       console.log(err);
       return next(err);
     }
-    return res.json({ success_msg: 'Success!' });
+    if (existingUser)
+      req.flash('errors', { msg: 'Account with that email or username is already exists!' })
+      return res.redirect('/signup');
+
+    newUser.save((err) => {
+      if (err) {
+        console.log(err);
+        return next(err);
+      }
+      req.flash('success', { msg: 'Success! You can login now.' })
+      return res.redirect("/signin");
+    });
   });
 };
 

@@ -15,19 +15,19 @@ passport.deserializeUser((id, done) => {
   });
 });
 
-passport.use(new LocalStrategy({ usernameField: 'email' },
-  function(email, password, done) {
-    User.findOne({ email: email.toLowerCase() }, (err, user) => {
+passport.use(new LocalStrategy({ usernameField: 'login' },
+  function(login, password, done) {
+    User.findOne({ $or: [{ 'email': login.toLowerCase() }, { 'username': login }] }, (err, user) => {
       if (err) { return done(err); }
       if (!user) {
-        return done(null, false, { msg: `Email ${email} not found.` });
+        return done(null, false, { msg: `! Username/Email "${login}" not found.` });
       }
       user.comparePassword(password, user.password, (err, isMatch) => {
         if (err) { return done(err); }
         if (isMatch) {
           return done(null, user);
         }
-        return done(null, false, { msg: 'Invalid email or password.' });
+        return done(null, false, { msg: 'Invalid username/email or password.' });
       });
     });
   }

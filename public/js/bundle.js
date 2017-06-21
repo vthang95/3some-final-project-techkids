@@ -8353,7 +8353,7 @@ function fetchUser() {
 }
 
 function fetchLists() {
-  var url = 'http://localhost:7000/api/lists/getall?userid=592d8a6aa5b7758baaa29df9';
+  var url = 'http://localhost:7000/api/lists/all/594aabfbfa3bc405fae6b0a3';
   var response = _axios2.default.get(url);
   return {
     type: 'FETCH_LIST',
