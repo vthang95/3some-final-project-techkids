@@ -35,16 +35,27 @@ exports.addTask = (req, res) => {
       return res.json({ success_msg: 'Add Task success!' });
     });
   })
+
+};
+
+exports.getTaskByListId = (req, res) => {
+  console.log(req.params)
+  let list_id = req.params.list_id;
+
+  Task.find({ listIn: list_id }, (err, doc) => {
+    if (err) return res.json({ error_msg: 'An error occurred!' });
+    return res.json(doc)
+  });
 };
 
 exports.updateTask = (req, res) => {
-  req.assert('id', '! id is required').notEmpty();
+  req.assert('task_id', '! task_id is required').notEmpty();
 
   const errors = req.validationErrors();
   if(errors) return res.json({ error: errors });
 
   let newInfo = {
-    id: req.body.id,
+    id: req.params.task_id,
     name: req.body.name,
     duaDate: req.body.duaDate,
     note: req.body.note,
@@ -52,6 +63,8 @@ exports.updateTask = (req, res) => {
     isStarred: req.body.isStarred,
     important: req.body.important
   }
+
+  console.log(newInfo);
 
   if(newInfo.name) {
     changeNameTask(newInfo.id, newInfo.name, (err) => {
@@ -92,26 +105,45 @@ exports.updateTask = (req, res) => {
   res.json({ msg: 'update task success' });
 };
 
-exports.putComment = (req, res) => {
-  req.assert('taskId', '! id is required').notEmpty();
+exports.postComment = (req, res) => {
+  req.assert('task_id', '! task_id is required').notEmpty();
   req.assert('userId', '! userId is required').notEmpty();
   req.assert('comment', '! comment is required').notEmpty();
   const errors = req.validationErrors();
   if(errors) return res.json({ error: errors });
 
   let info = {
-    taskId: req.body.taskId,
+    taskId: req.params.task_id,
     userId: req.body.userId,
     comment: req.body.comment
   }
-  User.findOne({ _id: userId }, (err, doc) => {
+  console.log(info);
+  User.findOne({ _id: info.userId }, (err, doc) => {
     if(err){
       console.log(err);
       res.json({ error_msg: 'Something wrong when find user!' });
+      return;
     }
-    if(!doc) res.json({ error_msg: 'User not found' });
+    if(!doc) {
+      res.json({ error_msg: 'User not found' });
+      return;
+    }
 
-    Task.findOneAndUpdate({ _id: taskId }, { $push: { comments: { comment: comment, commentBy: userId } } });
+    console.log(info.taskId);
+
+    Task.findOneAndUpdate(
+      { _id: info.taskId },
+      { $push: { comments: { comment: info.comment, commentBy: info.userId } } }
+    )
+    .exec((err, doc) => {
+      if(err){
+        console.log(err);
+        res.json({ error_msg: 'Something wrong when find task!' });
+        return;
+      }
+
+      res.json({ error_msg: 'add comment success' });
+    });
   })
 }
 

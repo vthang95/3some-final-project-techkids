@@ -36,16 +36,16 @@ exports.postList = (req, res) => {
 };
 
 exports.getListByOwnerId = (req, res) => {
-  req.assert('userid', '! userid is required').notEmpty();
+  req.assert('user_id', '! user_id is required').notEmpty();
 
   const errors = req.validationErrors();
   if(errors) return res.json({ error: errors });
 
-  let ownerId = req.query.userid;
+  let ownerId = req.params.user_id;
 
   List.find({ owner: ownerId })
-  .populate('owner')
-  .populate('members')
+  .populate('owner', 'email username')
+  .populate('members', 'email username')
   .exec((err, doc) => {
     if(err){
       console.log(err);
@@ -58,16 +58,16 @@ exports.getListByOwnerId = (req, res) => {
 };
 
 exports.getListById = (req, res) => {
-  req.assert('id', '! id is required').notEmpty();
+  req.assert('list_id', '! list_id is required').notEmpty();
 
   const errors = req.validationErrors();
   if(errors) return res.json({ error: errors });
 
-  let id = req.query.id;
+  let id = req.params.list_id;
 
-  List.find({ _id: id })
-  .populate('owner')
-  .populate('members')
+  List.find({ _id: id }, { __v: 0 })
+  .populate('owner', 'email username')
+  .populate('members', 'email username')
   .exec((err, doc) => {
     if(err){
       console.log(err);
@@ -82,26 +82,30 @@ exports.getListById = (req, res) => {
 // id: ObjectId
 // name: String
 exports.putName = (req, res) => {
-  req.assert('id', '! id is required').notEmpty();
+  req.assert('list_id', '! list_id is required').notEmpty();
   req.assert('name', '! name is required').notEmpty();
 
   const errors = req.validationErrors();
   if(errors) return res.json({ error_msg: errors });
 
   let newInfo = {
-    id: req.body.id,
+    id: req.params.list_id,
     name: req.body.name
   }
 
   if(newInfo.name) {
     changeNameList(newInfo.id, newInfo.name, (err) => {
-      if(err) res.json({ error_msg: err });
+      if(err) {
+        res.json({ error_msg: err });
+        return;
+      }
     })
   }
 
   res.json({ msg: 'update name of list success' });
 };
 
+//TODO: check xem co list ko
 var changeNameList = (id, newName, callback) => {
   List.update({ _id: id }, { $set: { name: newName } })
   .exec((err) => {
@@ -113,20 +117,20 @@ var changeNameList = (id, newName, callback) => {
 // name: String
 // members: array of member info (ObjectId or username or email)
 exports.putMembers = (req, res) => {
-  req.assert('id', '! id is required').notEmpty();
+  req.assert('list_id', '! list_id is required').notEmpty();
   req.assert('members', '! id is required').notEmpty();
 
   const errors = req.validationErrors();
   if(errors) return res.json({ error_msg: errors });
 
   let newInfo = {
-    id: req.body.id,
+    id: req.params.list_id,
     members: req.body.members
   }
 
   if(newInfo.members) {
     addMemberToList(newInfo.id, newInfo.members, (err) => {
-      if(err) res.json({ error_msg: err });
+      if(err) console.log(err);
     });
   }
 
@@ -134,11 +138,11 @@ exports.putMembers = (req, res) => {
 }
 
 var addMemberToList = (idList, members, callback) => {
-  if(typeof members != 'object' && members.length){
-    callback();
+  if(typeof members != 'object' || !members.length){
+    console.log('Member is empty');
+    callback('Member is empty');
     return;
   }
-
   members.forEach((memberInfo) => {
     if(mongoose.Types.ObjectId.isValid(memberInfo)) {
       User.findById(memberInfo)
@@ -183,22 +187,24 @@ var addMemberToList = (idList, members, callback) => {
 // name: String
 // member: member info (ObjectId or username or email)
 exports.removeMember = (req, res) => {
-  req.assert('id', '! id is required').notEmpty();
+  req.assert('list_id', '! list_id is required').notEmpty();
   req.assert('member', '! member is required').notEmpty();
 
   const errors = req.validationErrors();
   if(errors) return res.json({ error_msg: errors });
 
   let reqInfo = {
-    id: req.body.id,
+    id: req.params.list_id,
     member: req.body.member
   }
 
   if(reqInfo.member) {
-    addMemberToList(reqInfo.id, reqInfo.member, (err) => {
+    removeMemberFromList(reqInfo.id, reqInfo.member, (err) => {
       if(err) res.json({ error_msg: err });
     });
   }
+
+  res.json({ msg: 'remove members to list success' });
 }
 
 var removeMemberFromList = (idList, memberInfo, callback) => {
@@ -215,6 +221,7 @@ var removeMemberFromList = (idList, memberInfo, callback) => {
           { $pull: { members: doc._id } }
         )
         .exec((err) => {
+          console.log('hehe');
           callback(err);
         });
       }
@@ -246,7 +253,7 @@ exports.deleteListByObjId = (req, res) => {
   const errors = req.validationErrors();
   if(errors) return res.json({ error: errors });
 
-  List.remove({ id: req.body.id }).exec((err) => {
+  List.remove({ _id: req.body.id }).exec((err) => {
     if(err){
       console.log(err);
       res.json({ error_msg: err });
