@@ -14,10 +14,16 @@ class Header extends Component {
 
   render() {
     return (
-      <div className="row">
-        <div className='col-md-12 navbar navbar-default navbar-fixed-top navbar-fix'>
-          <div className='col-md-2 nav navbar-nav header-logo'>
-            Oh!List
+      <div className="navbar navbar-default navbar-fixed" style={style.navbar}>
+        <div className="container-fluid">
+          <div className="navbar-header">
+              <button type="button" className="navbar-toggle" data-toggle="collapse" data-target="#navigation-example-2">
+                  <span className="sr-only">Toggle navigation</span>
+                  <span className="icon-bar"></span>
+                  <span className="icon-bar"></span>
+                  <span className="icon-bar"></span>
+              </button>
+              <a className="navbar-brand" href="#">Dashboard</a>
           </div>
           <div className='col-sm-10 collapse navbar-collapse' style={style.align}>
             <ul className='nav navbar-nav navbar-right'>
@@ -57,14 +63,22 @@ const style = {
   },
   a: {
     textTransform: 'none',
-    cursor: 'pointer'
+    cursor: 'pointer',
+    paddingTop: '15px',
+    margin: '0px'
   },
   align: {
     position: 'absolute',
     right: '30px',
   },
   username: {
-    fontSize: '15px'
+    fontSize: '15px',
+  },
+  navbar: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    left: 0
   }
 }
 

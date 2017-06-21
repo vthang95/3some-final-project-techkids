@@ -52,13 +52,13 @@ body{
 	transform: translate(0,-50%);
 }
 /*Side bar*/
-.sidebar{
+/*.sidebar{
   position: absolute;
 	height: 100%;
 	background-color: rgb(51, 54, 68);
 	padding-left: 0px;
 	padding-right: 0px;
-}
+}*/
 .logo{
   height: 45px;
 	font-size: 30px;
