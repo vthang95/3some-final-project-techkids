@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const Task = require('./Task.model');
 const List = require('../lists/List.model');
+const User = require('../users/User.model');
 
 exports.addTask = (req, res) => {
   req.assert('name', '! Name is required').notEmpty();
@@ -16,17 +17,16 @@ exports.addTask = (req, res) => {
     isStarred: req.body.isStarred ? req.body.isStarred : false
   });
 
-  //Update List who have this newTask
-  List.findOneAndUpdate({ _id: newTask.listIn }, { $push: { tasks: newTask._id } }, (err, doc) => {
-    console.log(newTask);
+  //Find List who have this newTask
+  List.findOne({ _id: newTask.listIn }, (err, doc) => {
     if(err) {
       console.log(err);
-      return res.json({ error_msg: 'Something wrong!' })
+      return res.json({ error_msg: 'Something wrong!' });
     }
     if(!doc){
-      return res.json({ error_msg: 'Can not find owner' })
+      return res.json({ error_msg: 'Can not find owner' });
     }
-
+    //Found List, save Task
     newTask.save((err) => {
       if(err) {
         console.log(err);
@@ -35,7 +35,6 @@ exports.addTask = (req, res) => {
       return res.json({ success_msg: 'Add Task success!' });
     });
   })
-
 };
 
 exports.updateTask = (req, res) => {
@@ -51,8 +50,7 @@ exports.updateTask = (req, res) => {
     note: req.body.note,
     isDone: req.body.isDone,
     isStarred: req.body.isStarred,
-    important: req.body.important,
-    comment: req.body.comment
+    important: req.body.important
   }
 
   if(newInfo.name) {
@@ -91,14 +89,32 @@ exports.updateTask = (req, res) => {
     })
   }
 
-  if(newInfo.comment){
-    addCommentToTask(newInfo.id, newInfo.comment, (err) => {
-      if(err) res.json({ error_msg: err });
-    })
-  }
-
   res.json({ msg: 'update task success' });
 };
+
+exports.putComment = (req, res) => {
+  req.assert('taskId', '! id is required').notEmpty();
+  req.assert('userId', '! userId is required').notEmpty();
+  req.assert('comment', '! comment is required').notEmpty();
+  const errors = req.validationErrors();
+  if(errors) return res.json({ error: errors });
+
+  let info = {
+    taskId: req.body.taskId,
+    userId: req.body.userId,
+    comment: req.body.comment
+  }
+  User.findOne({ _id: userId }, (err, doc) => {
+    if(err){
+      console.log(err);
+      res.json({ error_msg: 'Something wrong when find user!' });
+    }
+    if(!doc) res.json({ error_msg: 'User not found' });
+
+    Task.findOneAndUpdate({ _id: taskId }, { $push: { comments: { comment: comment, commentBy: userId } } });
+  })
+}
+
 
 var changeNameTask = (id, newName, callback) => {
   Task.update({ _id: id }, { $set: { name: newName } }).exec((err) => {
@@ -133,12 +149,6 @@ var setIsStarred = (id, isStarredBoolean, callback) => {
 
 var setImportant = (id, importantNum, callback) => {
   Task.update({ _id: id }, { $set: { important: importantNum } }).exec((err) => {
-    callback();
-  })
-}
-
-var addCommentToTask = (id, commentObj, callback) => {
-  Task.update({ _id: id }, { $push: { comments: { comment: commentObj.comment, commentBy: commentObj.commentBy } } }).exec((err) => {
     callback();
   })
 }
