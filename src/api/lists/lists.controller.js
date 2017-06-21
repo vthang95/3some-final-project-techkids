@@ -75,8 +75,9 @@ exports.getListById = (req, res) => {
     }
     if(!doc) return res.json({ msg: 'Find not found!' });
 
-    return res.json(doc);
-  });
+      return res.json(doc);
+    }
+  );
 }
 
 // id: ObjectId

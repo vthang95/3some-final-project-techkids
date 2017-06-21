@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import MdFormatListBulleted from 'react-icons/lib/md/format-list-bulleted';
 
-import { fetchLists } from '../../actions/index';
+import { fetchLists, fetchTasks } from '../../actions/index';
 
 class SidebarContainer extends Component {
   componentWillMount() {
@@ -11,8 +11,9 @@ class SidebarContainer extends Component {
   }
 
   renderList() {
+    let _this = this;
     return this.props.lists.map(list => (
-      <li key={list._id} style={style.li} onClick={() => console.log('Click')}>
+      <li key={list._id} style={style.li} onClick={() => _this.props.fetchTasks(list)}>
         <MdFormatListBulleted style={style.icon} />
           {list.name}
           <span style={style.taskNumber}>
@@ -23,13 +24,16 @@ class SidebarContainer extends Component {
   }
 
   render() {
-    if (typeof this.props.lists.length == 'undefined') return (<div>Loading...</div>)
-    console.log(this.props.lists);
     return (
-      <div className="col-md-2 sidebar">
-        <div className="" style={{ marginTop: '53px' }}>
-          <ul style={{ paddingLeft: '-10px' }}>
-            {this.renderList()}
+      <div className="sidebar">
+        <div className="sidebar-wrapper">
+          <div className="logo" style={style.logo}>
+                <a href="/" className="simple-text">
+                    oh!List
+                </a>
+            </div>
+          <ul className="nav" style={style.nav}>
+            {typeof this.props.lists.length == 'undefined' ? <div>Loading...</div> : this.renderList()}
           </ul>
         </div>
       </div>
@@ -42,7 +46,7 @@ const style = {
     position: 'absolute',
     right: '7px',
     fontSize: '12px',
-    fontWeight: 'lighter'
+    fontWeight: 'light'
   },
   icon: {
     marginRight: '4px'
@@ -54,6 +58,14 @@ const style = {
     paddingTop: '8px',
     paddingBottom: '8px',
     cursor: 'pointer'
+  },
+  logo: {
+    padding: '9px 9px',
+    backgroundColor: '#a48cd3',
+    boxShadow: '0 0 3px rgba(0, 0, 0, 0.2)'
+  },
+  nav: {
+    marginTop: '0px'
   }
 }
 
@@ -62,7 +74,7 @@ function mapStateToProps({ lists }) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ fetchLists }, dispatch)
+  return bindActionCreators({ fetchLists, fetchTasks }, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SidebarContainer);
