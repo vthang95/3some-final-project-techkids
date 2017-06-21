@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-  email: { type: String, unique: true },
+  email: { type: String, unique: true, dropDups: true },
   password: { type: String, required: true },
   username: { type: String, unique: true },
   passwordResetToken: String,
@@ -22,7 +22,8 @@ const userSchema = new Schema({
     website: String,
     picture: String
   },
-  lists: [{ type: Schema.Types.ObjectId, ref: 'lists' }]
+
+  friends: [{ type: Schema.Types.ObjectId, ref: 'users' }]
 }, { timestamps: true });
 // TODO: Re design schema
 

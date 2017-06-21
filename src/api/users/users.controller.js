@@ -3,7 +3,6 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 
 const User = require('./User.model');
-const List = require('../lists/List.model');
 const passportConfig = require("../../../config/passport.config");
 
 exports.postLogin = (req, res, next) => {
@@ -29,27 +28,6 @@ exports.postLogin = (req, res, next) => {
   })(req, res, next);
 };
 
-//TODO: lấy id (hoặc user name, user mail) của user từ session
-exports.getAllList = (req, res) => {
-  //Tạm để req là username
-  let username = req.query.username;
-  User.findOne(
-    { username: username },
-    { lists: 1 }
-  ).populate('lists')
-  .populate('tasks')
-  .populate('members')
-  .exec((err, doc) => {
-    console.log('ádasdadassd');
-    if(err) {
-      console.log(err);
-      res.json({ error_msg: 'St wrong when get list!' });
-    }
-
-    res.json({ lists: doc.lists });
-  });
-}
-
 exports.postSignup = (req, res, next) => {
   // Phần này là của express-validation https://github.com/ctavan/express-validator
   // Từ form phía client gửi tới. Nếu name field nào có giá trị không hợp lệ sẽ được gắn lỗi vào req.validationErrors
@@ -72,22 +50,12 @@ exports.postSignup = (req, res, next) => {
     confirmPassword: req.body.confirmPassword
   });
 
-  // Tìm xem nếu trong db đã có username hay email này chưa? Nếu có rồi thì trả msg đã tồn tại. k thì Success!
-  User.findOne({ $or: [{'email': newUser.email}, {'username': newUser.username}] }, (err, existingUser) => {
+  newUser.save((err) => {
     if (err) {
       console.log(err);
       return next(err);
     }
-    if (existingUser)
-      return res.json({ error_msg: 'Account with that email or username is already exists!'});
-
-    newUser.save((err) => {
-      if (err) {
-        console.log(err);
-        return next(err);
-      }
-      return res.json({ success_msg: 'Success!' });
-    });
+    return res.json({ success_msg: 'Success!' });
   });
 };
 

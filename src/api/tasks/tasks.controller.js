@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const Task = require('./Task.model');
 const List = require('../lists/List.model');
+const User = require('../users/User.model');
 
 exports.addTask = (req, res) => {
   req.assert('name', '! Name is required').notEmpty();
@@ -16,24 +17,23 @@ exports.addTask = (req, res) => {
     isStarred: req.body.isStarred ? req.body.isStarred : false
   });
 
-  newTask.save((err) => {
+  //Find List who have this newTask
+  List.findOne({ _id: newTask.listIn }, (err, doc) => {
     if(err) {
       console.log(err);
-      return res.json({ error_msg: 'Something went wrong!' });
-    }
-    return res.json({ success_msg: 'Add Task success!' });
-  });
-  //Update List who have this newTask
-  List.findOneAndUpdate({ _id: newTask.listIn }, { $push: { tasks: newTask._id } }, (err, doc) => {
-    if(err) {
-      console.log(err);
-      Task.remove({ _id: newTask.id });
-      return res.json({ error_msg: 'Something wrong!' })
+      return res.json({ error_msg: 'Something wrong!' });
     }
     if(!doc){
-      Task.remove({ _id: newTask.id });
-      return res.json({ error_msg: 'Can not find owner!' })
+      return res.json({ error_msg: 'Can not find owner' });
     }
+    //Found List, save Task
+    newTask.save((err) => {
+      if(err) {
+        console.log(err);
+        return res.json({ error_msg: 'Something is wrong!' });
+      }
+      return res.json({ success_msg: 'Add Task success!' });
+    });
   })
 
 };
@@ -49,21 +49,22 @@ exports.getTaskByListId = (req, res) => {
 };
 
 exports.updateTask = (req, res) => {
-  req.assert('id', '! id is required').notEmpty();
+  req.assert('task_id', '! task_id is required').notEmpty();
 
   const errors = req.validationErrors();
   if(errors) return res.json({ error: errors });
 
   let newInfo = {
-    id: req.body.id,
+    id: req.params.task_id,
     name: req.body.name,
     duaDate: req.body.duaDate,
     note: req.body.note,
     isDone: req.body.isDone,
     isStarred: req.body.isStarred,
-    important: req.body.important,
-    comment: req.body.comment
+    important: req.body.important
   }
+
+  console.log(newInfo);
 
   if(newInfo.name) {
     changeNameTask(newInfo.id, newInfo.name, (err) => {
@@ -101,14 +102,51 @@ exports.updateTask = (req, res) => {
     })
   }
 
-  if(newInfo.comment){
-    addCommentToTask(newInfo.id, newInfo.comment, (err) => {
-      if(err) res.json({ error_msg: err });
-    })
-  }
-
   res.json({ msg: 'update task success' });
 };
+
+exports.postComment = (req, res) => {
+  req.assert('task_id', '! task_id is required').notEmpty();
+  req.assert('userId', '! userId is required').notEmpty();
+  req.assert('comment', '! comment is required').notEmpty();
+  const errors = req.validationErrors();
+  if(errors) return res.json({ error: errors });
+
+  let info = {
+    taskId: req.params.task_id,
+    userId: req.body.userId,
+    comment: req.body.comment
+  }
+  console.log(info);
+  User.findOne({ _id: info.userId }, (err, doc) => {
+    if(err){
+      console.log(err);
+      res.json({ error_msg: 'Something wrong when find user!' });
+      return;
+    }
+    if(!doc) {
+      res.json({ error_msg: 'User not found' });
+      return;
+    }
+
+    console.log(info.taskId);
+
+    Task.findOneAndUpdate(
+      { _id: info.taskId },
+      { $push: { comments: { comment: info.comment, commentBy: info.userId } } }
+    )
+    .exec((err, doc) => {
+      if(err){
+        console.log(err);
+        res.json({ error_msg: 'Something wrong when find task!' });
+        return;
+      }
+
+      res.json({ error_msg: 'add comment success' });
+    });
+  })
+}
+
 
 var changeNameTask = (id, newName, callback) => {
   Task.update({ _id: id }, { $set: { name: newName } }).exec((err) => {
@@ -143,12 +181,6 @@ var setIsStarred = (id, isStarredBoolean, callback) => {
 
 var setImportant = (id, importantNum, callback) => {
   Task.update({ _id: id }, { $set: { important: importantNum } }).exec((err) => {
-    callback();
-  })
-}
-
-var addCommentToTask = (id, commentObj, callback) => {
-  Task.update({ _id: id }, { $push: { comments: { comment: commentObj.comment, commentBy: commentObj.commentBy } } }).exec((err) => {
     callback();
   })
 }
