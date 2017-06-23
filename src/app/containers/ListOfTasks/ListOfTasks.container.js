@@ -63,7 +63,7 @@ class ListOfTasks extends Component {
             </Grid>
             <Collapse in={this.state.open}>
               <div>
-                <FormGroup bsSize="small" style={{ marginBottom: '0px', paddingTop: '5px' }}>
+                <FormGroup bsSize="small" style={{ marginBottom: '0px', paddingTop: '5px', borderTop: '1px solid #ddd', marginTop: '10px' }}>
                   <FormControl
                     type="text"
                     value={this.state.value}

@@ -13,7 +13,6 @@ class Workspace extends Component {
       <div className="wrapper">
         <SidebarContainer style={style.sidebar} />
         <div className="main-panel">
-          <Header />
           <div className="content" style={style.content}>
             <div className="container-fluid">
               <div className="row">
@@ -22,6 +21,7 @@ class Workspace extends Component {
               </div>
             </div>
           </div>
+          <Header />
         </div>
       </div>
     );
