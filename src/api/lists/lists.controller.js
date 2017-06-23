@@ -6,41 +6,47 @@ const List = require('./List.model');
 const User = require('../users/User.model');
 
 exports.postList = (req, res) => {
-  req.assert('name', '! Name is required').notEmpty();
-  req.assert('owner', '! Owner is required. If testing, check database to get ObjectId of User model ').notEmpty();
+  req.assert('name', '! name is required').notEmpty();
+  req.assert('owner', '! owner is required. If testing, check database to get ObjectId of User model ').notEmpty();
 
   const errors = req.validationErrors();
   if(errors) return res.json({ error: errors });
 
   let newList = new List({
-    name: req.body.name,
+    name : req.body.name,
     owner: req.body.owner
   });
 
-  newList.save((err) => {
-    if(err) {
+  User.findOne({ _id: newList.owner }, (err, doc) => {
+    if(err){
       console.log(err);
-      return res.json({ error_msg: 'An error occurred!'});
+      return res.json({ error_msg: 'Something wrong!' })
     }
-
-    User.findOneAndUpdate({ _id: newList.owner }, { $push: { lists: newList._id } }, (err, doc) => {
-      if(err){
+    if(!doc){
+      return res.json({ error_msg: 'Can not find owner' })
+    }
+    newList.save((err) => {
+      if(err) {
         console.log(err);
-        List.remove({ _id: newList._id });
-        return res.json({ error_msg: 'Something wrong!' })
+        return res.json({ error_msg: 'An error occurred!'});
       }
-      if(!doc){
-        List.remove({ _id: newList._id });
-        return res.json({ error_msg: 'Can not find owner' })
-      }
-    })
-    return res.json({ success_msg: 'Add list success!' });
-  });
+      return res.json({ success_msg: 'Add list success!' });
+    });
+  })
 };
 
 exports.getListByOwnerId = (req, res) => {
-  let ownerId = req.query.userid;
-  List.find({ owner: ownerId }).exec((err, doc) => {
+  req.assert('user_id', '! user_id is required').notEmpty();
+
+  const errors = req.validationErrors();
+  if(errors) return res.json({ error: errors });
+
+  let ownerId = req.params.user_id;
+
+  List.find({ owner: ownerId })
+  .populate('owner', 'email username')
+  .populate('members', 'email username')
+  .exec((err, doc) => {
     if(err){
       console.log(err);
       return res.json({ error_msg: 'An error occurred!'});
@@ -52,17 +58,22 @@ exports.getListByOwnerId = (req, res) => {
 };
 
 exports.getListById = (req, res) => {
-  let id = req.query.id;
-  List.find({ _id: id })
-    .populate('owner')
-    .populate('members')
-    .populate('tasks')
-    .exec((err, doc) => {
-      if(err){
-        console.log(err);
-        return res.json({ error_msg: 'An error occurred!'});
-      }
-      if(!doc) return res.json({ msg: 'Find not found!' });
+  req.assert('list_id', '! list_id is required').notEmpty();
+
+  const errors = req.validationErrors();
+  if(errors) return res.json({ error: errors });
+
+  let id = req.params.list_id;
+
+  List.find({ _id: id }, { __v: 0 })
+  .populate('owner', 'email username')
+  .populate('members', 'email username')
+  .exec((err, doc) => {
+    if(err){
+      console.log(err);
+      return res.json({ error_msg: 'An error occurred!'});
+    }
+    if(!doc) return res.json({ msg: 'Find not found!' });
 
       return res.json(doc);
     }
@@ -71,52 +82,175 @@ exports.getListById = (req, res) => {
 
 // id: ObjectId
 // name: String
-// members: array
-exports.updateList = (req, res) => {
-  req.assert('id', '! id is required').notEmpty();
+exports.putName = (req, res) => {
+  req.assert('list_id', '! list_id is required').notEmpty();
+  req.assert('name', '! name is required').notEmpty();
 
   const errors = req.validationErrors();
   if(errors) return res.json({ error_msg: errors });
 
   let newInfo = {
-    id: req.body.id,
-    name: req.body.name,
-    members: req.body.members
+    id: req.params.list_id,
+    name: req.body.name
   }
 
   if(newInfo.name) {
     changeNameList(newInfo.id, newInfo.name, (err) => {
-      if(err) res.json({ error_msg: err });
+      if(err) {
+        res.json({ error_msg: err });
+        return;
+      }
     })
   }
 
-  if(newInfo.members) {
-    addMemberToList(newInfo.id, newInfo.members, (err) => {
-      if(err) res.json({ error_msg: err });
-    });
-  }
-
-  res.json({ msg: 'update list success' });
+  res.json({ msg: 'update name of list success' });
 };
 
+//TODO: check xem co list ko
 var changeNameList = (id, newName, callback) => {
-  List.update({ _id: id }, { $set: { name: newName } }).exec((err) => {
+  List.update({ _id: id }, { $set: { name: newName } })
+  .exec((err) => {
     callback(err);
   });
 };
 
-//TODO:Kiểm tra người dùng có tồn tại không
-var addMemberToList = (idList, members, callback) => {
-  List
-    .update({ _id: idList }, { $addToSet: { members: { $each: members} } })
-    .exec((err) => {
-      callback(err);
+// id: ObjectId
+// name: String
+// members: array of member info (ObjectId or username or email)
+exports.putMembers = (req, res) => {
+  req.assert('list_id', '! list_id is required').notEmpty();
+  req.assert('members', '! id is required').notEmpty();
+
+  const errors = req.validationErrors();
+  if(errors) return res.json({ error_msg: errors });
+
+  let newInfo = {
+    id: req.params.list_id,
+    members: req.body.members
+  }
+
+  if(newInfo.members) {
+    addMemberToList(newInfo.id, newInfo.members, (err) => {
+      if(err) console.log(err);
     });
+  }
+
+  res.json({ msg: 'put members to list success' });
+}
+
+var addMemberToList = (idList, members, callback) => {
+  if(typeof members != 'object' || !members.length){
+    console.log('Member is empty');
+    callback('Member is empty');
+    return;
+  }
+  members.forEach((memberInfo) => {
+    if(mongoose.Types.ObjectId.isValid(memberInfo)) {
+      User.findById(memberInfo)
+      .exec((err, doc) => {
+        if(err){
+          console.log(err);
+          callback(err);
+        }
+        if(doc){
+          List.update(
+            { _id: idList },
+            { $addToSet: { members: doc._id } }
+          )
+          .exec((err) => {
+            callback(err);
+          });
+        }
+      });
+    }
+    else {
+      User.findOne({ $or: [{'email': memberInfo}, {'username': memberInfo}] })
+      .exec((err, doc) => {
+        if(err){
+          console.log(err);
+          callback(err);
+        }
+        if(doc){
+          List.update(
+            { _id: idList },
+            { $addToSet: { members: doc._id } }
+          )
+          .exec((err) => {
+            callback(err);
+          });
+        }
+      });
+    }
+  });
+}
+
+// id: ObjectId
+// name: String
+// member: member info (ObjectId or username or email)
+exports.removeMember = (req, res) => {
+  req.assert('list_id', '! list_id is required').notEmpty();
+  req.assert('member', '! member is required').notEmpty();
+
+  const errors = req.validationErrors();
+  if(errors) return res.json({ error_msg: errors });
+
+  let reqInfo = {
+    id    : req.params.list_id,
+    member: req.body.member
+  }
+
+  if(reqInfo.member) {
+    removeMemberFromList(reqInfo.id, reqInfo.member, (err) => {
+      if(err) res.json({ error_msg: err });
+    });
+  }
+
+  res.json({ msg: 'remove members to list success' });
+}
+
+var removeMemberFromList = (idList, memberInfo, callback) => {
+  if(mongoose.Types.ObjectId.isValid(memberInfo)) {
+    User.findById(memberInfo).exec((err, doc) => {
+      if(err){
+        console.log(err);
+        callback(err);
+      }
+      if(doc){
+        List.update({ _id: idList }, { $pull: { members: doc._id }}).exec((err) => {
+          console.log('hehe');
+          callback(err);
+        });
+      }
+    });
+  }
+  else {
+    User.findOne({ $or: [{'email': memberInfo}, {'username': memberInfo}] })
+    .exec((err, doc) => {
+      if (err) {
+        console.log(err);
+        callback(err);
+      }
+      if (doc) {
+        List.update({ _id: idList }, { $pull: { members: doc._id }}).exec((err) => {
+          console.log(err);
+          callback(err);
+        });
+      }
+    });
+  }
 }
 
 exports.deleteListByObjId = (req, res) => {
-  List.remove({ id: req.body.id }).exec((err) => {
-    if(err) res.json({ error_msg: err });
+  req.assert('id', '! id is required').notEmpty();
+
+  const errors = req.validationErrors();
+  if(errors) return res.json({ error: errors });
+
+  List.remove({ _id: req.body.id }).exec((err) => {
+    if(err){
+      console.log(err);
+      res.json({ error_msg: err });
+    }
     res.json({ msg: "Delete list success" });
   })
 };

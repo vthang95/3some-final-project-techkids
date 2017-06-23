@@ -3,14 +3,15 @@ extends ../layout
 block content
   include ../partials/header
   .container
-    .page-header
+    .page-header.view-fix
+      include ../partials/flash
       h3 Sign in
     form.form-horizontal(action="/api/users/login", method='POST')
       input(type='hidden', name='_csrf', value=_csrf)
       .form-group
-        label.col-sm-3.control-label(for='email') Email
+        label.col-sm-3.control-label(for='email') Username/Email
         .col-sm-7
-          input.form-control(type='email', name='email', id='email', placeholder='Email', autofocus, required)
+          input.form-control(name='login', id='login', placeholder='Username/Email', autofocus, required)
       .form-group
         label.col-sm-3.control-label(for='password') Password
         .col-sm-7

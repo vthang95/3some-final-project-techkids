@@ -15,10 +15,10 @@ class SidebarContainer extends Component {
     return this.props.lists.map(list => (
       <li key={list._id} style={style.li} onClick={() => _this.props.fetchTasks(list)}>
         <MdFormatListBulleted style={style.icon} />
-          {list.name}
-          <span style={style.taskNumber}>
-            {list.tasks.length}
-          </span>
+        {list.name}
+        <span style={style.taskNumber}>
+          {list.tasks.length}
+        </span>
       </li>
     ))
   }
@@ -60,7 +60,8 @@ const style = {
     cursor: 'pointer'
   },
   logo: {
-    padding: '9px 9px',
+    paddingTop: '10px',
+    paddingBottom: '9px',
     backgroundColor: '#a48cd3',
     boxShadow: '0 0 3px rgba(0, 0, 0, 0.2)'
   },

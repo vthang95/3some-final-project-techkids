@@ -188,6 +188,9 @@ body{
 	justify-content: space-between;
 }
 
+.view-fix {
+	margin: 90px;
+}
 
 /*Content-Body*/
 /*.content-body{

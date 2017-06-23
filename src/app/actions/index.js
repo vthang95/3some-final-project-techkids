@@ -12,7 +12,7 @@ export function fetchUser() {
 }
 
 export function fetchLists() {
-  let url = 'http://localhost:7000/api/lists/getall?userid=592d8a6aa5b7758baaa29df9'
+  let url = 'http://localhost:7000/api/lists/all/594aabfbfa3bc405fae6b0a3'
   let response = axios.get(url);
   return {
     type: 'FETCH_LIST',
