@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 
 class Activity extends Component {
+  constructor(props) {
+    super(props);
+  }
   render() {
     return (
       <div className="col-md-8">

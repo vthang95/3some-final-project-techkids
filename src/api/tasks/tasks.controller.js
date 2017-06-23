@@ -12,8 +12,8 @@ exports.addTask = (req, res) => {
   if(errors) return res.json({ error: errors });
 
   let newTask = new Task({
-    name: req.body.name,
-    listIn: req.body.listIn,
+    name     : req.body.name,
+    listIn   : req.body.listIn,
     isStarred: req.body.isStarred ? req.body.isStarred : false
   });
 
@@ -55,11 +55,11 @@ exports.updateTask = (req, res) => {
   if(errors) return res.json({ error: errors });
 
   let newInfo = {
-    id: req.params.task_id,
-    name: req.body.name,
-    duaDate: req.body.duaDate,
-    note: req.body.note,
-    isDone: req.body.isDone,
+    id       : req.params.task_id,
+    name     : req.body.name,
+    duaDate  : req.body.duaDate,
+    note     : req.body.note,
+    isDone   : req.body.isDone,
     isStarred: req.body.isStarred,
     important: req.body.important
   }
@@ -113,8 +113,8 @@ exports.postComment = (req, res) => {
   if(errors) return res.json({ error: errors });
 
   let info = {
-    taskId: req.params.task_id,
-    userId: req.body.userId,
+    taskId : req.params.task_id,
+    userId : req.body.userId,
     comment: req.body.comment
   }
   console.log(info);

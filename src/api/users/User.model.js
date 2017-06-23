@@ -4,21 +4,21 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-  email: { type: String, unique: true, dropDups: true },
+  email   : { type: String, unique: true, dropDups: true },
   password: { type: String, required: true },
   username: { type: String, unique: true, dropDups: true },
-  passwordResetToken: String,
+  passwordResetToken  : String,
   passwordResetExpires: Date,
   role: String,
 
   facebook: String,
-  google: String,
-  tokens: Array,
+  google  : String,
+  tokens  : Array,
 
   profile: {
-    name: String,
-    gender: String,
-    age: Number,
+    name   : String,
+    gender : String,
+    age    : Number,
     website: String,
     picture: String
   },
