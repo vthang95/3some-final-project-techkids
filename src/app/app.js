@@ -5,6 +5,9 @@ import { createStore, applyMiddleware } from 'redux';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { browserHistory } from 'react-router';
 import ReduxPromise from 'redux-promise';
+import io from 'socket.io-client';
+
+const socket = io('/workplace');
 
 import reducers from './reducers';
 import PageNotFound from './components/navigation/PageNotFound';

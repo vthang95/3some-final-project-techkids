@@ -58,22 +58,23 @@ exports.postSignup = (req, res, next) => {
     confirmPassword: req.body.confirmPassword
   });
 
-  User.findOne({ $or: [{'email': newUser.email}, {'username': newUser.username}] }, (err, existingUser) => {
+  User.findOne({ $or: [{email: newUser.email}, {username: newUser.username}] }, (err, existingUser) => {
     if (err) {
       console.log(err);
       return next(err);
     }
-    if (existingUser)
-      req.flash('errors', { msg: 'Account with that email or username is already exists!' })
+    if (existingUser) {
+      req.flash('errors', { msg: 'Account with that email or username is already exists!' });
       return res.redirect('/signup');
-
+    }
+    
     newUser.save((err) => {
       if (err) {
         console.log(err);
         return next(err);
       }
       req.flash('success', { msg: 'Success! You can login now.' })
-      return res.redirect("/signin");
+      return res.redirect("/login");
     });
   });
 };

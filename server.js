@@ -2,6 +2,9 @@
  * Modules dependencies
  */
 const express = require('express');
+const app = express();
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
 const compression = require('compression');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
@@ -33,11 +36,6 @@ const config = require('./config.json');
 const passportConfig = require('./config/passport.config');
 
 /**
- * Create app
- */
-const app = express();
-
-/**
  * Connect database with mongoose
  */
 mongoose.Promise = global.Promise;
@@ -59,7 +57,7 @@ app.set('view engine', 'pug');
 app.use(compression());
 // use sass middleware to handle scss file in public
 app.use(sass({
-  src: path.join(__dirname, 'public'),
+  src : path.join(__dirname, 'public'),
   dest: path.join(__dirname, 'public')
 }));
 // use logger to see what requests is comming, just for devoloper see
@@ -71,9 +69,9 @@ app.use(bodyParser.urlencoded({
 app.use(expressValidator());
 // express session configs
 app.use(session({
-  resave: false,
-  secret: config.SESSION_SECRET,
-  saveUninitialized: true
+  resave            : false,
+  secret            : config.SESSION_SECRET,
+  saveUninitialized : true
 }));
 // Passport init
 app.use(passport.initialize());
@@ -107,8 +105,8 @@ app.use(flash());
 app.use(expressValidator({
   errorFormatter: function(param, msg, value) {
       var namespace = param.split('.')
-      , root    = namespace.shift()
-      , formParam = root;
+      , root        = namespace.shift()
+      , formParam   = root;
 
     while(namespace.length) {
       formParam += '[' + namespace.shift() + ']';
@@ -149,6 +147,17 @@ app.get('*', (req, res) => {
 });
 
 /**
+ * SOCKET CHANEL
+ */
+io.on('connection', function(socket){
+  console.log('a user connected');
+  socket.on('disconnect', function(){
+    console.log('user disconnected');
+  });
+});
+
+
+/**
  * Errors handler, (prettify error)
  */
 app.use(errorHandler());
@@ -156,7 +165,7 @@ app.use(errorHandler());
 /**
  * Start express server
  */
-app.listen(app.get('port'), (req, res) => {
+server.listen(app.get('port'), (req, res) => {
   console.log(
     '%s App is running on http://localhost:%d\n\tPress Ctrl-C to stop sever',
     chalk.green('✓'),

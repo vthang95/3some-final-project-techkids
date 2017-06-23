@@ -13,7 +13,7 @@ exports.postList = (req, res) => {
   if(errors) return res.json({ error: errors });
 
   let newList = new List({
-    name: req.body.name,
+    name : req.body.name,
     owner: req.body.owner
   });
 
@@ -195,7 +195,7 @@ exports.removeMember = (req, res) => {
   if(errors) return res.json({ error_msg: errors });
 
   let reqInfo = {
-    id: req.params.list_id,
+    id    : req.params.list_id,
     member: req.body.member
   }
 
@@ -210,18 +210,13 @@ exports.removeMember = (req, res) => {
 
 var removeMemberFromList = (idList, memberInfo, callback) => {
   if(mongoose.Types.ObjectId.isValid(memberInfo)) {
-    User.findById(memberInfo)
-    .exec((err, doc) => {
+    User.findById(memberInfo).exec((err, doc) => {
       if(err){
         console.log(err);
         callback(err);
       }
       if(doc){
-        List.update(
-          { _id: idList },
-          { $pull: { members: doc._id } }
-        )
-        .exec((err) => {
+        List.update({ _id: idList }, { $pull: { members: doc._id }}).exec((err) => {
           console.log('hehe');
           callback(err);
         });
@@ -231,16 +226,13 @@ var removeMemberFromList = (idList, memberInfo, callback) => {
   else {
     User.findOne({ $or: [{'email': memberInfo}, {'username': memberInfo}] })
     .exec((err, doc) => {
-      if(err){
+      if (err) {
         console.log(err);
         callback(err);
       }
-      if(doc){
-        List.update(
-          { _id: idList },
-          { $pull: { members: doc._id } }
-        )
-        .exec((err) => {
+      if (doc) {
+        List.update({ _id: idList }, { $pull: { members: doc._id }}).exec((err) => {
+          console.log(err);
           callback(err);
         });
       }

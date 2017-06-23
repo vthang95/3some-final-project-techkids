@@ -6,10 +6,10 @@ exports.getAllNotes = (req, res) => {
 
 exports.postAddNote = (req, res) => {
   let note = new Note({
-    title: req.body.title,
-    content: req.body.content,
+    title     : req.body.title,
+    content   : req.body.content,
     labelColor: req.body.labelColor,
-    owner: req.body.owner
+    owner     : req.body.owner
   });
 
   note.save((err) => {

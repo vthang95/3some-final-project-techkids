@@ -2,5 +2,6 @@
   "plugins": [
     "transform-react-pug",
     "transform-react-jsx",
-  ]
+  ],
+  "presets": ["es2015", "stage-1", "react"]
 }

@@ -60,7 +60,8 @@ const style = {
     cursor: 'pointer'
   },
   logo: {
-    padding: '9px 9px',
+    paddingTop: '10px',
+    paddingBottom: '9px',
     backgroundColor: '#a48cd3',
     boxShadow: '0 0 3px rgba(0, 0, 0, 0.2)'
   },
