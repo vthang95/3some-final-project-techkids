@@ -15,10 +15,10 @@ class SidebarContainer extends Component {
     return this.props.lists.map(list => (
       <li key={list._id} style={style.li} onClick={() => _this.props.fetchTasks(list)}>
         <MdFormatListBulleted style={style.icon} />
-          {list.name}
-          <span style={style.taskNumber}>
-            {list.tasks.length}
-          </span>
+        {list.name}
+        <span style={style.taskNumber}>
+          {list.tasks.length}
+        </span>
       </li>
     ))
   }

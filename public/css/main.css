@@ -8944,3 +8944,9 @@ textarea {
   width: 16px;
   height: 16px;
   margin-top: 0px; }
+
+.modal-container {
+  position: relative; }
+
+.modal-container .modal, .modal-container .modal-backdrop {
+  position: absolute; }
