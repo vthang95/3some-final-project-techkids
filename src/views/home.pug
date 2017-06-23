@@ -1,8 +1,60 @@
-extends layout
-
-block content
+html
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    meta(name='theme-color' content='#4DA5F4')
+    meta(name='csrf-token', content=_csrf)
+    title #{title} - Oh!List - Life is simple!
+    link(rel='shortcut icon', href='/favicon.png')
+    link(rek='stylesheet', href='/css/lib/bootstrap.min.css')
+    //- link(rel='stylesheet', href='/css/lib/light-bootstrap-dashboard.css')
+    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css', integrity='sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u', crossorigin='anonymous')
+    link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css')
+    link(rel='stylesheet', href='/css/main.css')
+    link(rel='stylesheet', href='/css/homepage.css')
+  body
   include partials/header
-  include partials/flash
-  .container
-    h1 Homepage
-  include partials/footer
+  div.container-fluid.content
+    #carousel-content.carousel.slide(data-ride='carousel',data-interval="false")
+      // Indicators
+      ol.carousel-indicators
+        li.active(data-target='#carousel-content', data-slide-to='0')
+        li(data-target='#carousel-content', data-slide-to='1')
+        li(data-target='#carousel-content', data-slide-to='2')
+      span.content-logo Oh!List at a glance
+      // Wrapper for slides
+      .carousel-inner(role='listbox')
+        .item.active.carousel-item
+          span.title.row
+            img.img-responsive(src='/css/img/checkbox.png', alt='...')
+            span Plan everything
+          span.text-content Organize your lists of tasks, work, shopping, movies and household chores. No matter what you plan or the scale of the task, Wunderlist allows you to do everything very easily
+        .item.carousel-item
+          span.title.row
+            img.img-responsive(src='/css/img/checkbox.png', alt='...')
+            span Receive reminders at any time
+          span.text-content Set deadlines and reminders and assign tasks. Whether your lists have been established for work or for leisure, thanks to Wunderlist, you will not forget any date.
+        .item.carousel-item
+          span.title.row
+            img.img-responsive(src='/css/img/checkbox.png', alt='...')
+            span Collaborate with anyone
+          span.text-content Share your lists and collaborate with your colleagues, friends and family. With Oh!List , teamwork has never been easier.
+      // Controls
+      a.left-arrow.carousel-control(href='#carousel-content', role='button', data-slide='prev')
+        span.glyphicon.glyphicon-chevron-left(aria-hidden='true')
+        span.sr-only Previous
+      a.right-arrow.carousel-control(href='#carousel-content', role='button', data-slide='next')
+        span.glyphicon.glyphicon-chevron-right(aria-hidden='true')
+        span.sr-only Next
+    button.btn.signup-btn Signup now
+  include partials/footer 
+  
+  script(src='/js/lib/jquery-3.1.1.min.js')
+  script(src='/js/lib/bootstrap.min.js')
+  script(src='/js/main.js')          
+            
+            
+            
+  
+  

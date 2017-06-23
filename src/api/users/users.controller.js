@@ -73,21 +73,12 @@ exports.postSignup = (req, res, next) => {
   });
 
   // Tìm xem nếu trong db đã có username hay email này chưa? Nếu có rồi thì trả msg đã tồn tại. k thì Success!
-  User.findOne({ $or: [{'email': newUser.email}, {'username': newUser.username}] }, (err, existingUser) => {
+  newUser.save((err) => {
     if (err) {
       console.log(err);
       return next(err);
     }
-    if (existingUser)
-      return res.json({ error_msg: 'Account with that email or username is already exists!'});
-
-    newUser.save((err) => {
-      if (err) {
-        console.log(err);
-        return next(err);
-      }
-      return res.json({ success_msg: 'Success!' });
-    });
+    return res.json({ success_msg: 'Success!' });
   });
 };
 

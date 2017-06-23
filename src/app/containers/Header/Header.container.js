@@ -7,6 +7,8 @@ import TiMessages from 'react-icons/lib/ti/messages';
 
 import { fetchUser } from '../../actions/index';
 
+import style from './Header.style.css'
+
 class Header extends Component {
   componentDidMount(){
     this.props.fetchUser();
@@ -53,34 +55,6 @@ class Header extends Component {
   }
 }
 
-const style = {
-  notification: {
-    paddingTop: '14px',
-    marginLeft: '15px'
-  },
-  img: {
-    borderRadius: '50%'
-  },
-  a: {
-    textTransform: 'none',
-    cursor: 'pointer',
-    paddingTop: '15px',
-    margin: '0px'
-  },
-  align: {
-    position: 'absolute',
-    right: '30px',
-  },
-  username: {
-    fontSize: '15px',
-  },
-  navbar: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    left: 0
-  }
-}
 
 function mapStateToProps({ user }) {
   return { user };

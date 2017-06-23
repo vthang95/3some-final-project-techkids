@@ -1,0 +1,147 @@
+body{
+  font-size:140%;
+}
+a,a:visited, a:active{
+  color: #9A9A9A;
+  cursor: pointer;
+}
+
+.navbar-default{
+  height: 10%;
+  margin: 0;
+  border: 0;
+  background-color: #F5F5F5;
+}
+.header{
+  padding: 10px 30px;
+  font-size: 1.1em;
+  position: relative;
+  z-index: 2;
+}
+.header .logo{
+  color: #9A9A9A;
+  font-size: 2em;
+  font-weight: bold;
+}
+.header ul{
+  font-weight: 500;
+  font-size: 0.8em;
+  position: relative;
+}
+.header .nav-button{
+  border: 0;
+  width: 50px;
+}
+#nav-dropdown{
+  background-color: #F5F5F5;
+}
+.content{
+  height: 80%;
+  position: relative;
+  z-index: 1;
+  background-image: url("img/homepage.jpg");
+  background-repeat:no-repeat;
+  background-size:cover;
+  background-position:center;
+  overflow: hidden;
+}
+.content-logo{
+  position: absolute;
+  top: 10%;
+  font-size: 2.4em;
+  color: #ffffff;
+}
+.content, .carousel-item, #carousel-content{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#carousel-content{
+  width: 60%;
+  height: 60%;
+  color: #ffffff;
+  position: relative;
+  padding: 50px 80px;
+  justify-content: center;
+}
+.carousel-item .title{
+  font-size: 1.9em;
+}
+.carousel-item .title img{
+  margin: 10px;
+  display: inline-block;
+  width: 30px;
+}
+.carousel-item .text-content{
+  margin: 0 25px;
+  word-wrap: break-word;
+  font-size: 1.2em;
+}
+.carousel-control {
+  height: 20%;
+  background-image:none !important;
+  filter:none !important;
+  top: 45%;
+}
+#carousel-content .left-arrow{
+  left: -5%;
+}
+#carousel-content .right-arrow{
+  left:90%;
+}
+.content .signup-btn{
+  width: 200px;
+  height: 10%;
+}
+footer{
+  background-color: #e7e7e7;
+  height: 10%;
+  position: relative;
+}
+.nav-footer ul{
+  pointer-events: none;
+  width: 100%;
+  height: 10%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.nav-footer li:first-child::before{
+  content : "";
+  position: absolute;
+  right: 1%;
+  top: 15%;
+  height: 70%;
+  width: 2px;
+  border-right:1px solid #9A9A9A;
+}
+
+/* Large Devices, Wide Screens */
+    @media only screen and (max-width : 1200px) {
+      body{
+        font-size: 120%;
+      }
+    }
+    /* Medium Devices, Desktops */
+    @media only screen and (max-width : 992px) {
+      body{
+        font-size: 100%;
+      }
+    }
+    /* Small Devices, Tablets */
+    @media only screen and (max-width : 768px) {
+      body{
+        font-size: 90%;
+      }
+      #carousel-content{
+        width: 100%;
+      }
+      .carousel-item{
+        width: 100%;
+      }
+    }
+    /* Extra Small Devices, Phones */
+    @media only screen and (max-width : 480px) {
+
+    /* Custom, iPhone Retina */
+    @media only screen and (max-width : 320px) {

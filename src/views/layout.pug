@@ -8,9 +8,11 @@ html
     meta(name='csrf-token', content=_csrf)
     title #{title} - Oh!List - Life is simple!
     link(rel='shortcut icon', href='/favicon.png')
-    link(rel='stylesheet', href='/css/main.css')
+    link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css')
     link(rek='stylesheet', href='/css/lib/bootstrap.min.css')
     link(rel='stylesheet', href='/css/lib/light-bootstrap-dashboard.css')
+    link(rel='stylesheet', href='/css/main.css')
+      
   body
     //- include partials/flash
     block content
