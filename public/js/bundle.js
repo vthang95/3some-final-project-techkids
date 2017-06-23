@@ -23691,7 +23691,6 @@ var Workspace = function (_Component) {
         _react2.default.createElement(
           'div',
           { className: 'main-panel' },
-          _react2.default.createElement(_Header2.default, null),
           _react2.default.createElement(
             'div',
             { className: 'content', style: style.content },
@@ -23705,7 +23704,8 @@ var Workspace = function (_Component) {
                 _react2.default.createElement(_Activity2.default, null)
               )
             )
-          )
+          ),
+          _react2.default.createElement(_Header2.default, null)
         )
       );
     }
@@ -25025,7 +25025,7 @@ var Header = function (_Component) {
     value: function render() {
       return _react2.default.createElement(
         'div',
-        { className: 'navbar navbar-default navbar-fixed', style: style.navbar },
+        { className: 'navbar navbar-default', style: style.navbar },
         _react2.default.createElement(
           'div',
           { className: 'container-fluid' },
@@ -25132,10 +25132,10 @@ var style = {
     fontSize: '15px'
   },
   navbar: {
-    position: 'absolute',
-    top: 0,
+    position: 'fixed',
     right: 0,
-    width: '100%'
+    top: 0,
+    width: 'inherit'
   }
 };
 
@@ -25295,7 +25295,7 @@ var ListOfTasks = function (_Component) {
                 null,
                 _react2.default.createElement(
                   _reactBootstrap.FormGroup,
-                  { bsSize: 'small', style: { marginBottom: '0px', paddingTop: '5px' } },
+                  { bsSize: 'small', style: { marginBottom: '0px', paddingTop: '5px', borderTop: '1px solid #ddd', marginTop: '10px' } },
                   _react2.default.createElement(_reactBootstrap.FormControl, {
                     type: 'text',
                     value: this.state.value,
