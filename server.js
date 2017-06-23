@@ -140,6 +140,7 @@ app.use('/users', usersRouter);
 app.use('/lists', listsRouter);
 app.use('/tasks', tasksRouter);
 app.use('/subtasks', subtasksRouter);
+app.use('/notes', notesRouter);
 app.use('/', navigationRouter);
 app.get('*', (req, res) => {
   if (!req.user) return res.render('pageNotFound', { title: 'Page Not Found!' });
