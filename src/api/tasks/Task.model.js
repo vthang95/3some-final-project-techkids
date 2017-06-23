@@ -4,9 +4,6 @@ const Schema = mongoose.Schema;
 const taskSchema =  new mongoose.Schema({
   name : { type: String, require: true },
   duaDate : Date,
-  notes : [{
-    
-  }],
   isDone : { type: Boolean, default: false },
   isStarred : Boolean,
   important: Number,

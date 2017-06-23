@@ -23,6 +23,7 @@ const LocalStrategy = require('passport-local').Strategy;
 const usersRouter = require('./src/api/users/index');
 const listsRouter = require('./src/api/lists/index');
 const tasksRouter = require('./src/api/tasks/index');
+const subtasksRouter = require('./src/api/subtasks/index');
 const notesRouter = require('./src/api/notes/index');
 const navigationRouter = require('./src/controllers/routes/navigation.route');
 /**
@@ -140,6 +141,7 @@ app.get('/contact', passportConfig.isAuthenticated, (req, res) => {
 app.use('/users', usersRouter);
 app.use('/lists', listsRouter);
 app.use('/tasks', tasksRouter);
+app.use('/subtasks', subtasksRouter);
 app.use('/', navigationRouter);
 app.get('*', (req, res) => {
   if (!req.user) return res.render('pageNotFound', { title: 'Page Not Found!' });

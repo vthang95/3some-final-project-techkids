@@ -5,7 +5,7 @@ const List = require('../lists/List.model');
 const User = require('../users/User.model');
 
 exports.addTask = (req, res) => {
-  req.assert('name', '! Name is required').notEmpty();
+  req.assert('name', '! name is required').notEmpty();
   req.assert('listIn', '! Task list in a List, this field require a ObjectId of a List. If testing, check database to get ObjectId of List model ').notEmpty();
 
   const errors = req.validationErrors();
@@ -24,6 +24,7 @@ exports.addTask = (req, res) => {
       return res.json({ error_msg: 'Something wrong!' });
     }
     if(!doc){
+      console.log('Can not find List who this Task childOf');
       return res.json({ error_msg: 'Can not find owner' });
     }
     //Found List, save Task
@@ -43,7 +44,10 @@ exports.getTaskByListId = (req, res) => {
   let list_id = req.params.list_id;
 
   Task.find({ listIn: list_id }, (err, doc) => {
-    if (err) return res.json({ error_msg: 'An error occurred!' });
+    if (err) {
+      console.log(err);
+      return res.json({ error_msg: 'An error occurred!' });
+    }
     return res.json(doc)
   });
 };
@@ -68,37 +72,37 @@ exports.updateTask = (req, res) => {
 
   if(newInfo.name) {
     changeNameTask(newInfo.id, newInfo.name, (err) => {
-      if(err) res.json({ error_msg: err });
+      if(err) console.log(err);
     })
   }
 
   if(newInfo.duaDate){
     setDueDate(newInfo.id, newInfo.duaDate, (err) => {
-      if(err) res.json({ error_msg: err });
+      if(err) console.log(err);
     })
   }
 
   if(newInfo.note) {
     setNote(newInfo.id, newInfo.note, (err) => {
-      if(err) res.json({ error_msg: err });
+      if(err) console.log(err);
     })
   }
 
   if(newInfo.isDone) {
     setIsDone(newInfo.id, newInfo.isDone, (err) => {
-      if(err) res.json({ error_msg: err });
+      if(err) console.log(err);
     })
   }
 
   if(newInfo.isStarred) {
     setIsStarred(newInfo.id, newInfo.isStarred, (err) => {
-      if(err) res.json({ error_msg: err });
+      if(err) console.log(err);
     })
   }
 
   if(newInfo.important) {
     setImportant(newInfo.id, newInfo.important, (err) => {
-      if(err) res.json({ error_msg: err });
+      if(err) console.log(er);
     })
   }
 
@@ -187,7 +191,10 @@ var setImportant = (id, importantNum, callback) => {
 
 exports.deleteTaskByObjId = (req, res) => {
   Task.remove({ _id: req.body.id }).exec((err) => {
-    if(err) res.json({ msg_err: err });
-    res.json({ msg: "Delete task success" });
+    if(err) {
+      console.log(err);
+      return res.json({ msg_err: err });
+    }
+    return res.json({ msg: "Delete task success" });
   })
 };
