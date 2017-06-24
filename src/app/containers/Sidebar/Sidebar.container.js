@@ -3,17 +3,21 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import MdFormatListBulleted from 'react-icons/lib/md/format-list-bulleted';
 
-import { fetchLists, fetchTasks } from '../../actions/index';
+import { fetchLists, fetchTasks, activeList } from '../../actions/index';
 
 class SidebarContainer extends Component {
   componentWillMount() {
     this.props.fetchLists();
   }
 
+  handleClickList(list) {
+    this.props.fetchTasks(list);
+    this.props.activeList(list);
+  }
+
   renderList() {
-    let _this = this;
     return this.props.lists.map(list => (
-      <li key={list._id} style={style.li} onClick={() => _this.props.fetchTasks(list)}>
+      <li key={list._id} style={style.li} onClick={this.handleClickList.bind(this, list)}>
         <MdFormatListBulleted style={style.icon} />
         {list.name}
         <span style={style.taskNumber}>
@@ -75,7 +79,7 @@ function mapStateToProps({ lists }) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ fetchLists, fetchTasks }, dispatch)
+  return bindActionCreators({ fetchLists, fetchTasks, activeList }, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SidebarContainer);
