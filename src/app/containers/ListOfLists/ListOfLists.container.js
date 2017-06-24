@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import MdFormatListBulleted from 'react-icons/lib/md/format-list-bulleted';
 import { Grid, Row, Col, Button, Collapse, Well, FormGroup, FormControl } from 'react-bootstrap';
 
-import { postTask, fetchTasks, deleteTask } from '../../actions/index';
+import { fetchLists, fetchTasks, activeList, fetchUser, postList } from '../../actions/index';
 
-import Task from '../../components/Task/Task.component';
+import List from '../../components/List/List.component';
 
-class ListOfTasks extends Component {
+class Lists extends Component {
   constructor(props) {
     super(props);
 
@@ -16,17 +17,11 @@ class ListOfTasks extends Component {
       value: ''
     }
   }
-  componentDidMount() {
 
-  }
-  handleDeleteTask(task) {
-    deleteTask(task);
-    this.props.fetchTasks({ _id: task.listIn });
-  }
-  renderTask() {
-    return this.props.tasks.map(task => (
-        <Task {...task} key={task._id} />
-    ));
+  renderList() {
+    return this.props.lists.map(list => (
+      <List {...list} key={list._id} />
+    ))
   }
 
   handleInputChange(e) {
@@ -35,24 +30,25 @@ class ListOfTasks extends Component {
 
   handleKeyPress(target) {
     if (target.charCode == 13) {
-      postTask({ name: this.state.value, listIn: this.props.activeList._id })
-      this.setState({ value: '', open: false })
-      this.props.fetchTasks({ _id: this.props.activeList._id })
+      postList({ name: this.state.value, owner: this.props.user.user_id });
+      this.setState({ value: '', open: false });
+      console.log("this.props.user.id: ", this.props.user);
+      this.props.fetchLists(this.props.user.user_id);
     }
   }
 
   render() {
     return (
-      <Col md={8}>
+      <Col md={4}>
         <div className="card">
           <div className="header">
             <Grid style={{ width: 'inherit', height: '100%' }}>
               <Row>
                 <Col xs={6}>
-                  Tasks
+                  Lists
                 </Col>
                 <Col xs={6}>
-                  {typeof this.props.tasks === 'undefined'
+                  {typeof this.props.lists === 'undefined'
                     ? null
                     : <Button onClick={() => this.setState({ open: !this.state.open })} bsStyle="primary" bsSize="xsmall" style={style.button}>+</Button>}
                 </Col>
@@ -77,14 +73,16 @@ class ListOfTasks extends Component {
             <div className="table-full-width">
                 <table className="table">
                     <tbody>
-                        {this.props.tasks.length === 0 ? <tr><td style={{ paddingLeft: '20px' }}>Oops! There is no task to show!</td></tr> : this.renderTask()}
+                      <tr className="nav" >
+                        {typeof this.props.lists.length == 'undefined' ? <div>Loading...</div> : this.renderList()}
+                      </tr>
                     </tbody>
                 </table>
             </div>
             <div className="footer">
                 <hr />
                 <div className="stats">
-                    <i className="fa fa-history"></i> Updated 3 minutes ago
+                    <i className="fa fa-history"></i> a hihi footer
                 </div>
             </div>
           </div>
@@ -95,6 +93,33 @@ class ListOfTasks extends Component {
 }
 
 const style = {
+  taskNumber: {
+    position: 'absolute',
+    right: '7px',
+    fontSize: '12px',
+    fontWeight: 'light'
+  },
+  icon: {
+    marginRight: '4px'
+  },
+  li: {
+    display: 'inline-block',
+    marginLeft: '15px',
+    fontSize: '15px',
+    paddingLeft: '5px',
+    paddingTop: '8px',
+    paddingBottom: '8px',
+    cursor: 'pointer'
+  },
+  logo: {
+    paddingTop: '10px',
+    paddingBottom: '9px',
+    backgroundColor: '#a48cd3',
+    boxShadow: '0 0 3px rgba(0, 0, 0, 0.2)'
+  },
+  nav: {
+    marginTop: '0px'
+  },
   button: {
     position: 'absolute',
     right: '10px',
@@ -103,12 +128,12 @@ const style = {
   }
 }
 
-function mapStateToProps({ tasks, activeList }) {
-  return { tasks, activeList };
+function mapStateToProps({ lists, user }) {
+  return { lists, user }
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ fetchTasks, deleteTask }, dispatch);
+  return bindActionCreators({ fetchLists, fetchTasks, activeList, fetchUser }, dispatch)
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ListOfTasks);
+export default connect(mapStateToProps, mapDispatchToProps)(Lists);
