@@ -13,7 +13,7 @@ exports.getLoginPage = (req, res) => {
 exports.getSignupPage = (req, res) => {
   if (req.user) return res.redirect('/');
   return res.render('account/signup', {
-    title: 'signup'
+    title: 'Create Account'
   });
 };
 
