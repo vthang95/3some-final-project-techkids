@@ -31,10 +31,13 @@ export function fetchTasks(list) {
 
 export function postTask(task) {
   let { name, listIn } = task;
-  console.log(name, listIn);
   let url = `http://localhost:7000/api/tasks`;
   axios.post(url, { name, listIn });
-  fetchTasks({ _id: listIn });
+}
+
+export function deleteTask(task) {
+  let url = `http://localhost:7000/api/tasks/${task._id}`;
+  axios.delete(url);
 }
 
 export function activeList(list) {

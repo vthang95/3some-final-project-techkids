@@ -7,6 +7,6 @@ Router.post('/', taskController.addTask); // { name: String, listIn: ObjectId, i
 Router.post('/:task_id/comment', taskController.postComment); //{ task_id, userId, comment }
 Router.get('/:list_id', taskController.getTaskByListId);
 Router.put('/:task_id', taskController.updateTask);
-Router.delete('/', taskController.deleteTaskByObjId);// { id: ObjectId }
+Router.delete('/:task_id', taskController.deleteTaskByObjId);// { id: ObjectId }
 
 module.exports = Router;

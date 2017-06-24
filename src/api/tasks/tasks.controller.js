@@ -196,7 +196,7 @@ var setImportant = (id, importantNum, callback) => {
 }
 
 exports.deleteTaskByObjId = (req, res) => {
-  Task.remove({ _id: req.body.id }).exec((err) => {
+  Task.remove({ _id: req.params.task_id }).exec((err) => {
     if(err) {
       console.log(err);
       return res.json({ msg_err: err });

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Grid, Row, Col, Button, Collapse, Well, FormGroup, FormControl } from 'react-bootstrap';
 
-import { postTask, fetchTasks } from '../../actions/index';
+import { postTask, fetchTasks, deleteTask } from '../../actions/index';
 
 class ListOfTasks extends Component {
   constructor(props) {
@@ -17,7 +17,10 @@ class ListOfTasks extends Component {
   componentDidMount() {
 
   }
-
+  handleDeleteTask(task) {
+    deleteTask(task);
+    this.props.fetchTasks({ _id: task.listIn });
+  }
   renderTask() {
     return this.props.tasks.map(task => (
       <tr key={task._id}>
@@ -29,7 +32,7 @@ class ListOfTasks extends Component {
               <button type="button" rel="tooltip" title="Edit Task" className="btn btn-info btn-simple btn-xs">
                   <i className="fa fa-edit"></i>
               </button>
-              <button type="button" rel="tooltip" title="Remove" className="btn btn-danger btn-simple btn-xs">
+              <button type="button" rel="tooltip" title="Remove" className="btn btn-danger btn-simple btn-xs" onClick={this.handleDeleteTask.bind(this, task)}>
                   <i className="fa fa-times"></i>
               </button>
           </td>
@@ -43,11 +46,9 @@ class ListOfTasks extends Component {
 
   handleKeyPress(target) {
     if (target.charCode == 13) {
-      // this.props.tasks.push({_id: this.props.tasks[(this.props.tasks.length - 1)]._id + 1, name: this.state.value})
       postTask({ name: this.state.value, listIn: this.props.activeList._id })
       this.setState({ value: '', open: false })
       this.props.fetchTasks({ _id: this.props.activeList._id })
-
     }
   }
 
@@ -62,7 +63,9 @@ class ListOfTasks extends Component {
                   Tasks
                 </Col>
                 <Col xs={6}>
-                  {typeof this.props.tasks === 'undefined' ? null : <Button onClick={() => this.setState({ open: !this.state.open })} bsStyle="primary" bsSize="xsmall" style={style.button}>+</Button>}
+                  {typeof this.props.tasks === 'undefined'
+                    ? null
+                    : <Button onClick={() => this.setState({ open: !this.state.open })} bsStyle="primary" bsSize="xsmall" style={style.button}>+</Button>}
                 </Col>
               </Row>
             </Grid>
@@ -116,7 +119,7 @@ function mapStateToProps({ tasks, activeList }) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ fetchTasks }, dispatch);
+  return bindActionCreators({ fetchTasks, deleteTask }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ListOfTasks);
