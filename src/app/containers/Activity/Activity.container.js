@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import style from './Activity.style.css'
+
 class Activity extends Component {
   constructor(props) {
     super(props);

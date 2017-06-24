@@ -168,14 +168,18 @@ body{
   width   : 95%;
   border-bottom: 2px solid #F4F4F4;
 }
-.friendList ul{
+.friendList ul, .activities ul{
 	height: 70%;
-	padding-left: 10%;
-	padding-top: 5px;
+	padding-left: 20px;
+	padding-top: 10px;
 }
-.friendList ul > li, .friend-info > span{
-	flex-grow: 1;
+.friendList ul > li, .activities ul > li{
+	height: 20%;
 }
+.friendInfo, .activities-descryption{
+	justify-content: center;
+}
+
 .friendList ul > li > img{
 	width: 40px;
 	border-radius: 50%;
@@ -196,4 +200,17 @@ body{
 .friendButton a{
 	width: 150px;
 	background-color: #CFCFCF;
+}
+/*Activities*/
+.activities ul{
+	height: 70%;
+	padding-left: 20px;
+	padding-top: 10px;
+}
+.activities ul{
+	width: 100%;
+
+}
+.activities .actionButton{
+
 }

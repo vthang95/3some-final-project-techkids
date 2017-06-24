@@ -3,6 +3,44 @@ extends layout
 block content
   include partials/header
   include partials/flash
-  .container.view-fix
-    h1 Homepage
+  div.container-fluid.content
+    #carousel-content.carousel.slide(data-ride='carousel',data-interval="false")
+      // Indicators
+      ol.carousel-indicators
+        li.active(data-target='#carousel-content', data-slide-to='0')
+        li(data-target='#carousel-content', data-slide-to='1')
+        li(data-target='#carousel-content', data-slide-to='2')
+      span.content-logo Oh!List at a glance
+      // Wrapper for slides
+      .carousel-inner(role='listbox')
+        .item.active.carousel-item
+          span.title.row
+            img.img-responsive(src='/css/img/checkbox.png', alt='...')
+            span Plan everything
+          span.text-content Organize your lists of tasks, work, shopping, movies and household chores. No matter what you plan or the scale of the task, Wunderlist allows you to do everything very easily
+        .item.carousel-item
+          span.title.row
+            img.img-responsive(src='/css/img/checkbox.png', alt='...')
+            span Receive reminders at any time
+          span.text-content Set deadlines and reminders and assign tasks. Whether your lists have been established for work or for leisure, thanks to Wunderlist, you will not forget any date.
+        .item.carousel-item
+          span.title.row
+            img.img-responsive(src='/css/img/checkbox.png', alt='...')
+            span Collaborate with anyone
+          span.text-content Share your lists and collaborate with your colleagues, friends and family. With Oh!List , teamwork has never been easier.
+      // Controls
+      a.left-arrow.carousel-control(href='#carousel-content', role='button', data-slide='prev')
+        span.glyphicon.glyphicon-chevron-left(aria-hidden='true')
+        span.sr-only Previous
+      a.right-arrow.carousel-control(href='#carousel-content', role='button', data-slide='next')
+        span.glyphicon.glyphicon-chevron-right(aria-hidden='true')
+        span.sr-only Next
+    button.btn.signup-btn Signup now
   include partials/footer
+  
+         
+            
+            
+            
+  
+  

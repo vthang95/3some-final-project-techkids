@@ -1,7 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Grid, Row, Col, Button, Collapse, Well, FormGroup, FormControl } from 'react-bootstrap';
 
 class ListOfTasks extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      open: false,
+      value: ''
+    }
+  }
   componentDidMount() {
     console.log(this.props)
   }
@@ -23,12 +32,49 @@ class ListOfTasks extends Component {
       </tr>
     ));
   }
+
+  handleInputChange(e) {
+    this.setState({ value: e.target.value });
+    console.log(this.state);
+  }
+
+  handleKeyPress(target) {
+    if (target.charCode == 13) {
+      this.props.tasks.push({_id: this.props.tasks[(this.props.tasks.length - 1)]._id + 1, name: this.state.value})
+      this.setState({ value: '', open: false })
+    }
+  }
+
   render() {
+    console.log(this.props.tasks);
     return (
-      <div className="col-md-4">
+      <Col md={4}>
         <div className="card">
           <div className="header">
-            <h4 className="title">Tasks</h4>
+            <Grid style={{ width: 'inherit', height: '100%' }}>
+              <Row>
+                <Col xs={6}>
+                  Tasks
+                </Col>
+                <Col xs={6}>
+                  {typeof this.props.tasks === 'undefined' ? null : <Button onClick={() => this.setState({ open: !this.state.open })} bsStyle="primary" bsSize="xsmall" style={style.button}>+</Button>}
+                </Col>
+              </Row>
+            </Grid>
+            <Collapse in={this.state.open}>
+              <div>
+                <FormGroup bsSize="small" style={{ marginBottom: '0px', paddingTop: '5px', borderTop: '1px solid #ddd', marginTop: '10px' }}>
+                  <FormControl
+                    type="text"
+                    value={this.state.value}
+                    placeholder="Enter text"
+                    onChange={this.handleInputChange.bind(this)}
+                    onKeyPress={this.handleKeyPress.bind(this)}
+                    bsSize="sm"
+                    />
+                </FormGroup>
+              </div>
+            </Collapse>
           </div>
           <div className="content">
             <div className="table-full-width">
@@ -46,8 +92,17 @@ class ListOfTasks extends Component {
             </div>
           </div>
         </div>
-      </div>
+      </Col>
     );
+  }
+}
+
+const style = {
+  button: {
+    position: 'absolute',
+    right: '10px',
+    top: '-1px',
+    padding: '0 8px 0 8px'
   }
 }
 

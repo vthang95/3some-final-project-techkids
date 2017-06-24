@@ -7,6 +7,8 @@ import TiMessages from 'react-icons/lib/ti/messages';
 
 import { fetchUser } from '../../actions/index';
 
+import style from './Header.style.css'
+
 class Header extends Component {
   componentDidMount(){
     this.props.fetchUser();
@@ -14,7 +16,7 @@ class Header extends Component {
 
   render() {
     return (
-      <div className="navbar navbar-default navbar-fixed" style={style.navbar}>
+      <div className="navbar navbar-default" style={style.navbar}>
         <div className="container-fluid">
           <div className="navbar-header">
               <button type="button" className="navbar-toggle" data-toggle="collapse" data-target="#navigation-example-2">
@@ -75,10 +77,10 @@ const style = {
     fontSize: '15px',
   },
   navbar: {
-    position: 'absolute',
-    top: 0,
+    position: 'fixed',
     right: 0,
-    width: '100%'
+    top: 0,
+    width: 'inherit'
   }
 }
 
