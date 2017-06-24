@@ -49,7 +49,8 @@
     "babel-plugin-transform-react-jsx": "^6.24.1",
     "babel-plugin-transform-react-pug": "^3.1.8",
     "babel-preset-react": "^6.24.1",
-    "babel-preset-stage-1": "^6.24.1"
+    "babel-preset-stage-1": "^6.24.1",
+    "concurrently": "^3.5.0"
   },
   "homepage": "https://github.com/vthang95/3some-final-project-techkids#readme",
   "license": "ISC",
@@ -62,7 +63,8 @@
   "scripts": {
     "build": "webpack --config webpack.config.js",
     "start": "nodemon server & npm run build",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "concurrently --kill-others \"nodemon server\" \"webpack --config webpack.config.js\""
   },
   "version": "1.0.0"
 }
