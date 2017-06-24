@@ -35,6 +35,12 @@ export function postTask(task) {
   axios.post(url, { name, listIn });
 }
 
+export function postList(list) {
+  let { name, owner } = list;
+  let url = `http://localhost:7000/api/lists`;
+  axios.post(url, { name, owner });
+}
+
 export function deleteTask(task) {
   let url = `http://localhost:7000/api/tasks/${task._id}`;
   axios.delete(url);
