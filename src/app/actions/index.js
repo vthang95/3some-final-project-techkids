@@ -11,8 +11,8 @@ export function fetchUser() {
   }
 }
 
-export function fetchLists() {
-  let url = 'http://localhost:7000/api/lists/all/594a790138ebdf37184bc10e'
+export function fetchLists(user_id) {
+  let url = `http://localhost:7000/api/lists/all/${user_id}`
   let response = axios.get(url);
   return {
     type: 'FETCH_LIST',

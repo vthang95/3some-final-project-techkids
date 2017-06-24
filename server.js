@@ -124,7 +124,7 @@ app.use(expressValidator({
  */
 
 app.get('/api/workspace', (req, res) => {
-  return res.json({ name: req.user.username });
+  return res.json({ name: req.user.username, user_id: req.user._id });
 });
 
 app.use('/api/users', usersRouter);
