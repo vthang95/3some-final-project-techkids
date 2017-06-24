@@ -9,6 +9,7 @@ import Activity from './Activity/Activity.container';
 
 class Workspace extends Component {
   render() {
+    console.log('aaaaaaaaaa');
     return (
       <div className="wrapper">
         <SidebarContainer style={style.sidebar} />
