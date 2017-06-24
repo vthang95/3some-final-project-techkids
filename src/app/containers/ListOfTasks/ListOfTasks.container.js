@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { Grid, Row, Col, Button, Collapse, Well, FormGroup, FormControl } from 'react-bootstrap';
+
+import { postTask, fetchTasks } from '../../actions/index';
 
 class ListOfTasks extends Component {
   constructor(props) {
@@ -12,8 +15,9 @@ class ListOfTasks extends Component {
     }
   }
   componentDidMount() {
-    console.log(this.props)
+
   }
+
   renderTask() {
     return this.props.tasks.map(task => (
       <tr key={task._id}>
@@ -35,18 +39,19 @@ class ListOfTasks extends Component {
 
   handleInputChange(e) {
     this.setState({ value: e.target.value });
-    console.log(this.state);
   }
 
   handleKeyPress(target) {
     if (target.charCode == 13) {
-      this.props.tasks.push({_id: this.props.tasks[(this.props.tasks.length - 1)]._id + 1, name: this.state.value})
+      // this.props.tasks.push({_id: this.props.tasks[(this.props.tasks.length - 1)]._id + 1, name: this.state.value})
+      postTask({ name: this.state.value, listIn: this.props.activeList._id })
       this.setState({ value: '', open: false })
+      this.props.fetchTasks({ _id: this.props.activeList._id })
+
     }
   }
 
   render() {
-    console.log(this.props.tasks);
     return (
       <Col md={4}>
         <div className="card">
@@ -106,8 +111,12 @@ const style = {
   }
 }
 
-function mapStateToProps({ tasks, lists }) {
-  return { tasks, lists };
+function mapStateToProps({ tasks, activeList }) {
+  return { tasks, activeList };
 }
 
-export default connect(mapStateToProps)(ListOfTasks);
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({ fetchTasks }, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ListOfTasks);

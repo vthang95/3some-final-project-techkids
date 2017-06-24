@@ -33,7 +33,13 @@ exports.addTask = (req, res) => {
         console.log(err);
         return res.json({ error_msg: 'Something is wrong!' });
       }
-      return res.json({ success_msg: 'Add Task success!' });
+      Task.findOne(newTask, { _id: 1, name: 1, isStarred: 1, listIn: 1 }).exec((err, doc) => {
+        if (err) {
+          console.log(err);
+          return res.json({ error_msg: 'Something is wrong!' });
+        };
+        return res.json(doc);
+      })
     });
   })
 

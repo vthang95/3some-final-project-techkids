@@ -28,3 +28,18 @@ export function fetchTasks(list) {
     payload: response
   }
 }
+
+export function postTask(task) {
+  let { name, listIn } = task;
+  console.log(name, listIn);
+  let url = `http://localhost:7000/api/tasks`;
+  axios.post(url, { name, listIn });
+  fetchTasks({ _id: listIn });
+}
+
+export function activeList(list) {
+  return {
+    type: 'ACTIVE_LIST',
+    payload: list
+  }
+}
