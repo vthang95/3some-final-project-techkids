@@ -54,7 +54,7 @@ class ListOfTasks extends Component {
 
   render() {
     return (
-      <Col md={4}>
+      <Col md={8}>
         <div className="card">
           <div className="header">
             <Grid style={{ width: 'inherit', height: '100%' }}>

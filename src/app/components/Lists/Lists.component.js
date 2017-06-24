@@ -3,12 +3,12 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import MdFormatListBulleted from 'react-icons/lib/md/format-list-bulleted';
 
-import { fetchLists, fetchTasks, activeList } from '../../actions/index';
+import { fetchLists, fetchTasks, activeList, fetchUser } from '../../actions/index';
 
 class Lists extends Component {
   componentDidMount() {
-    console.log('props of List: ', this.props);
     this.props.fetchLists(this.props.user.id);
+    this.props.fetchUser();
   }
 
   handleClickList(list) {
@@ -18,18 +18,22 @@ class Lists extends Component {
 
   renderList() {
     return this.props.lists.map(list => (
-      <td key={list._id} style={style.li} onClick={this.handleClickList.bind(this, list)}>
-        <MdFormatListBulleted style={style.icon} />
-        {list.name}
-        <span style={style.taskNumber}>
-        </span>
-      </td>
+      <tr key={list._id} style={style.li} onClick={this.handleClickList.bind(this, list)}>
+        <td><MdFormatListBulleted style={style.icon} /></td>
+        <td>{list.name}</td>
+        <td className="td-actions text-right">
+            <button type="button" rel="tooltip" title="Edit List" className="btn btn-info btn-simple btn-xs">
+                <i className="fa fa-edit"></i>
+            </button>
+            <button type="button" rel="tooltip" title="Remove" className="btn btn-danger btn-simple btn-xs" >
+                <i className="fa fa-times"></i>
+            </button>
+        </td>
+      </tr>
     ))
   }
 
   render() {
-    console.log('hehehe', this.props.user.id);
-    console.log('lists: ', this.props.lists);
     return (
       <div className="col-md-4">
         <div className="card">
@@ -40,7 +44,7 @@ class Lists extends Component {
             <div className="table-full-width">
                 <table className="table">
                     <tbody>
-                      <tr className="nav" style={style.nav} >
+                      <tr className="nav" >
                         {typeof this.props.lists.length == 'undefined' ? <div>Loading...</div> : this.renderList()}
                       </tr>
                     </tbody>
@@ -70,6 +74,8 @@ const style = {
     marginRight: '4px'
   },
   li: {
+    display: 'inline-block',
+    marginLeft: '15px',
     fontSize: '15px',
     paddingLeft: '5px',
     paddingTop: '8px',
@@ -92,7 +98,7 @@ function mapStateToProps({ lists, user }) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ fetchLists, fetchTasks, activeList }, dispatch)
+  return bindActionCreators({ fetchLists, fetchTasks, activeList, fetchUser }, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Lists);
