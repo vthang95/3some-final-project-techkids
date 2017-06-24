@@ -41,6 +41,11 @@ export function postList(list) {
   axios.post(url, { name, owner });
 }
 
+export function deleteList(list) {
+  let url = `http://localhost:7000/api/lists/${list._id}`
+  axios.delete(url);
+}
+
 export function deleteTask(task) {
   let url = `http://localhost:7000/api/tasks/${task._id}`;
   axios.delete(url);

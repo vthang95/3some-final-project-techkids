@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import MdFormatListBulleted from 'react-icons/lib/md/format-list-bulleted';
 import { Grid, Row, Col, Button, Collapse, Well, FormGroup, FormControl } from 'react-bootstrap';
 
-import { fetchLists, fetchTasks, activeList, fetchUser, postList } from '../../actions/index';
+import { fetchLists, fetchTasks, activeList, fetchUser, postList, deleteList } from '../../actions/index';
 
 import List from '../../components/List/List.component';
 
@@ -32,7 +32,6 @@ class Lists extends Component {
     if (target.charCode == 13) {
       postList({ name: this.state.value, owner: this.props.user.user_id });
       this.setState({ value: '', open: false });
-      console.log("this.props.user.id: ", this.props.user);
       this.props.fetchLists(this.props.user.user_id);
     }
   }
@@ -73,9 +72,7 @@ class Lists extends Component {
             <div className="table-full-width">
                 <table className="table">
                     <tbody>
-                      <tr className="nav" >
                         {typeof this.props.lists.length == 'undefined' ? <div>Loading...</div> : this.renderList()}
-                      </tr>
                     </tbody>
                 </table>
             </div>

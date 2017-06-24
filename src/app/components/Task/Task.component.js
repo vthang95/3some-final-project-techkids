@@ -6,7 +6,6 @@ import { fetchTasks, deleteTask } from '../../actions/index';
 
 class Task extends Component {
   handleDeleteTask(task) {
-    console.log('task:', task);
     deleteTask(task);
     this.props.fetchTasks({ _id: task.listIn });
   }
