@@ -3,22 +3,19 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import MdFormatListBulleted from 'react-icons/lib/md/format-list-bulleted';
 
-import { fetchLists, fetchTasks, activeList, fetchUser } from '../../actions/index';
+import { fetchLists, fetchTasks, activeList } from '../../actions/index';
 
-class Lists extends Component {
-  componentDidMount() {
-    this.props.fetchLists(this.props.user.id);
-    this.props.fetchUser();
-  }
-
+class List extends Component {
   handleClickList(list) {
     this.props.fetchTasks(list);
     this.props.activeList(list);
   }
 
-  renderList() {
-    return this.props.lists.map(list => (
-      <tr key={list._id} style={style.li} onClick={this.handleClickList.bind(this, list)}>
+  render() {
+    let list = this.props;
+    console.log('list: ', list);
+    return (
+      <tr style={style.li} onClick={this.handleClickList.bind(this, list)}>
         <td><MdFormatListBulleted style={style.icon} /></td>
         <td>{list.name}</td>
         <td className="td-actions text-right">
@@ -30,35 +27,6 @@ class Lists extends Component {
             </button>
         </td>
       </tr>
-    ))
-  }
-
-  render() {
-    return (
-      <div className="col-md-4">
-        <div className="card">
-          <div className="header">
-            <h4 className="title">Your lists</h4>
-          </div>
-          <div className="content">
-            <div className="table-full-width">
-                <table className="table">
-                    <tbody>
-                      <tr className="nav" >
-                        {typeof this.props.lists.length == 'undefined' ? <div>Loading...</div> : this.renderList()}
-                      </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div className="footer">
-                <hr />
-                <div className="stats">
-                    <i className="fa fa-history"></i> a hihi footer
-                </div>
-            </div>
-          </div>
-        </div>
-      </div>
     );
   }
 }
@@ -98,7 +66,7 @@ function mapStateToProps({ lists, user }) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ fetchLists, fetchTasks, activeList, fetchUser }, dispatch)
+  return bindActionCreators({ fetchLists, fetchTasks, activeList }, dispatch)
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Lists);
+export default connect(mapStateToProps, mapDispatchToProps)(List);

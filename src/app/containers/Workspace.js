@@ -7,8 +7,8 @@ import { Link } from 'react-router-dom';
 import SidebarContainer from './Sidebar/Sidebar.container';
 import Header from './Header/Header.container';
 import ListOfTasks from './ListOfTasks/ListOfTasks.container';
+import ListOfLists from './ListOfLists/ListOfLists.container';
 import Activity from './Activity/Activity.container';
-import Lists from '../components/Lists/Lists.component';
 
 import { fetchUser } from '../actions/index';
 
@@ -28,7 +28,7 @@ class Workspace extends Component {
             <div className="container-fluid">
               <div className="row">
                 <ListOfTasks />
-                <Lists />
+                <ListOfLists />
               </div>
             </div>
           </div>

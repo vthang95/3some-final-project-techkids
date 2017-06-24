@@ -5,6 +5,8 @@ import { Grid, Row, Col, Button, Collapse, Well, FormGroup, FormControl } from '
 
 import { postTask, fetchTasks, deleteTask } from '../../actions/index';
 
+import Task from '../../components/Task/Task.component';
+
 class ListOfTasks extends Component {
   constructor(props) {
     super(props);
@@ -23,20 +25,7 @@ class ListOfTasks extends Component {
   }
   renderTask() {
     return this.props.tasks.map(task => (
-      <tr key={task._id}>
-          <td>
-            <input type="checkbox" value="" data-toggle="checkbox" />
-          </td>
-          <td>{task.name}</td>
-          <td className="td-actions text-right">
-              <button type="button" rel="tooltip" title="Edit Task" className="btn btn-info btn-simple btn-xs">
-                  <i className="fa fa-edit"></i>
-              </button>
-              <button type="button" rel="tooltip" title="Remove" className="btn btn-danger btn-simple btn-xs" onClick={this.handleDeleteTask.bind(this, task)}>
-                  <i className="fa fa-times"></i>
-              </button>
-          </td>
-      </tr>
+        <Task {...task} key={task._id} />
     ));
   }
 
