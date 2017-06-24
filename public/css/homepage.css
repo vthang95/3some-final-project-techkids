@@ -141,15 +141,6 @@ a,a:visited, a:active, a:hover{
   background-color: #e53935;
   font-size: 20px;
 }
-.content .signup-btn:hover,
-.content .signup-btn:focus {
-  animation: pulse 1s;
-  box-shadow: 0 0 0 2em rgba(#fff,0);
-}
-
-@keyframes pulse {
-  0% { box-shadow: 0 0 0 0 var(--hover); }
-}
 /*Footer-Style*/
 footer{
   background-color: transparent;
@@ -244,7 +235,7 @@ footer{
         display: none
       }
       .user-page .form-horizontal{
-        width: 400px;
+        width: 320px;
       }
     }
     /* Custom, iPhone Retina */
@@ -264,6 +255,4 @@ footer{
         padding: 10px 10px;
         width: 90%;
       }
-
-
     }
