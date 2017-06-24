@@ -1,7 +1,7 @@
-.navbar.navbar-default.navbar-fixed-top
-  .container
+.navbar.navbar-default
+  .container-fluid.header
     .navbar-header
-      button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-collapse')
+      button.navbar-toggle(type='button', data-toggle='collapse', data-target='#nav-dropdown')
         span.sr-only Toggle navigation
         span.icon-bar
         span.icon-bar
@@ -9,7 +9,7 @@
       a.navbar-brand(href='/')
         i.fa.fa-cube
         | Oh!List
-    .collapse.navbar-collapse
+    .collapse.navbar-collapse#nav-dropdown
       ul.nav.navbar-nav
         li(class=(title == 'Home') ? 'active' : undefined)
           a(href='/') Home

@@ -7,6 +7,8 @@ import TiMessages from 'react-icons/lib/ti/messages';
 
 import { fetchUser } from '../../actions/index';
 
+import style from './Header.style.css'
+
 class Header extends Component {
   componentDidMount(){
     this.props.fetchUser();
