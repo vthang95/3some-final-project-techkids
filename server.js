@@ -55,7 +55,7 @@ mongoose.connection.once('open', () => console.log('%s Connected to mLab', chalk
 /**
  * Express configurations
  */
-app.set('port', config.PORT || 7000);
+app.set('port', process.env.PORT || 7000);
 // set the views folder for template engine
 app.set('views', __dirname + '/src/views');
 // set template engine as pug. https://pugjs.org/api/getting-started.html
