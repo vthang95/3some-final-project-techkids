@@ -3,6 +3,8 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 
 const List = require('./List.model');
+const Task = require('../tasks/Task.model');
+const Subtask = require('../subtasks/Subtask.model');
 const User = require('../users/User.model');
 
 exports.postList = (req, res) => {
@@ -241,9 +243,27 @@ var removeMemberFromList = (idList, memberInfo, callback) => {
 }
 
 exports.deleteListByObjId = (req, res) => {
-  List.remove({ _id: req.params.list_id }).exec((err) => {
+  let list_id = req.params.list_id;
+
+  Task.find({ listIn: list_id })
+  .exec((err, docs) => {
+    if(err) console.log('lists.controller.js: ', err);
+    if(typeof docs != undefined) {
+      docs.forEach((doc) => {
+        Subtask.remove({ childOf: doc._id })
+        .exec((err) => {
+          if(err) console.log('lists.controller.js: ', err);
+        })
+      })
+    }
+    Task.remove({ listIn: list_id }).exec((err) => {
+      if(err) console.log('lists.controller.js: ', err);
+      console.log('deleted task in list id: ', list_id);
+    })
+  })
+  List.remove({ _id: list_id }).exec((err) => {
     if(err){
-      console.log(err);
+      console.log('lists.controller.js: ', err);
       res.json({ error_msg: err });
     }
     res.json({ msg: "Delete list success" });
