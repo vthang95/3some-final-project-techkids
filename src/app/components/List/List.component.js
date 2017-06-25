@@ -11,8 +11,9 @@ class List extends Component {
     this.props.activeList(list);
   }
   handleDeleteList(list) {
-    deleteList(list);
-    this.props.fetchLists(list.owner._id);
+    deleteList(list, () => {
+      this.props.fetchLists(list.owner._id).bind(this);
+    });
   }
   render() {
     let list = this.props;

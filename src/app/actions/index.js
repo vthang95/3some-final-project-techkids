@@ -29,26 +29,26 @@ export function fetchTasks(list) {
   }
 }
 
-export function postTask(task) {
+export function postTask(task, callback) {
   let { name, listIn } = task;
   let url = `${getHostName()}/api/tasks`;
-  axios.post(url, { name, listIn });
+  axios.post(url, { name, listIn }).then(() => callback());
 }
 
-export function postList(list) {
+export function postList(list, callback) {
   let { name, owner } = list;
   let url = `${getHostName()}/api/lists`;
-  axios.post(url, { name, owner });
+  axios.post(url, { name, owner }).then(() => callback());
 }
 
-export function deleteList(list) {
+export function deleteList(list, callback) {
   let url = `${getHostName()}/api/lists/${list._id}`
-  axios.delete(url);
+  axios.delete(url).then(() => callback());
 }
 
-export function deleteTask(task) {
+export function deleteTask(task, callback) {
   let url = `${getHostName()}/api/tasks/${task._id}`;
-  axios.delete(url);
+  axios.delete(url).then(() => callback());
 }
 
 export function activeList(list) {

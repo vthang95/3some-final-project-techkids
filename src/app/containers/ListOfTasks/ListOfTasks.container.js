@@ -20,8 +20,9 @@ class ListOfTasks extends Component {
 
   }
   handleDeleteTask(task) {
-    deleteTask(task);
-    this.props.fetchTasks({ _id: task.listIn });
+    deleteTask(task, () => {
+      this.props.fetchTasks({ _id: task.listIn }).bind(this);
+    });
   }
   renderTask() {
     return this.props.tasks.map(task => (
@@ -35,9 +36,10 @@ class ListOfTasks extends Component {
 
   handleKeyPress(target) {
     if (target.charCode == 13) {
-      postTask({ name: this.state.value, listIn: this.props.activeList._id })
+      postTask({ name: this.state.value, listIn: this.props.activeList._id }, () => {
+        this.props.fetchTasks({ _id: this.props.activeList._id }).bind(this);
+      });
       this.setState({ value: '', open: false })
-      this.props.fetchTasks({ _id: this.props.activeList._id })
     }
   }
 

@@ -3888,9 +3888,11 @@ function postList(list) {
   _axios2.default.post(url, { name: name, owner: owner });
 }
 
-function deleteList(list) {
+function deleteList(list, callback) {
   var url = (0, _helper.getHostName)() + '/api/lists/' + list._id;
-  _axios2.default.delete(url);
+  _axios2.default.delete(url).then(function () {
+    return callback();
+  });
 }
 
 function deleteTask(task) {
@@ -25271,8 +25273,11 @@ var List = function (_Component) {
   }, {
     key: 'handleDeleteList',
     value: function handleDeleteList(list) {
-      (0, _index.deleteList)(list);
-      this.props.fetchLists(list.owner._id);
+      var _this2 = this;
+
+      (0, _index.deleteList)(list, function () {
+        _this2.props.fetchLists(list.owner._id).bind(_this2);
+      });
     }
   }, {
     key: 'render',
