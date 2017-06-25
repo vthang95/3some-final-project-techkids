@@ -61,16 +61,6 @@ exports.getTaskByListId = (req, res) => {
 exports.updateTask = (req, res) => {
   let id = req.params.task_id;
 
-  let newInfo = {
-    id       : req.params.task_id,
-    name     : req.body.name,
-    duaDate  : req.body.duaDate,
-    note     : req.body.note,
-    isDone   : req.body.isDone,
-    isStarred: req.body.isStarred,
-    important: req.body.important
-  }
-
   Task.findOne({ _id: id }, (err, doc) => {
     if (err) return res.json({ error_msg: 'An error occurred!' });
     doc.name      = req.body.name || doc.name;
