@@ -3845,7 +3845,6 @@ var _helper = __webpack_require__(295);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // TODO: use constant file
-
 function fetchUser() {
   var url = (0, _helper.getHostName)() + '/api/workspace';
   var response = _axios2.default.get(url);
@@ -26424,21 +26423,18 @@ exports.default = function () {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(process) {
+
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var port = process.env.PORT || 7000;
-
 var getHostName = exports.getHostName = function getHostName() {
-  return 'https://localhost:' + port;
+  return 'https://localhost:7000';
 };
 var getUserId = exports.getUserId = function getUserId() {
   var user_id = localStorage.getItem('user_id');
   return user_id;
 };
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
 /* 296 */
