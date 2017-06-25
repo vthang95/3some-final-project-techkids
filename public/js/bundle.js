@@ -26429,7 +26429,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 var getHostName = exports.getHostName = function getHostName() {
-  return 'https://localhost:7000';
+  return 'http://localhost:7000';
 };
 var getUserId = exports.getUserId = function getUserId() {
   var user_id = localStorage.getItem('user_id');
