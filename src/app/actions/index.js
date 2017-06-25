@@ -1,9 +1,10 @@
 import axios from 'axios';
 
+import { getHostName } from '../utils/helper';
 // TODO: use constant file
 
 export function fetchUser() {
-  let url = 'http://localhost:7000/api/workspace';
+  let url = `${getHostName()}/api/workspace`;
   let response = axios.get(url);
   return {
     type: 'FETCH_USER',
@@ -12,7 +13,7 @@ export function fetchUser() {
 }
 
 export function fetchLists(user_id) {
-  let url = `http://localhost:7000/api/lists/all/${user_id}`
+  let url = `${getHostName()}/api/lists/all/${user_id}`
   let response = axios.get(url);
   return {
     type: 'FETCH_LIST',
@@ -21,7 +22,7 @@ export function fetchLists(user_id) {
 }
 
 export function fetchTasks(list) {
-  let url = `http://localhost:7000/api/tasks/${list._id}`;
+  let url = `${getHostName()}/api/tasks/${list._id}`;
   let response = axios.get(url);
   return {
     type: 'FETCH_TASK',
@@ -31,23 +32,23 @@ export function fetchTasks(list) {
 
 export function postTask(task) {
   let { name, listIn } = task;
-  let url = `http://localhost:7000/api/tasks`;
+  let url = `${getHostName()}/api/tasks`;
   axios.post(url, { name, listIn });
 }
 
 export function postList(list) {
   let { name, owner } = list;
-  let url = `http://localhost:7000/api/lists`;
+  let url = `${getHostName()}/api/lists`;
   axios.post(url, { name, owner });
 }
 
 export function deleteList(list) {
-  let url = `http://localhost:7000/api/lists/${list._id}`
+  let url = `${getHostName()}/api/lists/${list._id}`
   axios.delete(url);
 }
 
 export function deleteTask(task) {
-  let url = `http://localhost:7000/api/tasks/${task._id}`;
+  let url = `${getHostName()}/api/tasks/${task._id}`;
   axios.delete(url);
 }
 
