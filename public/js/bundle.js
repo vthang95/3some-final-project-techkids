@@ -26426,9 +26426,13 @@ exports.default = function () {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+// production
+// export const getHostName = () => `https://ohlist.herokuapp.com`;
+// dev
 var getHostName = exports.getHostName = function getHostName() {
-  return 'https://ohlist.herokuapp.com';
+  return 'http://localhost:7000';
 };
+
 var getUserId = exports.getUserId = function getUserId() {
   var user_id = localStorage.getItem('user_id');
   return user_id;
