@@ -3872,20 +3872,24 @@ function fetchTasks(list) {
   };
 }
 
-function postTask(task) {
+function postTask(task, callback) {
   var name = task.name,
       listIn = task.listIn;
 
   var url = (0, _helper.getHostName)() + '/api/tasks';
-  _axios2.default.post(url, { name: name, listIn: listIn });
+  _axios2.default.post(url, { name: name, listIn: listIn }).then(function () {
+    return callback();
+  });
 }
 
-function postList(list) {
+function postList(list, callback) {
   var name = list.name,
       owner = list.owner;
 
   var url = (0, _helper.getHostName)() + '/api/lists';
-  _axios2.default.post(url, { name: name, owner: owner });
+  _axios2.default.post(url, { name: name, owner: owner }).then(function () {
+    return callback();
+  });
 }
 
 function deleteList(list, callback) {
@@ -3895,9 +3899,11 @@ function deleteList(list, callback) {
   });
 }
 
-function deleteTask(task) {
+function deleteTask(task, callback) {
   var url = (0, _helper.getHostName)() + '/api/tasks/' + task._id;
-  _axios2.default.delete(url);
+  _axios2.default.delete(url).then(function () {
+    return callback();
+  });
 }
 
 function activeList(list) {
@@ -25273,11 +25279,7 @@ var List = function (_Component) {
   }, {
     key: 'handleDeleteList',
     value: function handleDeleteList(list) {
-      var _this2 = this;
-
-      (0, _index.deleteList)(list, function () {
-        _this2.props.fetchLists(list.owner._id).bind(_this2);
-      });
+      (0, _index.deleteList)(list, this.props.fetchLists.bind(this, list.owner._id));
     }
   }, {
     key: 'render',
@@ -25396,8 +25398,7 @@ var Task = function (_Component) {
   _createClass(Task, [{
     key: 'handleDeleteTask',
     value: function handleDeleteTask(task) {
-      (0, _index.deleteTask)(task);
-      this.props.fetchTasks({ _id: task.listIn });
+      (0, _index.deleteTask)(task, this.props.fetchTasks.bind(this, { _id: task.listIn }));
     }
   }, {
     key: 'render',
@@ -25806,9 +25807,8 @@ var Lists = function (_Component) {
     key: 'handleKeyPress',
     value: function handleKeyPress(target) {
       if (target.charCode == 13) {
-        (0, _index.postList)({ name: this.state.value, owner: this.props.user.user_id });
+        (0, _index.postList)({ name: this.state.value, owner: this.props.user.user_id }, this.props.fetchLists.bind(this, this.props.user.user_id));
         this.setState({ value: '', open: false });
-        this.props.fetchLists(this.props.user.user_id);
       }
     }
   }, {
@@ -26017,12 +26017,6 @@ var ListOfTasks = function (_Component) {
     key: 'componentDidMount',
     value: function componentDidMount() {}
   }, {
-    key: 'handleDeleteTask',
-    value: function handleDeleteTask(task) {
-      (0, _index.deleteTask)(task);
-      this.props.fetchTasks({ _id: task.listIn });
-    }
-  }, {
     key: 'renderTask',
     value: function renderTask() {
       return this.props.tasks.map(function (task) {
@@ -26038,9 +26032,8 @@ var ListOfTasks = function (_Component) {
     key: 'handleKeyPress',
     value: function handleKeyPress(target) {
       if (target.charCode == 13) {
-        (0, _index.postTask)({ name: this.state.value, listIn: this.props.activeList._id });
+        (0, _index.postTask)({ name: this.state.value, listIn: this.props.activeList._id }, this.props.fetchTasks.bind(this, { _id: this.props.activeList._id }));
         this.setState({ value: '', open: false });
-        this.props.fetchTasks({ _id: this.props.activeList._id });
       }
     }
   }, {

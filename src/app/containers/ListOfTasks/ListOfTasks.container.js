@@ -19,11 +19,6 @@ class ListOfTasks extends Component {
   componentDidMount() {
 
   }
-  handleDeleteTask(task) {
-    deleteTask(task, () => {
-      this.props.fetchTasks({ _id: task.listIn }).bind(this);
-    });
-  }
   renderTask() {
     return this.props.tasks.map(task => (
         <Task {...task} key={task._id} />
@@ -36,9 +31,7 @@ class ListOfTasks extends Component {
 
   handleKeyPress(target) {
     if (target.charCode == 13) {
-      postTask({ name: this.state.value, listIn: this.props.activeList._id }, () => {
-        this.props.fetchTasks({ _id: this.props.activeList._id }).bind(this);
-      });
+      postTask({ name: this.state.value, listIn: this.props.activeList._id }, this.props.fetchTasks.bind(this, { _id: this.props.activeList._id }));
       this.setState({ value: '', open: false })
     }
   }

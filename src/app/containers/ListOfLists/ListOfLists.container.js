@@ -30,9 +30,7 @@ class Lists extends Component {
 
   handleKeyPress(target) {
     if (target.charCode == 13) {
-      postList({ name: this.state.value, owner: this.props.user.user_id }, () => {
-        this.props.fetchLists(this.props.user.user_id).bind(this);
-      });
+      postList({ name: this.state.value, owner: this.props.user.user_id }, this.props.fetchLists.bind(this, this.props.user.user_id));
       this.setState({ value: '', open: false });
     }
   }
