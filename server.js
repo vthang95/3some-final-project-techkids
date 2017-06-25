@@ -38,13 +38,20 @@ const passportConfig = require('./config/passport.config');
 /**
  * Connect database with mongoose
  */
+ const options = {
+     server: { socketOptions: { keepAlive: 300000, connectTimeoutMS: 30000 } },
+     replset: { socketOptions: { keepAlive: 300000, connectTimeoutMS: 30000 } }
+ };
+
 mongoose.Promise = global.Promise;
-mongoose.connect(config.MONGODB_URI);
+mongoose.connect(config.MONGODB_URI, options);
 mongoose.connection.on('error', (err) => {
   console.log(err);
   console.log('%s MongoDB connection error! Please make sure MongoDB is running', chalk.red('✗'));
   process.exit();
 });
+// mongoose.connection.once('open', () => console.log('%s Connected to mLab', chalk.green('✓')));
+mongoose.connection.once('open', () => console.log('%s Connected to localDB', chalk.green('✓')));
 /**
  * Express configurations
  */

@@ -1,5 +1,6 @@
 {
   "MONGODB_URI": "mongodb://localhost:27017/ohlist",
+  "MLAB_PRODUCTION_DB_URI": "mongodb://vthang95:3someisthebest@ds135592.mlab.com:35592/ohlist",
   "PORT": 7000,
   "SESSION_SECRET": "3some"
 }
