@@ -2,7 +2,7 @@ import axios from 'axios';
 
 import { getHostName } from '../utils/helper';
 // TODO: use constant file
-
+console.log('host name', getHostName());
 export function fetchUser() {
   let url = `${getHostName()}/api/workspace`;
   let response = axios.get(url);
