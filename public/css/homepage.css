@@ -11,19 +11,19 @@ body{
   background-position:center;
   overflow: hidden;
   color: #ffffff;
-  transition: all 0.1s;
+  transition: all 0.2s;
   font-family: 'Lato', sans-serif;
 }
-/*body:before{
+body:before{
   position: absolute;
   top: 0;
   left: 0;
   content: "";
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   background-color: #000000;
   opacity: 0.3;
-}*/
+}
 a,a:visited, a:active, a:hover{
   text-decoration: none;
   color: #FFFFFF;
@@ -37,13 +37,22 @@ a,a:visited, a:active, a:hover{
   border: 0;
   background-color: transparent;
 }
-.navbar-default .navbar-nav>li>a, .navbar-default .navbar-brand{
+.navbar-default .navbar-nav>li>a,
+.navbar-default .navbar-brand{
   color: #ffffff;
+  font-weight: bold;
+  font-family: 'Lato', sans-serif;
+}
+.navbar-default .navbar-nav>li>a{
+  font-size: 0.9  em;
 }
 .navbar-default .navbar-brand{
   font-size: 1.3em;
 }
-.navbar-default .navbar-brand:hover, .navbar-default .navbar-nav>li>a:focus, .navbar-default .navbar-nav>li>a:hover,.navbar-default .navbar-nav>.active>a:hover{
+.navbar-default .navbar-brand:hover,
+.navbar-default .navbar-nav>li>a:focus,
+.navbar-default .navbar-nav>li>a:hover,
+.navbar-default .navbar-nav>.active>a:hover{
   color: #c62828;
   background-color: transparent;
   transition: all 0.2s;
@@ -54,26 +63,13 @@ a,a:visited, a:active, a:hover{
 }
 .header{
   padding: 10px 30px;
-  font-size: 1.3em;
   position: relative;
   z-index: 2;
-}
-
-.header .logo{
-  color: #ffffff;
-  font-size: 3em;
-  font-weight: bold;
-}
-.header ul{
-  font-weight: 500;
-  font-size: 0.8em;
-  position: relative;
 }
 .header .nav-button{
   border: 0;
   width: 50px;
 }
-
 /*Body-Content-Style*/
 .content{
   height: 85%;
@@ -87,9 +83,9 @@ a,a:visited, a:active, a:hover{
   top: 15%;
   left: 5%;
   font-size: 3em;
-  font-family: 'Fenix', serif;
+  font-family: 'Lato', sans-serif;
 }
-.content, .carousel-item, #carousel-content{
+.content, #carousel-content{
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -135,11 +131,28 @@ a,a:visited, a:active, a:hover{
   left:90%;
 }
 
-.content .signup-btn{
+#signup-btn.btn{
   width: 200px;
   height: 10%;
   background-color: #e53935;
-  font-size: 20px;
+  font-size: 17px;
+  border-radius: 0;
+  border: 0;
+  box-shadow: 0 0 0 0 rgba(232, 76, 61, 0.7);
+  font-family: 'Lato', sans-serif;
+}
+@-webkit-keyframes pulse {to {box-shadow: 0 0 0 45px rgba(232, 76, 61, 0);}}
+@-moz-keyframes pulse {to {box-shadow: 0 0 0 45px rgba(232, 76, 61, 0);}}
+@-ms-keyframes pulse {to {box-shadow: 0 0 0 45px rgba(232, 76, 61, 0);}}
+@keyframes pulse {to {box-shadow: 0 0 0 45px rgba(232, 76, 61, 0);}}
+#signup-btn.btn:hover{
+  -webkit-animation: pulse 1.25s infinite cubic-bezier(0.66, 0, 0, 1);
+  -moz-animation: pulse 1.25s infinite cubic-bezier(0.66, 0, 0, 1);
+  -ms-animation: pulse 1.25s infinite cubic-bezier(0.66, 0, 0, 1);
+  animation: pulse 1.25s infinite cubic-bezier(0.66, 0, 0, 1);
+}
+.btn{
+  border-radius: 0;
 }
 /*Footer-Style*/
 footer{
@@ -154,6 +167,7 @@ footer{
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  font-size: 0.9em;
 }
 .nav-footer li:first-child::before{
   content : "";
@@ -195,15 +209,14 @@ footer{
         width: 100%;
       }
       body{
-        font-size: 140%;
-        position: relative;
+        font-size: 130%;
       }
 
       .carousel-item{
         width: 100%;
       }
       #nav-dropdown{
-        background-color: rgba(33,33,33 ,0.7);
+        background-color: rgba(33,33,33 ,0.8);
       }
       #nav-dropdown ul{
         display: flex;
@@ -231,28 +244,21 @@ footer{
       .carousel-item{
         width: 100%;
       }
-      .carousel-item .title img{
-        display: none
-      }
+
       .user-page .form-horizontal{
         width: 320px;
       }
     }
     /* Custom, iPhone Retina */
     @media only screen and (max-width : 320px) {
-      #carousel-content{
-        width: 100%;
-        padding: 10px 20px;
-      }
       body{
-        font-size: 90%;
-      }
-
-      .carousel-item   .title img{
-        display: none
+        font-size: 100%;
       }
       .user-page .form-horizontal{
         padding: 10px 10px;
         width: 90%;
+      }
+      .carousel-content{
+        height: 100%;
       }
     }

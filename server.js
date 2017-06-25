@@ -44,19 +44,20 @@ const passportConfig = require('./config/passport.config');
  };
 
 mongoose.Promise = global.Promise;
-mongoose.connect(config.MONGODB_URI, options);
+mongoose.connect(config.MLAB_PRODUCTION_DB_URI, options);
 mongoose.connection.on('error', (err) => {
   console.log(err);
   console.log('%s MongoDB connection error! Please make sure MongoDB is running', chalk.red('✗'));
   process.exit();
 });
-// mongoose.connection.once('open', () => console.log('%s Connected to mLab', chalk.green('✓')));
-mongoose.connection.once('open', () => console.log('%s Connected to localDB', chalk.green('✓')));
+mongoose.connection.once('open', () => console.log('%s Connected to mLab', chalk.green('✓')));
+// mongoose.connection.once('open', () => console.log('%s Connected to localDB', chalk.green('✓')));
 /**
  * Express configurations
  */
-app.set('port', config.PORT || 7000);
-// set the views folder for template engine
+app.set('port', process.env.PORT || 7000);
+//export to front end
+
 app.set('views', __dirname + '/src/views');
 // set template engine as pug. https://pugjs.org/api/getting-started.html
 app.set('view engine', 'pug');
@@ -179,3 +180,5 @@ server.listen(app.get('port'), (req, res) => {
     chalk.green('✓'),
     app.get('port'));
 });
+
+// set the views folder for template engine

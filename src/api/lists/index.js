@@ -9,6 +9,6 @@ Router.get('/all/:user_id', listController.getListByOwnerId);//{ user_id: Object
 Router.get('/:list_id', listController.getListById); //{ list_id: ObjectId }
 Router.put('/:list_id', listController.putName);//{ list_id: ObjectId,name: String }
 Router.delete('/:list_id/member', listController.removeMember);//{ list_id: ObjectId, member: String }
-Router.delete('/', listController.deleteListByObjId);//{ id: ObjectId }
+Router.delete('/:list_id', listController.deleteListByObjId);//{ id: ObjectId }
 
 module.exports = Router;
