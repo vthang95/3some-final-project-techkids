@@ -135,20 +135,20 @@ app.get('/api/workspace', (req, res) => {
   return res.json({ name: req.user.username, user_id: req.user._id });
 });
 
-app.use('/api/users', usersRouter);
-app.use('/api/lists', listsRouter);
-app.use('/api/tasks', tasksRouter);
-app.use('/api/notes', notesRouter);
+app.use('/api/users', passportConfig.isAuthenticated, usersRouter);
+app.use('/api/lists', passportConfig.isAuthenticated, listsRouter);
+app.use('/api/tasks', passportConfig.isAuthenticated, tasksRouter);
+app.use('/api/notes', passportConfig.isAuthenticated, notesRouter);
+app.use('/subtasks', passportConfig.isAuthenticated, subtasksRouter);
 
 app.get('/contact', passportConfig.isAuthenticated, (req, res) => {
   return res.json('ok');
 });
 
-app.use('/users', usersRouter);
-app.use('/lists', listsRouter);
-app.use('/tasks', tasksRouter);
-app.use('/subtasks', subtasksRouter);
-app.use('/notes', notesRouter);
+// app.use('/users', usersRouter);
+// app.use('/lists', listsRouter);
+// app.use('/tasks', tasksRouter);
+// app.use('/notes', notesRouter);
 app.use('/', navigationRouter);
 app.get('*', (req, res) => {
   if (!req.user) return res.render('pageNotFound', { title: 'Page Not Found!' });
