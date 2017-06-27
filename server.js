@@ -38,18 +38,26 @@ const passportConfig = require('./config/passport.config');
 /**
  * Connect database with mongoose
  */
+ const options = {
+     server: { socketOptions: { keepAlive: 300000, connectTimeoutMS: 30000 } },
+     replset: { socketOptions: { keepAlive: 300000, connectTimeoutMS: 30000 } }
+ };
+
 mongoose.Promise = global.Promise;
-mongoose.connect(config.MONGODB_URI);
+mongoose.connect(config.MLAB_PRODUCTION_DB_URI, options);
 mongoose.connection.on('error', (err) => {
   console.log(err);
   console.log('%s MongoDB connection error! Please make sure MongoDB is running', chalk.red('✗'));
   process.exit();
 });
+mongoose.connection.once('open', () => console.log('%s Connected to mLab', chalk.green('✓')));
+// mongoose.connection.once('open', () => console.log('%s Connected to localDB', chalk.green('✓')));
 /**
  * Express configurations
  */
-app.set('port', config.PORT || 7000);
-// set the views folder for template engine
+app.set('port', process.env.PORT || 7000);
+//export to front end
+
 app.set('views', __dirname + '/src/views');
 // set template engine as pug. https://pugjs.org/api/getting-started.html
 app.set('view engine', 'pug');
@@ -127,20 +135,20 @@ app.get('/api/workspace', (req, res) => {
   return res.json({ name: req.user.username, user_id: req.user._id });
 });
 
-app.use('/api/users', usersRouter);
-app.use('/api/lists', listsRouter);
-app.use('/api/tasks', tasksRouter);
-app.use('/api/notes', notesRouter);
+app.use('/api/users', passportConfig.isAuthenticated, usersRouter);
+app.use('/api/lists', passportConfig.isAuthenticated, listsRouter);
+app.use('/api/tasks', passportConfig.isAuthenticated, tasksRouter);
+app.use('/api/notes', passportConfig.isAuthenticated, notesRouter);
+app.use('/subtasks', passportConfig.isAuthenticated, subtasksRouter);
 
 app.get('/contact', passportConfig.isAuthenticated, (req, res) => {
   return res.json('ok');
 });
 
-app.use('/users', usersRouter);
-app.use('/lists', listsRouter);
-app.use('/tasks', tasksRouter);
-app.use('/subtasks', subtasksRouter);
-app.use('/notes', notesRouter);
+// app.use('/users', usersRouter);
+// app.use('/lists', listsRouter);
+// app.use('/tasks', tasksRouter);
+// app.use('/notes', notesRouter);
 app.use('/', navigationRouter);
 app.get('*', (req, res) => {
   if (!req.user) return res.render('pageNotFound', { title: 'Page Not Found!' });
@@ -172,3 +180,5 @@ server.listen(app.get('port'), (req, res) => {
     chalk.green('✓'),
     app.get('port'));
 });
+
+// set the views folder for template engine

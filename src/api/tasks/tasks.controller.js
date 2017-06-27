@@ -59,60 +59,22 @@ exports.getTaskByListId = (req, res) => {
 };
 
 exports.updateTask = (req, res) => {
-  req.assert('task_id', '! task_id is required').notEmpty();
+  let id = req.params.task_id;
 
-  const errors = req.validationErrors();
-  if(errors) return res.json({ error: errors });
+  Task.findOne({ _id: id }, (err, doc) => {
+    if (err) return res.json({ error_msg: 'An error occurred!' });
+    doc.name      = req.body.name || doc.name;
+    doc.duaDate   = req.body.duaDate || doc.duaDate;
+    doc.note      = req.body.note || doc.note;
+    doc.isDone    = req.body.isDone || doc.isDone;
+    doc.isStarred = req.body.isStarred || doc.isStarred;
+    doc.important = req.body.important || doc.important;
 
-  let newInfo = {
-    id       : req.params.task_id,
-    name     : req.body.name,
-    duaDate  : req.body.duaDate,
-    note     : req.body.note,
-    isDone   : req.body.isDone,
-    isStarred: req.body.isStarred,
-    important: req.body.important
-  }
-
-  console.log(newInfo);
-
-  if(newInfo.name) {
-    changeNameTask(newInfo.id, newInfo.name, (err) => {
-      if(err) console.log(err);
+    Task.findOneAndUpdate({ _id: id }, doc, (err, task) => {
+      if (err) return res.json({ error_msg: 'An error occurred!' });
+      return res.json(task)
     })
-  }
-
-  if(newInfo.duaDate){
-    setDueDate(newInfo.id, newInfo.duaDate, (err) => {
-      if(err) console.log(err);
-    })
-  }
-
-  if(newInfo.note) {
-    setNote(newInfo.id, newInfo.note, (err) => {
-      if(err) console.log(err);
-    })
-  }
-
-  if(newInfo.isDone) {
-    setIsDone(newInfo.id, newInfo.isDone, (err) => {
-      if(err) console.log(err);
-    })
-  }
-
-  if(newInfo.isStarred) {
-    setIsStarred(newInfo.id, newInfo.isStarred, (err) => {
-      if(err) console.log(err);
-    })
-  }
-
-  if(newInfo.important) {
-    setImportant(newInfo.id, newInfo.important, (err) => {
-      if(err) console.log(er);
-    })
-  }
-
-  res.json({ msg: 'update task success' });
+  });
 };
 
 exports.postComment = (req, res) => {

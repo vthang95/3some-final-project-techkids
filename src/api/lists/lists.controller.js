@@ -241,12 +241,7 @@ var removeMemberFromList = (idList, memberInfo, callback) => {
 }
 
 exports.deleteListByObjId = (req, res) => {
-  req.assert('id', '! id is required').notEmpty();
-
-  const errors = req.validationErrors();
-  if(errors) return res.json({ error: errors });
-
-  List.remove({ _id: req.body.id }).exec((err) => {
+  List.remove({ _id: req.params.list_id }).exec((err) => {
     if(err){
       console.log(err);
       res.json({ error_msg: err });

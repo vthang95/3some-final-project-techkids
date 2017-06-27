@@ -19,7 +19,6 @@ class Workspace extends Component {
 
   render() {
     if((typeof this.props.user.user_id) == 'undefined') return <div></div>;
-    console.log(this.props.user.user_id);
     return (
       <div className="wrapper">
       <Header />
