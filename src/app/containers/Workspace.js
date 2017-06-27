@@ -22,9 +22,10 @@ class Workspace extends Component {
     console.log(this.props.user.user_id);
     return (
       <div className="wrapper">
+      <Header />
         <SidebarContainer style={style.sidebar} />
         <div className="main-panel">
-          <div className="content" style={style.content}>
+          <div className="content row row-offcanvas row-offcanvas-right" style={style.content}>
             <div className="container-fluid">
               <div className="row">
                 <ListOfTasks />
@@ -32,7 +33,6 @@ class Workspace extends Component {
               </div>
             </div>
           </div>
-          <Header />
         </div>
       </div>
     );
