@@ -135,7 +135,7 @@ app.get('/api/workspace', (req, res) => {
   return res.json({ name: req.user.username, user_id: req.user._id });
 });
 
-app.use('/api/users', passportConfig.isAuthenticated, usersRouter);
+app.use('/api/users', usersRouter);
 app.use('/api/lists', passportConfig.isAuthenticated, listsRouter);
 app.use('/api/tasks', passportConfig.isAuthenticated, tasksRouter);
 app.use('/api/notes', passportConfig.isAuthenticated, notesRouter);

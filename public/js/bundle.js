@@ -3834,7 +3834,7 @@ exports.postTask = postTask;
 exports.postList = postList;
 exports.deleteList = deleteList;
 exports.deleteTask = deleteTask;
-exports.activeList = activeList;
+exports.selectList = selectList;
 
 var _axios = __webpack_require__(152);
 
@@ -3906,7 +3906,7 @@ function deleteTask(task, callback) {
   });
 }
 
-function activeList(list) {
+function selectList(list) {
   return {
     type: 'ACTIVE_LIST',
     payload: list
@@ -25264,17 +25264,32 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var List = function (_Component) {
   _inherits(List, _Component);
 
-  function List() {
+  function List(props) {
     _classCallCheck(this, List);
 
-    return _possibleConstructorReturn(this, (List.__proto__ || Object.getPrototypeOf(List)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (List.__proto__ || Object.getPrototypeOf(List)).call(this, props));
+
+    _this.state = {
+      isHoverOn: false
+    };
+    return _this;
   }
 
   _createClass(List, [{
     key: 'handleClickList',
     value: function handleClickList(list) {
       this.props.fetchTasks(list);
-      this.props.activeList(list);
+      this.props.selectList(list);
+    }
+  }, {
+    key: 'handleOnMouseOver',
+    value: function handleOnMouseOver() {
+      this.setState({ isHoverOn: true });
+    }
+  }, {
+    key: 'handleOnMouseOut',
+    value: function handleOnMouseOut() {
+      this.setState({ isHoverOn: false });
     }
   }, {
     key: 'handleDeleteList',
@@ -25284,10 +25299,14 @@ var List = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
-      var list = this.props;
       return _react2.default.createElement(
         'tr',
-        { style: style.li, onClick: this.handleClickList.bind(this, this.props) },
+        {
+          style: this.state.isHoverOn || this.props.activeList._id === this.props._id ? style.tr : null,
+          onMouseOver: this.handleOnMouseOver.bind(this),
+          onClick: this.handleClickList.bind(this, this.props),
+          onMouseOut: this.handleOnMouseOut.bind(this)
+        },
         _react2.default.createElement(
           'td',
           null,
@@ -25296,21 +25315,25 @@ var List = function (_Component) {
         _react2.default.createElement(
           'td',
           null,
-          list.name
+          this.props.name
         ),
         _react2.default.createElement(
           'td',
           { className: 'td-actions text-right' },
-          _react2.default.createElement(
-            'button',
-            { type: 'button', rel: 'tooltip', title: 'Edit List', className: 'btn btn-info btn-simple btn-xs' },
-            _react2.default.createElement('i', { className: 'fa fa-edit' })
-          ),
-          _react2.default.createElement(
-            'button',
-            { type: 'button', rel: 'tooltip', title: 'Remove', className: 'btn btn-danger btn-simple btn-xs', onClick: this.handleDeleteList.bind(this, this.props) },
-            _react2.default.createElement('i', { className: 'fa fa-times' })
-          )
+          this.props.activeList._id === this.props._id ? _react2.default.createElement(
+            'div',
+            null,
+            _react2.default.createElement(
+              'button',
+              { type: 'button', rel: 'tooltip', title: 'Edit List', className: 'btn btn-info btn-simple btn-xs' },
+              _react2.default.createElement('i', { className: 'fa fa-edit' })
+            ),
+            _react2.default.createElement(
+              'button',
+              { type: 'button', rel: 'tooltip', title: 'Remove', className: 'btn btn-danger btn-simple btn-xs', onClick: this.handleDeleteList.bind(this, this.props) },
+              _react2.default.createElement('i', { className: 'fa fa-times' })
+            )
+          ) : null
         )
       );
     }
@@ -25320,40 +25343,23 @@ var List = function (_Component) {
 }(_react.Component);
 
 var style = {
-  taskNumber: {
-    // position: 'absolute',
-    // right: '7px',
-    // fontSize: '12px',
-    // fontWeight: 'light'
-  },
-  icon: {
-    // marginRight: '4px'
-  },
-  li: {
-    // display: 'inline-block',
-    // marginLeft: '15px',
-    // fontSize: '15px',
-    // paddingLeft: '5px',
-    // paddingTop: '8px',
-    // paddingBottom: '8px',
-    // cursor: 'pointer'
-  },
-  logo: {
-    // paddingTop: '10px',
-    // paddingBottom: '9px',
-    // backgroundColor: '#a48cd3',
-    // boxShadow: '0 0 3px rgba(0, 0, 0, 0.2)'
-  },
-  nav: {
-    // marginTop: '0px'
+  tr: {
+    backgroundColor: "#e0eefa",
+    cursor: 'pointer'
   }
 };
 
-function mapDispatchToProps(dispatch) {
-  return (0, _redux.bindActionCreators)({ fetchLists: _index.fetchLists, fetchTasks: _index.fetchTasks, activeList: _index.activeList }, dispatch);
+function mapStateToProps(_ref) {
+  var activeList = _ref.activeList;
+
+  return { activeList: activeList };
 }
 
-exports.default = (0, _reactRedux.connect)(null, mapDispatchToProps)(List);
+function mapDispatchToProps(dispatch) {
+  return (0, _redux.bindActionCreators)({ fetchLists: _index.fetchLists, fetchTasks: _index.fetchTasks, selectList: _index.selectList }, dispatch);
+}
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(List);
 
 /***/ }),
 /* 285 */
@@ -25943,6 +25949,9 @@ var style = {
     right: '10px',
     top: '-1px',
     padding: '0 8px 0 8px'
+  },
+  list: {
+    cursor: 'pointer'
   }
 };
 
@@ -25954,7 +25963,7 @@ function mapStateToProps(_ref) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return (0, _redux.bindActionCreators)({ fetchLists: _index.fetchLists, fetchTasks: _index.fetchTasks, activeList: _index.activeList, fetchUser: _index.fetchUser }, dispatch);
+  return (0, _redux.bindActionCreators)({ fetchLists: _index.fetchLists, fetchTasks: _index.fetchTasks, selectList: _index.selectList, fetchUser: _index.fetchUser }, dispatch);
 }
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Lists);
@@ -26097,7 +26106,7 @@ var ListOfTasks = function (_Component) {
           ),
           _react2.default.createElement(
             'div',
-            { className: 'content' },
+            { className: 'content', style: style.content },
             _react2.default.createElement(
               'div',
               { className: 'table-full-width' },
@@ -26118,17 +26127,6 @@ var ListOfTasks = function (_Component) {
                   ) : this.renderTask()
                 )
               )
-            ),
-            _react2.default.createElement(
-              'div',
-              { className: 'footer' },
-              _react2.default.createElement('hr', null),
-              _react2.default.createElement(
-                'div',
-                { className: 'stats' },
-                _react2.default.createElement('i', { className: 'fa fa-history' }),
-                ' Updated 3 minutes ago'
-              )
             )
           )
         )
@@ -26145,6 +26143,9 @@ var style = {
     right: '10px',
     top: '-1px',
     padding: '0 8px 0 8px'
+  },
+  content: {
+    paddingBottom: '0px'
   }
 };
 
@@ -26215,7 +26216,7 @@ var SidebarContainer = function (_Component) {
     key: 'handleClickList',
     value: function handleClickList(list) {
       this.props.fetchTasks(list);
-      this.props.activeList(list);
+      this.props.selectList(list);
     }
   }, {
     key: 'renderList',
@@ -26303,7 +26304,7 @@ function mapStateToProps(_ref) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return (0, _redux.bindActionCreators)({ fetchLists: _index.fetchLists, fetchTasks: _index.fetchTasks, activeList: _index.activeList, fetchUser: _index.fetchUser }, dispatch);
+  return (0, _redux.bindActionCreators)({ fetchLists: _index.fetchLists, fetchTasks: _index.fetchTasks, selectList: _index.selectList, fetchUser: _index.fetchUser }, dispatch);
 }
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(SidebarContainer);
