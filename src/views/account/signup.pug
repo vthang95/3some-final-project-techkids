@@ -1,11 +1,11 @@
 extends ../layout
 
 block content
+  include ../partials/flash
   include ../partials/header
   script(type='text/javascript' src='./script.js')
   .container-fluid.content.user-page
     .page-header.view-fix
-      include ../partials/flash
       h3 Sign up
     form.form-horizontal(id='signup-form',action='/api/users/signup', method='POST')
       input(type='hidden', name='_csrf', value=_csrf)

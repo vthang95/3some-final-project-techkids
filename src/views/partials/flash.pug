@@ -1,18 +1,27 @@
+mixin modal
+  #modal.modal.fade(tabindex='-1', role='dialog')
+    .modal-content
+      button.close(type='button', data-dismiss='modal') Close
+      block
+          
 if messages.errors
-  .alert.alert-danger.fade.in
-    button.close(type='button', data-dismiss='alert')
-      i.fa.fa-times-circle-o
-    for error in messages.errors
-      div= error.msg
-if messages.info
-  .alert.alert-info.fade.in
-    button.close(type='button', data-dismiss='alert')
-      i.fa.fa-times-circle-o
-    for info in messages.info
-      div= info.msg
+    +modal
+      <i class="fa fa-exclamation fa-3x error" aria-hidden="true"></i>
+      div Username or password incorrect
+if messages.info  
+  #modal.modal.fade(tabindex='-1', role='dialog')
+    .modal-content
+      <i class="fa fa-exclamation fa-3x error" aria-hidden="true"></i>
+      div Username or password incorrect
+      button.close(type='button', data-dismiss='modal') OK
 if messages.success
-  .alert.alert-success.fade.in
-    button.close(type='button', data-dismiss='alert')
-      i.fa.fa-times-circle-o
-    for success in messages.success
-      div= success.msg
+  #modal.modal.fade(tabindex='-1', role='dialog')
+    .modal-content
+      <i class="fa fa-check fa-3x success" aria-hidden="true"></i>
+      div Login success
+      button.close(type='button', data-dismiss='modal') OK
+      
+      
+script(src='/js/lib/jquery-3.1.1.min.js')
+  
+  
