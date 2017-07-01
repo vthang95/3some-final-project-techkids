@@ -24,7 +24,7 @@ class List extends Component {
     this.setState({ isHoverOn: false });
   }
   handleDeleteList(list) {
-    deleteList(list, this.props.fetchLists.bind(this, list.owner._id))
+    deleteList(list, this.props.fetchLists.bind(this, list.owner._id));
   }
   render() {
     return (
