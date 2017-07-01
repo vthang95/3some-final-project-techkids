@@ -18,7 +18,6 @@ class List extends Component {
     this.props.selectList(list);
   }
   handleOnMouseEnter() {
-    console.log('hover');
     this.setState({ isHoverOn: true });
   }
   handleOnMouseLeave() {

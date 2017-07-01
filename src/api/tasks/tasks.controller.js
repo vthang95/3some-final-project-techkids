@@ -46,7 +46,6 @@ exports.addTask = (req, res) => {
 };
 
 exports.getTaskByListId = (req, res) => {
-  console.log(req.params)
   let list_id = req.params.list_id;
 
   Task.find({ listIn: list_id, status: 1 }, (err, doc) => {
@@ -90,7 +89,7 @@ exports.postComment = (req, res) => {
     userId : req.body.userId,
     comment: req.body.comment
   }
-  console.log(info);
+
   User.findOne({ _id: info.userId }, (err, doc) => {
     if(err){
       console.log(err);

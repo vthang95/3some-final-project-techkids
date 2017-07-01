@@ -13,6 +13,7 @@ class Task extends Component {
     super(props);
 
     this.state = {
+      title: '',
       isHover: false,
       showModal: false,
       isStarred: false,
@@ -21,7 +22,7 @@ class Task extends Component {
   }
 
   componentWillMount() {
-    this.setState({ isStarred: this.props.isStarred })
+    this.setState({ isStarred: this.props.isStarred, title: this.props.name })
   }
 
   handleDeleteTask(task) {
@@ -57,6 +58,15 @@ class Task extends Component {
     }
   }
 
+  handleOutOfInput(id) {
+    let url = `${getHostName()}/api/tasks/${id}`;
+    axios.put(url, { name: this.state.title });
+  }
+
+  onInputChange(event) {
+    this.setState({ title: event.target.value })
+  }
+
   onOpenModal() {
     this.setState({ showModal: true });
   }
@@ -66,8 +76,9 @@ class Task extends Component {
   }
 
   render() {
-    let { name, updatedAt, _id, listIn } = this.props;
-    let lengthOfName = name.length;
+    let { updatedAt, _id, listIn } = this.props;
+    let { title } = this.state
+    let lengthOfTitle = title.length;
     let [date, time] = updatedAt.slice(0, 19).split('T');
 
     return (
@@ -79,10 +90,8 @@ class Task extends Component {
         <td>
           <input type="checkbox" value="" data-toggle="checkbox" />
         </td>
-        <td
-          onClick={this.onOpenModal.bind(this)}
-        >
-          {lengthOfName < 80 ? name : `${name.slice(0, 80)}...`}
+        <td onClick={this.onOpenModal.bind(this)}>
+          {lengthOfTitle < 80 ? title : `${title.slice(0, 80)}...`}
         </td>
         <td className="td-actions text-right">
           <span onClick={this.onHandleStar.bind(this, this.props)}>{this.state.isStarred ? <FaStar /> : <FaStarO />}</span>
@@ -90,10 +99,10 @@ class Task extends Component {
         <Modal show={this.state.showModal} onHide={this.onCloseModal.bind(this)}>
           <Modal.Header>
             <Row>
-              <Col md={11}>
-                {name}
+              <Col md={11} xs={11}>
+                <input style={style.textarea} value={this.state.title} onBlur={this.handleOutOfInput.bind(this, _id)} onChange={this.onInputChange.bind(this)} />
               </Col>
-              <Col md={1}>
+              <Col md={1} xs={1} style={style.starAlign}>
                 <span style={style.star} onClick={this.onHandleStar.bind(this, this.props)}>{this.state.isStarred ? <FaStar size={25} /> : <FaStarO size={25} />}</span>
               </Col>
             </Row>
@@ -128,10 +137,12 @@ class Task extends Component {
 
 const style = {
   task: { cursor: 'pointer', backgroundColor: '#90f6a3' },
-  star: { position: 'absolute', top: '-3px', right: '15px' },
+  star: { position: 'relative', top: '-3px', right: '15px' },
+  starAlign: { textAlign: 'center' },
   dateTime: { fontSize: 12 },
   colInTheLeft: { textAlign: 'left' },
-  span: { cursor: 'pointer' }
+  span: { cursor: 'pointer' },
+  textarea: { resize: 'none', width: 'inherit', background: 'transparent', border: 'none', fontWeight: 'bold', fontSize: '20px', height: '28px' }
 }
 
 function mapStateToProps({ tasks, activeList }) {
