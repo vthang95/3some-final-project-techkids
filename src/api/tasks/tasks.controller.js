@@ -63,12 +63,13 @@ exports.updateTask = (req, res) => {
 
   Task.findOne({ _id: id }, (err, doc) => {
     if (err) return res.json({ error_msg: 'An error occurred!' });
-    doc.name      = req.body.name || doc.name;
-    doc.duaDate   = req.body.duaDate || doc.duaDate;
-    doc.note      = req.body.note || doc.note;
-    doc.isDone    = req.body.isDone || doc.isDone;
-    doc.isStarred = req.body.isStarred || doc.isStarred;
-    doc.important = req.body.important || doc.important;
+    doc.name        = req.body.name || doc.name;
+    doc.duaDate     = req.body.duaDate || doc.duaDate;
+    doc.note        = req.body.note || doc.note;
+    doc.isDone      = req.body.isDone || doc.isDone;
+    doc.isStarred   = req.body.isStarred || doc.isStarred;
+    doc.important   = req.body.important || doc.important;
+    doc.description = req.body.description || doc.description;
 
     Task.findOneAndUpdate({ _id: id }, doc, (err, task) => {
       if (err) return res.json({ error_msg: 'An error occurred!' });

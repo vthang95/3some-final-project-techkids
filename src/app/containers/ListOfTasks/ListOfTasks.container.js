@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Grid, Row, Col, Button, Collapse, Well, FormGroup, FormControl } from 'react-bootstrap';
+import { Grid, Row, Col, Button, Collapse, Well, FormGroup, FormControl, Modal } from 'react-bootstrap';
 
 import { postTask, fetchTasks, deleteTask } from '../../actions/index';
 
@@ -19,6 +19,7 @@ class ListOfTasks extends Component {
   componentDidMount() {
 
   }
+
   renderTask() {
     return this.props.tasks.map(task => (
         <Task {...task} key={task._id} />
@@ -76,7 +77,6 @@ class ListOfTasks extends Component {
                     </tbody>
                 </table>
             </div>
-
           </div>
         </div>
       </Col>

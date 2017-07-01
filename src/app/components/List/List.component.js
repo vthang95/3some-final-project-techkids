@@ -17,10 +17,11 @@ class List extends Component {
     this.props.fetchTasks(list);
     this.props.selectList(list);
   }
-  handleOnMouseOver() {
+  handleOnMouseEnter() {
+    console.log('hover');
     this.setState({ isHoverOn: true });
   }
-  handleOnMouseOut() {
+  handleOnMouseLeave() {
     this.setState({ isHoverOn: false });
   }
   handleDeleteList(list) {
@@ -30,9 +31,9 @@ class List extends Component {
     return (
       <tr
         style={this.state.isHoverOn || this.props.activeList._id === this.props._id ? style.tr : null}
-        onMouseOver={this.handleOnMouseOver.bind(this)}
+        onMouseEnter={this.handleOnMouseEnter.bind(this)}
         onClick={this.handleClickList.bind(this, this.props)}
-        onMouseOut={this.handleOnMouseOut.bind(this)}
+        onMouseLeave={this.handleOnMouseLeave.bind(this)}
       >
         <td><MdFormatListBulleted style={style.icon} /></td>
         <td>{this.props.name}</td>
