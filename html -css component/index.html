@@ -5,140 +5,81 @@
   <title>Oh! List</title>
   <!-- CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css">
+  <link rel="stylesheet" href="./css/reset.css">
   <link rel="stylesheet" href="./css/style.css">
   <!-- JS -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js"></script>
+  <script src="https://use.fontawesome.com/b421d0b8cc.js"></script>
+  <script src="draggabilly.pkgd.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 </head>
-  <body>
-    <div class="interface">
-      <div class="col-md-2 sidebar flex-column">
-        <div class="userControl flex-row-start">
-          <img src="http://img1.ak.crunchyroll.com/i/spire4/2f6ab456b03afbe0b3c6b97c7560d8e01486165341_large.png" alt="eromanga-sensei"/>
-          <a class="" data-toggle="collapse" href="#user-info-dropdown">
-            Nam Nguyen
-            <svg  class="position-vertical" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;"> <g> <path d="M10.502,13c-0.132,0 -0.26,-0.053 -0.354,-0.146l-4.002,-4c-0.195,-0.195 -0.195,-0.512 0,-0.708c0.195,-0.195 0.512,-0.195 0.707,0l3.649,3.647l3.644,-3.647c0.195,-0.195 0.512,-0.195 0.707,0c0.195,0.195 0.195,0.512 0,0.708l-3.997,4c-0.094,0.093 -0.221,0.146 -0.354,0.146"></path> </g> </svg>
-          </a>
-        </div>
-        <div class="sidebarComponent">
-            <ul class="flex-column">
-              <li class="flex-row">
-                <a href="#">
-                  <i class="zmdi zmdi-view-dashboard"></i>
-                  Dashboard
-                </a>
-              </li>
-              <li class="flex-row">
-                <a href="#">
-                  <i class="zmdi zmdi-calendar-note"></i>
-                  <span>Note</span>
-                </a>
-              </li>
-              <li class="flex-row">
-                <a href="#">
-                  <i class="zmdi zmdi-format-list-bulleted"></i>
-                  <span>List</span>
-                </a>
-              </li>
-              <li class="flex-row">
-                <a href="#">
-                  <i class="zmdi zmdi-camera-alt"></i>
-                  <span>Statistical</span>
-                </a>
-              </li>
-              <li class="flex-row">
-                <a href="#">
-                  <i class="zmdi zmdi-comment-more"></i>
-                  <span>Message</span>
-                </a>
-              </li>
-            </ul>
-        </div>
-      </div>
-      <div class="col-md-10 content flex-column navbar navbar-default navbar-fixed">
-        <div class="header flex-row-start">
-          <a class="sidebarToggle"href="#">
-            <i class="glyphicon glyphicon-align-right"></i>
-          </a>
-          <span>Oh! List</span>
-          <a class="btn headerButton position-vertical flex-row"><i class="glyphicon glyphicon-plus position-vertical"></i></a>
-        </div>
-        <div class="content-box">
-          <div class="col-md-3">
-            <div class="friendList flex-column">
-              <div class="title">
-                <span>Friend</span>
-              </div>
-              <ul class="flex-column">
-                <li class="flex-row-start">
-                  <img src="http://img1.ak.crunchyroll.com/i/spire4/2f6ab456b03afbe0b3c6b97c7560d8e01486165341_large.png" alt="eromanga-sensei"/>
-                  <div class="friendInfo flex-column">
-                    <span class="name">Sagiri</span>
-                    <span class="place">Eromanga-sensei</span>
-                  </div>
-                </li>
-                <li class="flex-row-start">
-                  <img src="http://img1.ak.crunchyroll.com/i/spire4/2f6ab456b03afbe0b3c6b97c7560d8e01486165341_large.png" alt="eromanga-sensei"/>
-                  <div class="friendInfo flex-column">
-                    <span class="name">Sagiri</span>
-                    <span class="place">Eromanga-sensei</span>
-                  </div>
-                </li>
-                <li class="flex-row-start">
-                  <img src="http://img1.ak.crunchyroll.com/i/spire4/2f6ab456b03afbe0b3c6b97c7560d8e01486165341_large.png" alt="eromanga-sensei"/>
-                  <div class="friendInfo flex-column">
-                    <span class="name">Sagiri</span>
-                    <span class="place">Eromanga-sensei</span>
-                  </div>
-                </li>
-                <li class="flex-row-start">
-                  <img src="http://img1.ak.crunchyroll.com/i/spire4/2f6ab456b03afbe0b3c6b97c7560d8e01486165341_large.png" alt="eromanga-sensei"/>
-                  <div class="friendInfo flex-column">
-                    <span class="name">Sagiri</span>
-                    <span class="place">Eromanga-sensei</span>
-                  </div>
-                </li>
-                <li class="flex-row-start">
-                  <img src="http://img1.ak.crunchyroll.com/i/spire4/2f6ab456b03afbe0b3c6b97c7560d8e01486165341_large.png" alt="eromanga-sensei"/>
-                  <div class="friendInfo flex-column">
-                    <span class="name">Sagiri</span>
-                    <span class="place">Eromanga-sensei</span>
-                  </div>
-                </li>
-              </ul>
-              <div class="friendButton flex-row">
-                <a class="btn">Add friend</a>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-9">
-            <div class="activities">
-              <div class="title">
-                <span>Activitives</span>
-              </div>
-              <ul class="flex-column">
-                <li class="activitiesBox flex-row-start">
-                    <div class="leftBox flex-column-center">
-                      <a class="btn methodTag">Get</a>
-                      <span class="dateTag">20/6/2017</span>
-                    </div>
-                    <div class="middle-box flex-column">
-                        <span class="activitiesName">Commit ZXCVBNM</span>
-                        <span class="activitivesBy">Walker</span>
-                    </div>
-                    <div class="actionButton">
-                      <a class="btn default-btn">Restore</a>
-                    </div>
-                </li>
-              </ul>
+<body>
+  <div id="wrapper">
+    <!-- Sidebar -->
+    <div id="sidebar-wrapper">
+      <nav class="sidebar">
+        <span class="logo">
+          <h1 >Oh!List</h1>
+        </span>
+        <ul class="sidebar-nav nav">
 
+        </ul>
+      </nav>
+    </div>
+    <!-- Page content -->
+    <div id="page-content-wrapper">
+      <div class="container-fluid page-content">
+        <nav class="navbar header" role="navigation">
+            <a href="#" class="sidebar-toggle btn toggle">
+              <i class="fa fa-bars"></i>
+            </a>
+            <div  class="navbar-brand">
+              <a href="#">Dashboard</a>
+            </div>
+            <div class="search-box">
+              <input class="zxc" type="text" name="" value="">
+            </div>
+            <div class="userControl">
+              <div class="user-action">
+                <a href=".zxc">
+                  <i class="fa fa-search" aria-hidden="true"></i>
+                </a>
+                <i class="fa fa-comments" aria-hidden="true"></i>
+                <i class="fa fa-bell" aria-hidden="true"></i>
+              </div>
+              <div class="user-info">
+                <img src="http://img1.ak.crunchyroll.com/i/spire4/2f6ab456b03afbe0b3c6b97c7560d8e01486165341_large.png" alt="">
+              </div>
+
+            </div>
+        </nav>
+        <div class="content-panel">
+          <ul class="list-container">
+            <i class="fa fa-th-list" aria-hidden="true"></i>
+            <li class="col-md-4">Work</li>
+            <li class="col-md-4">Learning</li>
+            <li class="col-md-4">Housework</li>
+          </ul>
+          <div class="task-container">
+            <div class="task">
+              <div class="task-tag-color">
+              </div>
+              <div class="task-content">
+                <div class="task-text-header">
+                  <span class="date">26/10/1995</span>
+                  <p class="by-user">by Nam Nguyen</p>
+                </div>
+                <div class="task-text">
+                  i'm born
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </body>
+  </div>
+</body>
+<script src="script.js">
+</script>
 </html>

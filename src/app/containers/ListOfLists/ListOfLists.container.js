@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import MdFormatListBulleted from 'react-icons/lib/md/format-list-bulleted';
 import { Grid, Row, Col, Button, Collapse, Well, FormGroup, FormControl } from 'react-bootstrap';
 
-import { fetchLists, fetchTasks, activeList, fetchUser, postList, deleteList } from '../../actions/index';
+import { fetchLists, fetchTasks, selectList, fetchUser, postList, deleteList } from '../../actions/index';
 
 import List from '../../components/List/List.component';
 
@@ -121,6 +121,9 @@ const style = {
     right: '10px',
     top: '-1px',
     padding: '0 8px 0 8px'
+  },
+  list: {
+    cursor: 'pointer'
   }
 }
 
@@ -129,7 +132,7 @@ function mapStateToProps({ lists, user }) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ fetchLists, fetchTasks, activeList, fetchUser }, dispatch)
+  return bindActionCreators({ fetchLists, fetchTasks, selectList, fetchUser }, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Lists);

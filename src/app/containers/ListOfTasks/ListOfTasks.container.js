@@ -68,7 +68,7 @@ class ListOfTasks extends Component {
               </div>
             </Collapse>
           </div>
-          <div className="content">
+          <div className="content" style={style.content}>
             <div className="table-full-width">
                 <table className="table">
                     <tbody>
@@ -76,12 +76,7 @@ class ListOfTasks extends Component {
                     </tbody>
                 </table>
             </div>
-            <div className="footer">
-                <hr />
-                <div className="stats">
-                    <i className="fa fa-history"></i> Updated 3 minutes ago
-                </div>
-            </div>
+
           </div>
         </div>
       </Col>
@@ -95,6 +90,9 @@ const style = {
     right: '10px',
     top: '-1px',
     padding: '0 8px 0 8px'
+  },
+  content: {
+    paddingBottom: '0px'
   }
 }
 

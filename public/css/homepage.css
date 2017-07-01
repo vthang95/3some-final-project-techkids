@@ -1,6 +1,7 @@
 /*Import font*/
 @import url('https://fonts.googleapis.com/css?family=Lato');
 
+/*---------------------------------------------------*/
 body{
   font-size:140%;
   width: 100%;
@@ -13,7 +14,10 @@ body{
   color: #ffffff;
   transition: all 0.2s;
   font-family: 'Lato', sans-serif;
+  position: relative;
+  z-index: 1
 }
+/*Opacity wrap BODY*/
 body:before{
   position: absolute;
   top: 0;
@@ -24,12 +28,13 @@ body:before{
   background-color: #000000;
   opacity: 0.3;
 }
+/*-----------------------------------------------------*/
 a,a:visited, a:active, a:hover{
   text-decoration: none;
   color: #FFFFFF;
   cursor: pointer;
 }
-
+/*----------------------------------------------------------*/
 /*Header-style*/
 .navbar-default{
   height: 10%;
@@ -70,6 +75,8 @@ a,a:visited, a:active, a:hover{
   border: 0;
   width: 50px;
 }
+/*----------------------------------------------------------*/
+
 /*Body-Content-Style*/
 .content{
   height: 85%;
@@ -92,7 +99,7 @@ a,a:visited, a:active, a:hover{
 }
 #carousel-content{
   width: 50%;
-  height: 80%;
+  height: 70%;
   position: relative;
   padding: 50px 80px;
   justify-content: center;
@@ -100,6 +107,9 @@ a,a:visited, a:active, a:hover{
 #carousel-content .carousel-indicators li {
   margin: 0 3px;
   opacity: 0.7;
+}
+#carousel-content .carousel-item{
+  padding: 0 5%;
 }
 .carousel-item .title{
   font-size: 1.7em;
@@ -151,9 +161,8 @@ a,a:visited, a:active, a:hover{
   -ms-animation: pulse 1.25s infinite cubic-bezier(0.66, 0, 0, 1);
   animation: pulse 1.25s infinite cubic-bezier(0.66, 0, 0, 1);
 }
-.btn{
-  border-radius: 0;
-}
+/*------------------------------------------------------*/
+
 /*Footer-Style*/
 footer{
   background-color: transparent;
@@ -178,6 +187,7 @@ footer{
   width: 2px;
   border-right:1px solid #9A9A9A;
 }
+/*----------------------------------------------------------*/
 
 /*Log-in & Sign-up page*/
 .page-header{
@@ -189,7 +199,62 @@ footer{
   border-top: solid 1px #eee;
   padding: 35px;
 }
+.btn, input.form-control{
+  border-radius: 0;
+}
+input.form-control:focus::-webkit-input-placeholder { color:transparent; }
+input.form-control:focus:-moz-placeholder { color:transparent; }
+input.form-control:focus::-moz-placeholder { color:transparent; }
+input.form-control:focus:-ms-input-placeholder { color:transparent; }
 
+
+/*Modal message*/
+  #modal {
+    position: absolute;
+    left: 50%;
+    top: 30%;
+    transform: translate(-50%,-50%);
+    z-index: 3;
+    width: 45%;
+    height: 40%;
+    font-size: 1.5em;
+    background-color: #000000;
+    border-radius: 10px;
+    color: #000000;
+    border: none;
+    transition: all 0.4s;
+  }
+  .modal-content{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+  .modal-content i.error{
+    color: #C62828;
+  }
+  .modal-content i.success{
+    color: #00C853;
+  }
+  .modal-content button{
+    height: 10%;
+    position: absolute;
+    bottom: 10%;
+  }
+  .modal-open .content,body.modal-open .header{
+    -webkit-filter: blur(4px);
+    -moz-filter: blur(4px);
+    -o-filter: blur(4px);
+    -ms-filter: blur(4px);
+    filter: blur(4px);
+    filter: url("https://gist.githubusercontent.com/amitabhaghosh197/b7865b409e835b5a43b5/raw/1a255b551091924971e7dee8935fd38a7fdf7311/blur".svg#blur);
+filter:progid:DXImageTransform.Microsoft.Blur(PixelRadius='4');
+}
+  .modal-backdrop{
+    z-index: 0;
+  }
 /*Bootstrap-@media*/
     /* Large Devices, Wide Screens */
     @media only screen and (max-width : 1200px) {
@@ -231,6 +296,9 @@ footer{
         left: 50%;
         transform: translate(-50%,0);
       }
+      #modal{
+        width: 70%;
+      }
     }
     /* Extra Small Devices, Phones */
     @media only screen and (max-width : 480px) {
@@ -247,6 +315,9 @@ footer{
 
       .user-page .form-horizontal{
         width: 320px;
+      }
+      #modal{
+        width: 80%;
       }
     }
     /* Custom, iPhone Retina */
