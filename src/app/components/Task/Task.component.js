@@ -14,6 +14,7 @@ class Task extends Component {
 
     this.state = {
       title: '',
+      oldTitle: '',
       isHover: false,
       showModal: false,
       isStarred: false,
@@ -59,8 +60,13 @@ class Task extends Component {
   }
 
   handleOutOfInput(id) {
+    if (this.state.oldTitle === this.state.title) return;
     let url = `${getHostName()}/api/tasks/${id}`;
     axios.put(url, { name: this.state.title });
+  }
+
+  handleFocusInput() {
+    this.setState({ oldTitle: this.state.title });
   }
 
   onInputChange(event) {
@@ -100,10 +106,18 @@ class Task extends Component {
           <Modal.Header>
             <Row>
               <Col md={11} xs={11}>
-                <input style={style.textarea} value={this.state.title} onBlur={this.handleOutOfInput.bind(this, _id)} onChange={this.onInputChange.bind(this)} />
+                <input
+                  style={style.textarea}
+                  value={this.state.title}
+                  onBlur={this.handleOutOfInput.bind(this, _id)}
+                  onFocus={this.handleFocusInput.bind(this)}
+                  onChange={this.onInputChange.bind(this)} />
               </Col>
               <Col md={1} xs={1} style={style.starAlign}>
-                <span style={style.star} onClick={this.onHandleStar.bind(this, this.props)}>{this.state.isStarred ? <FaStar size={25} /> : <FaStarO size={25} />}</span>
+                <span
+                  style={style.star}
+                  onClick={this.onHandleStar.bind(this, this.props)}>{this.state.isStarred ? <FaStar size={25} /> : <FaStarO size={25} />}
+                </span>
               </Col>
             </Row>
           </Modal.Header>

@@ -10,22 +10,36 @@ class List extends Component {
     super(props);
 
     this.state = {
+      name: '',
       isHoverOn: false,
     }
   }
+
+  componentWillMount() {
+    this.setState({ name: this.props.name })
+  }
+
   handleClickList(list) {
     this.props.selectList(list, this.props.fetchTasks.bind(this, list));
     this.props.selectList(list);
   }
+
   handleOnMouseEnter() {
     this.setState({ isHoverOn: true });
   }
+
   handleOnMouseLeave() {
     this.setState({ isHoverOn: false });
   }
+
   handleDeleteList(list) {
     deleteList(list, this.props.fetchLists.bind(this, list.owner._id));
   }
+
+  handleEditList(list) {
+
+  }
+
   render() {
     return (
       <tr
@@ -35,10 +49,10 @@ class List extends Component {
         onMouseLeave={this.handleOnMouseLeave.bind(this)}
       >
         <td><MdFormatListBulleted style={style.icon} /></td>
-        <td>{this.props.name}</td>
+        <td>{this.state.name}</td>
         <td className="td-actions text-right">
         {this.props.activeList._id === this.props._id ? <div>
-            <button type="button" rel="tooltip" title="Edit List" className="btn btn-info btn-simple btn-xs">
+            <button type="button" rel="tooltip" title="Edit List" className="btn btn-info btn-simple btn-xs" onClick={this.handleEditList.bind(this, this.props)}>
                 <i className="fa fa-edit"></i>
             </button>
             <button type="button" rel="tooltip" title="Remove" className="btn btn-danger btn-simple btn-xs" onClick={this.handleDeleteList.bind(this, this.props)}>
