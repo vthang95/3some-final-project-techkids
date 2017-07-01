@@ -43,7 +43,7 @@ exports.getListByOwnerId = (req, res) => {
 
   let ownerId = req.params.user_id;
 
-  List.find({ owner: ownerId })
+  List.find({ owner: ownerId, status: 1 })
   .populate('owner', 'email username')
   .populate('members', 'email username')
   .exec((err, doc) => {
@@ -241,11 +241,12 @@ var removeMemberFromList = (idList, memberInfo, callback) => {
 }
 
 exports.deleteListByObjId = (req, res) => {
-  List.remove({ _id: req.params.list_id }).exec((err) => {
+  List.update({ _id: req.params.list_id }, { $set: { status: 0 } })
+  .exec((err) => {
     if(err){
       console.log(err);
       res.json({ error_msg: err });
     }
-    res.json({ msg: "Delete list success" });
+    res.json({ msg: "Change status list success" });
   })
 };

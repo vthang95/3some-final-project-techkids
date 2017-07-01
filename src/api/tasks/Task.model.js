@@ -11,7 +11,8 @@ const taskSchema =  new mongoose.Schema({
     comment  : String,
     commentBy: { type : Schema.Types.ObjectId, ref : 'users' }
    }],
-  listIn : { type : Schema.Types.ObjectId, ref : 'lists', required: true }
+  listIn : { type : Schema.Types.ObjectId, ref : 'lists', required: true },
+  status : { type : Number, default : 1 }
 }, { timestamps: true });
 
 const Task = mongoose.model('tasks', taskSchema);

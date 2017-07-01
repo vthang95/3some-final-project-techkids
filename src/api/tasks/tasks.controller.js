@@ -49,7 +49,7 @@ exports.getTaskByListId = (req, res) => {
   console.log(req.params)
   let list_id = req.params.list_id;
 
-  Task.find({ listIn: list_id }, (err, doc) => {
+  Task.find({ listIn: list_id, status: 1 }, (err, doc) => {
     if (err) {
       console.log(err);
       return res.json({ error_msg: 'An error occurred!' });
@@ -158,11 +158,12 @@ var setImportant = (id, importantNum, callback) => {
 }
 
 exports.deleteTaskByObjId = (req, res) => {
-  Task.remove({ _id: req.params.task_id }).exec((err) => {
+  Task.update({ _id: req.params.task_id }, { $set: { status: 0 } })
+  .exec((err) => {
     if(err) {
       console.log(err);
       return res.json({ msg_err: err });
     }
-    return res.json({ msg: "Delete task success" });
+    return res.json({ msg: "Change status task success" });
   })
 };
