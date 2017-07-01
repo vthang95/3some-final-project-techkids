@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Modal, Button, Col, Row } from 'react-bootstrap';
-import { FaStar, FaStarO } from 'react-icons/lib/fa';
+import { FaStar, FaStarO, FaTrash, FaTrashO } from 'react-icons/lib/fa';
 import axios from 'axios';
 
 import { fetchTasks, deleteTask } from '../../actions/index';
@@ -15,7 +15,8 @@ class Task extends Component {
     this.state = {
       isHover: false,
       showModal: false,
-      isStarred: false
+      isStarred: false,
+      isDeleteHover: false,
     }
   }
 
@@ -34,12 +35,26 @@ class Task extends Component {
     axios.put(url, { isStarred: !this.state.isStarred });
   }
 
-  onHandleMouseEnter() {
-    this.setState({ isHover: true });
+  onHandleMouseEnter(what) {
+    switch (what) {
+      case 'tr':
+        this.setState({ isHover: true });
+        break;
+      case 'delete':
+        this.setState({ isDeleteHover: true });
+        break;
+    }
   }
 
-  onHandleMouseLeave() {
-    this.setState({ isHover: false });
+  onHandleMouseLeave(what) {
+    switch (what) {
+      case 'tr':
+        this.setState({ isHover: false });
+        break;
+      case 'delete':
+        this.setState({ isDeleteHover: false });
+        break;
+    }
   }
 
   onOpenModal() {
@@ -51,22 +66,26 @@ class Task extends Component {
   }
 
   render() {
-    let { name, updatedAt } = this.props;
+    let { name, updatedAt, _id, listIn } = this.props;
     let lengthOfName = name.length;
+    let [date, time] = updatedAt.slice(0, 19).split('T');
 
     return (
       <tr
-        onClick={this.onOpenModal.bind(this)}
         style={this.state.isHover ? style.task : null}
-        onMouseEnter={this.onHandleMouseEnter.bind(this)}
-        onMouseLeave={this.onHandleMouseLeave.bind(this)}
+        onMouseEnter={this.onHandleMouseEnter.bind(this, 'tr')}
+        onMouseLeave={this.onHandleMouseLeave.bind(this, 'tr')}
       >
         <td>
           <input type="checkbox" value="" data-toggle="checkbox" />
         </td>
-        <td>{lengthOfName < 80 ? name : `${name.slice(0, 80)}...`}</td>
+        <td
+          onClick={this.onOpenModal.bind(this)}
+        >
+          {lengthOfName < 80 ? name : `${name.slice(0, 80)}...`}
+        </td>
         <td className="td-actions text-right">
-            {this.state.isStarred ? <FaStar /> : <FaStarO />}
+          <span onClick={this.onHandleStar.bind(this, this.props)}>{this.state.isStarred ? <FaStar /> : <FaStarO />}</span>
         </td>
         <Modal show={this.state.showModal} onHide={this.onCloseModal.bind(this)}>
           <Modal.Header>
@@ -80,12 +99,26 @@ class Task extends Component {
             </Row>
           </Modal.Header>
           <Modal.Body>
-            <h6>{updatedAt}</h6>
+            <p style={style.dateTime}>{date} {time}</p>
             <h4>Description</h4>
             <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula.</p>
           </Modal.Body>
           <Modal.Footer>
-            <Button onClick={this.onCloseModal.bind(this)}>Close</Button>
+            <Row>
+              <Col style={style.colInTheLeft} md={6}>
+                <span
+                  style={style.span}
+                  onClick={this.handleDeleteTask.bind(this, { _id, listIn })}
+                  onMouseEnter={this.onHandleMouseEnter.bind(this, 'delete')}
+                  onMouseLeave={this.onHandleMouseLeave.bind(this, 'delete')}
+                >
+                  {this.state.isDeleteHover ? <FaTrash size={30} /> : <FaTrashO size={30} />}
+                </span>
+              </Col>
+              <Col md={6}>
+                <Button onClick={this.onCloseModal.bind(this)}>Close</Button>
+              </Col>
+            </Row>
           </Modal.Footer>
         </Modal>
       </tr>
@@ -95,7 +128,10 @@ class Task extends Component {
 
 const style = {
   task: { cursor: 'pointer', backgroundColor: '#90f6a3' },
-  star: { position: 'absolute', top: '-3px', right: '15px' }
+  star: { position: 'absolute', top: '-3px', right: '15px' },
+  dateTime: { fontSize: 12 },
+  colInTheLeft: { textAlign: 'left' },
+  span: { cursor: 'pointer' }
 }
 
 function mapStateToProps({ tasks, activeList }) {
