@@ -29,7 +29,7 @@ class Task extends Component {
 
   onHandleStar(task) {
     let url = `${getHostName()}/api/tasks/${task._id}`;
-    
+
     this.setState({ isStarred: !this.state.isStarred })
     axios.put(url, { isStarred: !this.state.isStarred });
   }
@@ -51,7 +51,9 @@ class Task extends Component {
   }
 
   render() {
-    let task = {_id: this.props._id ,listIn: this.props.listIn};
+    let { name, updatedAt } = this.props;
+    let lengthOfName = name.length;
+
     return (
       <tr
         onClick={this.onOpenModal.bind(this)}
@@ -62,23 +64,23 @@ class Task extends Component {
         <td>
           <input type="checkbox" value="" data-toggle="checkbox" />
         </td>
-        <td>{this.props.name}</td>
+        <td>{lengthOfName < 80 ? name : `${name.slice(0, 80)}...`}</td>
         <td className="td-actions text-right">
             {this.state.isStarred ? <FaStar /> : <FaStarO />}
         </td>
         <Modal show={this.state.showModal} onHide={this.onCloseModal.bind(this)}>
           <Modal.Header>
             <Row>
-              <Col md={6}>
-                {this.props.name}
+              <Col md={11}>
+                {name}
               </Col>
-              <Col md={6}>
+              <Col md={1}>
                 <span style={style.star} onClick={this.onHandleStar.bind(this, this.props)}>{this.state.isStarred ? <FaStar size={25} /> : <FaStarO size={25} />}</span>
               </Col>
             </Row>
           </Modal.Header>
           <Modal.Body>
-            <h6>{this.props.updatedAt}</h6>
+            <h6>{updatedAt}</h6>
             <h4>Description</h4>
             <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula.</p>
           </Modal.Body>
