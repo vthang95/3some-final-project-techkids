@@ -3936,7 +3936,8 @@ function deleteTask(task, callback) {
   });
 }
 
-function selectList(list) {
+function selectList(list, callback) {
+  if (callback) callback();
   return {
     type: 'ACTIVE_LIST',
     payload: list
@@ -25531,7 +25532,7 @@ var List = function (_Component) {
   _createClass(List, [{
     key: 'handleClickList',
     value: function handleClickList(list) {
-      this.props.fetchTasks(list);
+      this.props.selectList(list, this.props.fetchTasks.bind(this, list));
       this.props.selectList(list);
     }
   }, {
@@ -26210,9 +26211,10 @@ var style = {
 
 function mapStateToProps(_ref) {
   var lists = _ref.lists,
-      user = _ref.user;
+      user = _ref.user,
+      activeList = _ref.activeList;
 
-  return { lists: lists, user: user };
+  return { lists: lists, user: user, activeList: activeList };
 }
 
 function mapDispatchToProps(dispatch) {

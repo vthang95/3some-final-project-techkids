@@ -14,7 +14,7 @@ class List extends Component {
     }
   }
   handleClickList(list) {
-    this.props.fetchTasks(list);
+    this.props.selectList(list, this.props.fetchTasks.bind(this, list));
     this.props.selectList(list);
   }
   handleOnMouseOver() {
