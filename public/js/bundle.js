@@ -25640,7 +25640,7 @@ var Header = function (_Component) {
           ),
           _react2.default.createElement(
             'div',
-            { className: 'col-sm-10 collapse navbar-collapse', style: style.align },
+            { className: 'col-sm-10 collapse navbar-collapse id="navigation-example-2"', style: style.align },
             _react2.default.createElement(
               'ul',
               { className: 'nav navbar-nav navbar-right' },

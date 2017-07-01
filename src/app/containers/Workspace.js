@@ -21,10 +21,9 @@ class Workspace extends Component {
     if((typeof this.props.user.user_id) == 'undefined') return <div></div>;
     return (
       <div className="wrapper">
-      <Header />
         <SidebarContainer style={style.sidebar} />
         <div className="main-panel">
-          <div className="content row row-offcanvas row-offcanvas-right" style={style.content}>
+          <div className="content" style={style.content}>
             <div className="container-fluid">
               <div className="row">
                 <ListOfTasks />
@@ -32,6 +31,7 @@ class Workspace extends Component {
               </div>
             </div>
           </div>
+          <Header />
         </div>
       </div>
     );
