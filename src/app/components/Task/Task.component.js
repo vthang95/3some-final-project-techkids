@@ -14,16 +14,24 @@ class Task extends Component {
 
     this.state = {
       isHover: false,
-      showModal: false
+      showModal: false,
+      isStarred: false
     }
   }
+
+  componentWillMount() {
+    this.setState({ isStarred: this.props.isStarred })
+  }
+
   handleDeleteTask(task) {
     deleteTask(task, this.props.fetchTasks.bind(this, { _id: task.listIn }));
   }
 
   onHandleStar(task) {
-    let url = `${getHostName}/api/tasks/${task._id}`;
-    axios.put(url, { isStarred: !task.isStarred }).then((res) => console.log(res));
+    let url = `${getHostName()}/api/tasks/${task._id}`;
+    
+    this.setState({ isStarred: !this.state.isStarred })
+    axios.put(url, { isStarred: !this.state.isStarred });
   }
 
   onHandleMouseEnter() {
@@ -56,7 +64,7 @@ class Task extends Component {
         </td>
         <td>{this.props.name}</td>
         <td className="td-actions text-right">
-            {this.props.isStarred ? <FaStar /> : <FaStarO />}
+            {this.state.isStarred ? <FaStar /> : <FaStarO />}
         </td>
         <Modal show={this.state.showModal} onHide={this.onCloseModal.bind(this)}>
           <Modal.Header>
@@ -65,7 +73,7 @@ class Task extends Component {
                 {this.props.name}
               </Col>
               <Col md={6}>
-                <span style={style.star} onClick={this.onHandleStar.bind(this, this.props)}>{this.props.isStarred ? <FaStar size={25} /> : <FaStarO size={25} />}</span>
+                <span style={style.star} onClick={this.onHandleStar.bind(this, this.props)}>{this.state.isStarred ? <FaStar size={25} /> : <FaStarO size={25} />}</span>
               </Col>
             </Row>
           </Modal.Header>

@@ -67,9 +67,9 @@ exports.updateTask = (req, res) => {
     doc.duaDate     = req.body.duaDate || doc.duaDate;
     doc.note        = req.body.note || doc.note;
     doc.isDone      = req.body.isDone || doc.isDone;
-    doc.isStarred   = req.body.isStarred || doc.isStarred;
     doc.important   = req.body.important || doc.important;
     doc.description = req.body.description || doc.description;
+    doc.isStarred   = doc.isStarred === req.body.isStarred ? doc.isStarred : !doc.isStarred;
 
     Task.findOneAndUpdate({ _id: id }, doc, (err, task) => {
       if (err) return res.json({ error_msg: 'An error occurred!' });
