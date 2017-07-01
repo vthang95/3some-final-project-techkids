@@ -14,13 +14,38 @@ class Lists extends Component {
 
     this.state = {
       open: false,
-      value: ''
+      value: '',
+      lists: [],
+      activeList: {}
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (this.props.lists != nextProps.lists) this.setState({ lists: nextProps.lists, activeList: nextProps.lists[0] });
+  }
+
+  handleClickList(list) {
+    this.setState({ activeList: list })
+    this.props.selectList(list, this.props.fetchTasks.bind(this, list));
+  }
+
+  handleDeleteList(list) {
+    let lists = this.state.lists;
+    let newList = lists.filter(listElement => listElement._id != list._id)
+    let newActiveList = lists[(lists.indexOf(list) - 1)];
+    this.setState({ lists: newList, activeList: newActiveList });
+    this.props.selectList(newActiveList, this.props.fetchTasks.bind(this, newActiveList));
+
+    deleteList(list);
+  }
+
   renderList() {
-    return this.props.lists.map(list => (
-      <List {...list} key={list._id} />
+    return this.state.lists.map(list => (
+      <List
+        onDeleteList={this.handleDeleteList.bind(this, list)}
+        {...list}
+        key={list._id}
+        onClickList={this.handleClickList.bind(this, list)} />
     ))
   }
 

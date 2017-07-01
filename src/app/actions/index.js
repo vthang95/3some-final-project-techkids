@@ -41,9 +41,9 @@ export function postList(list, callback) {
   axios.post(url, { name, owner }).then(() => callback());
 }
 
-export function deleteList(list, callback) {
+export function deleteList(list) {
   let url = `${getHostName()}/api/lists/${list._id}`
-  axios.delete(url).then(() => callback());
+  axios.delete(url);
 }
 
 export function deleteTask(task, callback) {
@@ -52,7 +52,7 @@ export function deleteTask(task, callback) {
 }
 
 export function selectList(list, callback) {
-  if(callback)callback();
+  if (callback) callback();
   return {
     type: 'ACTIVE_LIST',
     payload: list
