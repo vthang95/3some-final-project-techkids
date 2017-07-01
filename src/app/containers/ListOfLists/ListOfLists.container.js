@@ -127,8 +127,8 @@ const style = {
   }
 }
 
-function mapStateToProps({ lists, user }) {
-  return { lists, user }
+function mapStateToProps({ lists, user, activeList }) {
+  return { lists, user, activeList }
 }
 
 function mapDispatchToProps(dispatch) {

@@ -51,7 +51,8 @@ export function deleteTask(task, callback) {
   axios.delete(url).then(() => callback());
 }
 
-export function selectList(list) {
+export function selectList(list, callback) {
+  if(callback)callback();
   return {
     type: 'ACTIVE_LIST',
     payload: list
