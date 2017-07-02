@@ -16,10 +16,6 @@ class ListOfTasks extends Component {
       value: ''
     }
   }
-  componentDidMount() {
-
-  }
-
   renderTask() {
     return this.props.tasks.map(task => (
         <Task {...task} key={task._id} />

@@ -37,7 +37,6 @@ exports.getAllNotes = (req, res) => {
   let owner_id = req.params.owner_id;
 
   Note.find({ owner: owner_id })
-  .populate('owner', 'email username')
   .exec((err, docs) => {
     if (err) return res.json({ error_msg: "An error occurred!" });
     return res.json(docs);
@@ -56,7 +55,7 @@ exports.postAddNote = (req, res) => {
     labelColor: req.body.labelColor,
     owner     : req.body.owner
   });
-
+  console.log(note);
   note.save((err) => {
     if (err) return res.json({ error_msg: "An error occurred!" });
     return res.json({ success_msg: "Success!", newNote: note });

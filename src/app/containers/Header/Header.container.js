@@ -74,10 +74,11 @@ const style = {
     fontSize: '15px',
   },
   navbar: {
-    position: 'fixed',
+    position: 'absolute',
+    width: '100%',
+    height: '61px',
     right: 0,
     top: 0,
-    width: 'inherit'
   }
 }
 
