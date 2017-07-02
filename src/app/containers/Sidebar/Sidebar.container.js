@@ -7,7 +7,28 @@ import { MdSpeakerNotes, MdGroupWork } from 'react-icons/lib/md';
 import { fetchLists, fetchTasks, selectList, fetchUser } from '../../actions/index';
 
 class SidebarContainer extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      choose: 'dashboard'
+    }
+  }
+
+  handleChoose(what) {
+    switch (what) {
+      case 'dashboard':
+        this.setState({ choose: what });
+        break;
+      case 'note':
+        this.setState({ choose: what });
+      default:
+
+    }
+  }
+
   render() {
+    console.log(this.props);
     return (
       <div className="sidebar">
         <div className="sidebar-wrapper">
@@ -17,14 +38,14 @@ class SidebarContainer extends Component {
                 </a>
             </div>
           <ul className="nav" style={style.nav}>
-            <li style={style.li}>
-              <Link to='/workspace/dashboard'>
+            <li>
+              <Link onClick={this.handleChoose.bind(this, 'dashboard')} style={this.state.choose === 'dashboard' ? style.liChoose : style.li} to='/workspace/dashboard'>
                 <MdGroupWork size={20} style={style.icon} />
                 Dashboard
               </Link>
             </li>
-            <li style={style.li}>
-              <Link to='/workspace/note'>
+            <li>
+              <Link onClick={this.handleChoose.bind(this, 'note')} style={this.state.choose === 'note' ? style.liChoose : style.li} to='/workspace/note'>
                 <MdSpeakerNotes size={20} style={style.icon} />
                 Note
               </Link>
@@ -54,14 +75,23 @@ const style = {
     paddingBottom: '8px',
     cursor: 'pointer'
   },
+  liChoose: {
+    color: '#fff',
+    fontSize: '15px',
+    paddingLeft: '5px',
+    paddingTop: '8px',
+    paddingBottom: '8px',
+    cursor: 'pointer',
+    backgroundColor: 'rgba(250, 234, 245, 0.4)'
+  },
   logo: {
     paddingTop: '10px',
     paddingBottom: '9px',
     backgroundColor: '#a48cd3',
-    boxShadow: '0 0 3px rgba(0, 0, 0, 0.2)'
+    boxShadow: '0 0 3px rgba(255, 255, 255, 0.2)'
   },
   nav: {
-    marginTop: '0px'
+    marginTop: '0px',
   }
 }
 
