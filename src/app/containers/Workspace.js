@@ -9,10 +9,10 @@ import Header from './Header/Header.container';
 import ListOfTasks from './ListOfTasks/ListOfTasks.container';
 import ListOfLists from './ListOfLists/ListOfLists.container';
 import Dashboard from './Dashboard/Dashboard.container';
+import Notes from './Notes/Notes.container';
+import PageNotFound from '../components/navigation/PageNotFound';
 
 import { fetchUser } from '../actions/index';
-
-const Note = () => (<div>note</div>)
 
 class Workspace extends Component {
   componentWillMount() {
@@ -30,8 +30,8 @@ class Workspace extends Component {
               <div className="row">
                 <Switch>
                   <Route path='/workspace/dashboard' component={Dashboard} />
-                  <Route path='/workspace/note' component={Note} />
-                  <Route path='*' component={Note} />
+                  <Route path='/workspace/note' component={Notes} />
+                  <Route path='*' component={PageNotFound} />
                 </Switch>
               </div>
             </div>

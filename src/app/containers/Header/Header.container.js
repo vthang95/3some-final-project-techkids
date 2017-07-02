@@ -23,7 +23,6 @@ class Header extends Component {
                   <span className="icon-bar"></span>
                   <span className="icon-bar"></span>
               </button>
-              <a className="navbar-brand" href="#">Dashboard</a>
           </div>
           <div className='col-sm-10 collapse navbar-collapse id="navigation-example-2"' style={style.align}>
             <ul className='nav navbar-nav navbar-right'>
