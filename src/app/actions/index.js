@@ -29,6 +29,12 @@ export function fetchTasks(list) {
   }
 }
 
+export function updateTaskIsDone(id_task, isDone) {
+  console.log('in action is done:  ', isDone);
+  let url = `${getHostName()}/api/tasks/${id_task}`;
+  axios.put(url, {isDone: isDone});
+}
+
 export function postTask(task, callback) {
   let { name, listIn } = task;
   let url = `${getHostName()}/api/tasks`;
@@ -41,9 +47,9 @@ export function postList(list, callback) {
   axios.post(url, { name, owner }).then(() => callback());
 }
 
-export function deleteList(list) {
+export function deleteList(list, callback) {
   let url = `${getHostName()}/api/lists/${list._id}`
-  axios.delete(url);
+  axios.delete(url).then(() => callback());
 }
 
 export function deleteTask(task, callback) {
@@ -52,7 +58,7 @@ export function deleteTask(task, callback) {
 }
 
 export function selectList(list, callback) {
-  if (callback) callback();
+  if(callback)callback();
   return {
     type: 'ACTIVE_LIST',
     payload: list

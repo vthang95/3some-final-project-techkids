@@ -37,6 +37,10 @@ class ListOfTasks extends Component {
     }
   }
 
+  handleClickCheckBox() {
+    console.log('hehehhhhhhhhhhhhhhhhh');
+  }
+
   render() {
     return (
       <Col md={8}>

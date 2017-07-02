@@ -5,7 +5,7 @@ import { Modal, Button, Col, Row } from 'react-bootstrap';
 import { FaStar, FaStarO, FaTrash, FaTrashO } from 'react-icons/lib/fa';
 import axios from 'axios';
 
-import { fetchTasks, deleteTask } from '../../actions/index';
+import { fetchTasks, deleteTask, updateTaskIsDone } from '../../actions/index';
 import { getHostName } from '../../utils/helper';
 
 class Task extends Component {
@@ -19,6 +19,7 @@ class Task extends Component {
       showModal: false,
       isStarred: false,
       isDeleteHover: false,
+      isDone: this.props.isDone
     }
   }
 
@@ -81,6 +82,13 @@ class Task extends Component {
     this.setState({ showModal: false });
   }
 
+  handleClickCheckBox(_id) {
+    console.log('hehehhhhhhhhhhhhhhhhh: ', _id);
+    updateTaskIsDone(_id, !this.state.isDone);
+    this.setState({isDone : !this.state.isDone});
+    // console.log('checkBox: ', );
+  }
+
   render() {
     let { updatedAt, _id, listIn } = this.props;
     let { title } = this.state
@@ -94,7 +102,11 @@ class Task extends Component {
         onMouseLeave={this.onHandleMouseLeave.bind(this, 'tr')}
       >
         <td>
-          <input type="checkbox" value="" data-toggle="checkbox" />
+          {this.state.isDone ?
+            <input type="checkbox" value="" data-toggle="checkbox" checked onClick={this.handleClickCheckBox.bind(this, this.props._id)} />
+            : <input type="checkbox" value="" data-toggle="checkbox" onClick={this.handleClickCheckBox.bind(this, this.props._id)} />
+          }
+
         </td>
         <td onClick={this.onOpenModal.bind(this)}>
           {lengthOfTitle < 80 ? title : `${title.slice(0, 80)}...`}
@@ -164,7 +176,7 @@ function mapStateToProps({ tasks, activeList }) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ fetchTasks, deleteTask }, dispatch);
+  return bindActionCreators({ fetchTasks, deleteTask, updateTaskIsDone }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Task);
