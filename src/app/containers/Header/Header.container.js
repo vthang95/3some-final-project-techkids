@@ -4,12 +4,28 @@ import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
 import { MdSearch, MdNotificationsNone } from 'react-icons/lib/md';
 import TiMessages from 'react-icons/lib/ti/messages';
+import { Modal } from 'react-bootstrap';
 
 import { fetchUser } from '../../actions/index';
 
 class Header extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      showModal: false
+    };
+  }
   componentDidMount(){
     this.props.fetchUser();
+  }
+
+  onClickToggle() {
+    this.setState({ showModal: true })
+  }
+
+  onCloseModal() {
+    this.setState({ showModal: false })
   }
 
   render() {
@@ -17,12 +33,29 @@ class Header extends Component {
       <div className="navbar navbar-default" style={style.navbar}>
         <div className="container-fluid">
           <div className="navbar-header">
-              <button type="button" className="navbar-toggle" data-toggle="collapse" data-target="#navigation-example-2">
-                  <span className="sr-only">Toggle navigation</span>
-                  <span className="icon-bar"></span>
-                  <span className="icon-bar"></span>
-                  <span className="icon-bar"></span>
+              <button
+                type="button"
+                className="navbar-toggle"
+                data-toggle="collapse"
+                data-target="#navigation-example-2"
+                onClick={this.onClickToggle.bind(this)}
+              >
+                <span className="sr-only">Toggle navigation</span>
+                <span className="icon-bar"></span>
+                <span className="icon-bar"></span>
+                <span className="icon-bar"></span>
               </button>
+              <Modal show={this.state.showModal} onHide={this.onCloseModal.bind(this)}>
+                <Modal.Header>
+                  <Link to='/workspace/dashboard'>Dashboard</Link>
+                </Modal.Header>
+                <Modal.Body>
+                  <Link to='/workspace/note'>Note</Link>
+                </Modal.Body>
+                <Modal.Footer>
+                  <a href="/api/users/logout">Logout</a>
+                </Modal.Footer>
+              </Modal>
           </div>
           <div className='col-sm-10 collapse navbar-collapse id="navigation-example-2"' style={style.align}>
             <ul className='nav navbar-nav navbar-right'>

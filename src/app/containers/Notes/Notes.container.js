@@ -129,7 +129,7 @@ class Notes extends Component {
                       dialogClassName="custom-modal"
                     >
                       <Modal.Header closeButton>
-                        <Modal.Title id="contained-modal-title-lg">New note </Modal.Title>
+                        <Modal.Title id="contained-modal-title-lg">New note</Modal.Title>
                       </Modal.Header>
                       <Modal.Body>
                         <Row>
