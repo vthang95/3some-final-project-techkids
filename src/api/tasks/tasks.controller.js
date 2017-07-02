@@ -65,11 +65,15 @@ exports.updateTask = (req, res) => {
     doc.name        = req.body.name || doc.name;
     doc.duaDate     = req.body.duaDate || doc.duaDate;
     doc.note        = req.body.note || doc.note;
-    doc.isDone      = req.body.isDone || doc.isDone;
+    if(typeof req.body.isDone == 'boolean') {
+      doc.isDone = req.body.isDone
+    }
+    // doc.isDone      = req.body.isDone || doc.isDone;
     doc.important   = req.body.important || doc.important;
     doc.description = req.body.description || doc.description;
     doc.isStarred   = doc.isStarred === req.body.isStarred ? doc.isStarred : !doc.isStarred;
-
+    console.log('is done in task controller: ', doc.isDone);
+    console.log('req in task controller: ', req.body);
     Task.findOneAndUpdate({ _id: id }, doc, (err, task) => {
       if (err) return res.json({ error_msg: 'An error occurred!' });
       return res.json(task)
