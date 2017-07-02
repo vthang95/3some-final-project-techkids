@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Col, Row, Button, Modal } from 'react-bootstrap';
+import { Col, Row, Button, Modal, Label } from 'react-bootstrap';
 
 class Notes extends Component {
   constructor(props) {
@@ -11,7 +11,7 @@ class Notes extends Component {
   }
 
   componentWillMount() {
-    
+
   }
 
   render() {
@@ -35,6 +35,14 @@ class Notes extends Component {
                       <Modal.Body>
                         <h4>Wrapped Text</h4>
                         <p>Vl</p>
+                        <Row>
+                          <Col sm={2} xs={2}><Label bsStyle="default">Default</Label></Col>
+                          <Col sm={2} xs={2}><Label bsStyle="primary">Default</Label></Col>
+                          <Col sm={2} xs={2}><Label bsStyle="success">Default</Label></Col>
+                          <Col sm={2} xs={2}><Label bsStyle="info">Default</Label></Col>
+                          <Col sm={2} xs={2}><Label bsStyle="warning">Default</Label></Col>
+                          <Col sm={2} xs={2}><Label bsStyle="danger">Default</Label></Col>
+                        </Row>
                       </Modal.Body>
                       <Modal.Footer>
                         <Button onClick={closeCreateModal}>Close</Button>
@@ -43,12 +51,12 @@ class Notes extends Component {
                 </Col>
                 <Col md={6}>
                   <Row>
-                    <Col md={2} xs={2}>x</Col>
-                    <Col md={2} xs={2}>x</Col>
-                    <Col md={2} xs={2}>x</Col>
-                    <Col md={2} xs={2}>x</Col>
-                    <Col md={2} xs={2}>x</Col>
-                    <Col md={2} xs={2}>x</Col>
+                    <Col sm={2} xs={2}><Label bsStyle="default">Default</Label></Col>
+                    <Col sm={2} xs={2}><Label bsStyle="primary">Default</Label></Col>
+                    <Col sm={2} xs={2}><Label bsStyle="success">Default</Label></Col>
+                    <Col sm={2} xs={2}><Label bsStyle="info">Default</Label></Col>
+                    <Col sm={2} xs={2}><Label bsStyle="warning">Default</Label></Col>
+                    <Col sm={2} xs={2}><Label bsStyle="danger">Default</Label></Col>
                   </Row>
                 </Col>
               </Row>
