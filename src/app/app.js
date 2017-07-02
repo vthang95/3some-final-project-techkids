@@ -19,7 +19,7 @@ ReactDOM.render(
   <Provider store={createStoreWithMiddleware(reducers)}>
     <BrowserRouter>
       <Switch>
-        <Route exact path='/workspace' component={Workspace} />
+        <Route path='/workspace' component={Workspace} />
         <Route path='*' component={PageNotFound} />
       </Switch>
     </BrowserRouter>

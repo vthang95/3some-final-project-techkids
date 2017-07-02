@@ -1,30 +1,12 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import MdFormatListBulleted from 'react-icons/lib/md/format-list-bulleted';
+import { Link } from 'react-router-dom';
+import { MdSpeakerNotes, MdGroupWork } from 'react-icons/lib/md';
 
 import { fetchLists, fetchTasks, selectList, fetchUser } from '../../actions/index';
 
 class SidebarContainer extends Component {
-  componentDidMount() {
-    this.props.fetchLists(this.props.user.user_id);
-    this.props.fetchUser();
-  }
-
-  handleClickList(list) {
-    this.props.fetchTasks(list);
-    this.props.selectList(list);
-  }
-
-  renderList() {
-    return this.props.lists.map(list => (
-      <li key={list._id} style={style.li} onClick={this.handleClickList.bind(this, list)}>
-        <MdFormatListBulleted style={style.icon} />
-        {list.name}
-      </li>
-    ))
-  }
-
   render() {
     return (
       <div className="sidebar">
@@ -35,7 +17,18 @@ class SidebarContainer extends Component {
                 </a>
             </div>
           <ul className="nav" style={style.nav}>
-            {typeof this.props.lists.length == 'undefined' ? <div>Loading...</div> : this.renderList()}
+            <li style={style.li}>
+              <Link to='/workspace/dashboard'>
+                <MdGroupWork size={20} style={style.icon} />
+                Dashboard
+              </Link>
+            </li>
+            <li style={style.li}>
+              <Link to='/workspace/note'>
+                <MdSpeakerNotes size={20} style={style.icon} />
+                Note
+              </Link>
+            </li>
           </ul>
         </div>
       </div>
@@ -51,7 +44,7 @@ const style = {
     fontWeight: 'light'
   },
   icon: {
-    marginRight: '4px'
+    marginRight: '10px'
   },
   li: {
     color: '#fff',

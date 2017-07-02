@@ -1,6 +1,6 @@
 exports.getHome = (req, res) => {
   if (!req.user) return res.render('home', { title: 'Oh!List' });
-  return res.redirect('/workspace');
+  return res.redirect('/workspace/dashboard');
 };
 
 exports.getLoginPage = (req, res) => {
